@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>All Angles Access | Film-First Access Solutions</title>
+<meta name="description" content="Australia's most trusted provider of telehandler attachments and rigging for the film industry. ROMASTER, Manitou & Magni equipment for film-specific solutions." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<style>
+  :root {
+    --c:#0a0908;          /* base near-black */
+    --c1:#141312;         /* elevated */
+    --c2:#1d1b1a;         /* card */
+    --wb:#221F1F;         /* warm block */
+    --s:#EA1F27;          /* signature red */
+    --sg:rgba(234,31,39,.18);
+    --p:#f5f1ea;          /* cream text */
+    --pd:#cfc9bf;         /* dim text */
+    --a:#8a857d;          /* muted */
+    --r:rgba(245,241,234,.08);
+    --rs:rgba(245,241,234,.16);
+    --font:'Manrope',-apple-system,BlinkMacSystemFont,sans-serif;
+    --maxw:1180px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body {
+    background:var(--c);
+    color:var(--p);
+    font-family:var(--font);
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    letter-spacing:-0.01em;
+  }
+  ::selection { background:var(--s); color:#fff; }
+  .wrap { max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+  /* ============ NAV ============ */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    background:rgba(10,9,8,0);
+    backdrop-filter:blur(0px);
+    transition:all .5s cubic-bezier(.16,1,.3,1);
+    border-bottom:1px solid transparent;
+  }
+  nav.scrolled {
+    background:rgba(10,9,8,.72);
+    backdrop-filter:saturate(180%) blur(20px);
+    padding:13px 28px;
+    border-bottom:1px solid var(--r);
+  }
+  nav .logo { display:flex; align-items:center; gap:11px; text-decoration:none; }
+  nav .logo svg { height:34px; width:auto; display:block; }
+  nav .logo-text { display:flex; flex-direction:column; gap:2px; border-left:1px solid var(--rs); padding-left:11px; }
+  nav .logo-name { font-weight:700; font-size:.84rem; letter-spacing:.02em; color:var(--p); line-height:1; text-transform:uppercase; }
+  nav .logo-sub { font-size:.6rem; letter-spacing:.18em; color:var(--s); text-transform:uppercase; font-weight:500; }
+  nav .nav-links { display:flex; gap:38px; align-items:center; }
+  nav .nav-links a {
+    color:var(--pd); text-decoration:none;
+    font-size:.82rem; font-weight:400; letter-spacing:.01em;
+    transition:color .3s;
+  }
+  nav .nav-links a:hover { color:var(--p); }
+  nav .nav-cta {
+    background:var(--s); color:#fff !important;
+    padding:8px 18px; border-radius:980px;
+    font-weight:600; font-size:.78rem;
+    transition:background .3s, transform .3s;
+  }
+  nav .nav-cta:hover { background:#ff2e36; transform:scale(1.04); }
+  .menu-toggle { display:none; background:none; border:none; color:var(--p); cursor:pointer; font-size:1.4rem; }
+
+  /* ============ HERO ============ */
+  .hero {
+    position:relative; min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:140px 28px 90px; overflow:hidden; isolation:isolate;
+  }
+  .hero-bg {
+    position:absolute; inset:0; z-index:-2;
+    background:url('https://static.wixstatic.com/media/5f3620_ba92e43af63841338862a2f6ff6ac905~mv2.png') center/cover no-repeat;
+    opacity:.42;
+    animation:slowZoom 24s ease-out forwards;
+  }
+  @keyframes slowZoom { from{ transform:scale(1.12);} to{ transform:scale(1);} }
+  .hero::after {
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:
+      linear-gradient(180deg, rgba(10,9,8,.55) 0%, rgba(10,9,8,.30) 35%, rgba(10,9,8,.65) 75%, var(--c) 100%),
+      radial-gradient(ellipse 70% 50% at 50% 45%, transparent 0%, rgba(10,9,8,.4) 100%);
+  }
+  .hero .eyebrow {
+    font-size:.8rem; font-weight:500; letter-spacing:.04em;
+    color:var(--pd); margin-bottom:26px;
+    display:inline-flex; align-items:center; gap:10px;
+    opacity:0; animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .15s forwards;
+  }
+  .hero .eyebrow::before { content:""; width:22px; height:1px; background:var(--s); }
+  .hero h1 {
+    font-weight:700; font-size:clamp(2.6rem,7.5vw,5.6rem);
+    line-height:1.0; letter-spacing:-0.035em;
+    max-width:16ch; margin-bottom:30px;
+    opacity:0; animation:fadeUp 1.1s cubic-bezier(.16,1,.3,1) .3s forwards;
+  }
+  .hero h1 .light { font-weight:200; color:var(--pd); display:block; }
+  .hero h1 .red { color:var(--s); }
+  .hero .tagline {
+    font-size:clamp(1.05rem,2vw,1.35rem); color:var(--pd);
+    max-width:46ch; font-weight:300; line-height:1.55;
+    margin-bottom:42px;
+    opacity:0; animation:fadeUp 1.1s cubic-bezier(.16,1,.3,1) .45s forwards;
+  }
+  .hero-ctas {
+    display:flex; gap:16px; flex-wrap:wrap; justify-content:center;
+    opacity:0; animation:fadeUp 1.1s cubic-bezier(.16,1,.3,1) .6s forwards;
+  }
+  .btn {
+    font-family:var(--font); font-size:.92rem; font-weight:600;
+    letter-spacing:-0.01em; padding:14px 30px; border-radius:980px;
+    text-decoration:none; transition:all .3s cubic-bezier(.16,1,.3,1);
+    cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    border:1px solid transparent;
+  }
+  .btn-primary { background:var(--s); color:#fff; }
+  .btn-primary:hover { background:#ff2e36; transform:translateY(-2px); box-shadow:0 12px 34px var(--sg); }
+  .btn-ghost { background:rgba(245,241,234,.06); color:var(--p); border-color:var(--rs); backdrop-filter:blur(8px); }
+  .btn-ghost:hover { background:rgba(245,241,234,.12); transform:translateY(-2px); }
+  .scroll-hint {
+    position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+    font-size:.7rem; letter-spacing:.1em; color:var(--a); text-transform:uppercase;
+    opacity:0; animation:fadeUp 1s ease 1.1s forwards, float 2.4s ease-in-out 2s infinite;
+  }
+  @keyframes float { 0%,100%{ transform:translate(-50%,0);} 50%{ transform:translate(-50%,8px);} }
+  @keyframes fadeUp { from{ opacity:0; transform:translateY(34px);} to{ opacity:1; transform:translateY(0);} }
+
+  /* ============ REVEAL ============ */
+  .reveal { opacity:0; transform:translateY(44px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1); }
+  .reveal.in { opacity:1; transform:translateY(0); }
+
+  /* ============ SECTION ============ */
+  section { position:relative; }
+  .pad { padding:130px 0; }
+  .center-head { text-align:center; max-width:30ch; margin:0 auto 70px; }
+  .center-head .label {
+    font-size:.78rem; font-weight:600; letter-spacing:.02em; color:var(--s);
+    display:inline-flex; align-items:center; gap:9px; margin-bottom:20px;
+  }
+  .center-head .label::before { content:""; width:18px; height:1px; background:var(--s); }
+  .center-head .label::after { content:""; width:18px; height:1px; background:var(--s); }
+  .center-head h2 {
+    font-weight:700; font-size:clamp(2rem,5vw,3.4rem);
+    line-height:1.02; letter-spacing:-0.03em; margin-bottom:20px;
+  }
+  .center-head h2 .light { font-weight:200; color:var(--pd); }
+  .center-head p { color:var(--pd); font-weight:300; font-size:1.08rem; line-height:1.6; max-width:46ch; margin:0 auto; }
+
+  /* ============ ATTACHMENTS ============ */
+  .attach-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .attach-card {
+    background:linear-gradient(165deg, var(--c2) 0%, var(--c1) 100%);
+    border:1px solid var(--r); border-radius:22px; overflow:hidden;
+    transition:transform .55s cubic-bezier(.16,1,.3,1), border-color .55s, box-shadow .55s;
+    position:relative;
+  }
+  .attach-card:hover { transform:translateY(-8px); border-color:var(--rs); box-shadow:0 24px 60px rgba(0,0,0,.5); }
+  .attach-media {
+    aspect-ratio:4/3; overflow:hidden; position:relative;
+    background:radial-gradient(circle at 50% 40%, #1c1a19 0%, #0d0c0b 100%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .attach-media img {
+    width:100%; height:100%; object-fit:contain; transform:scale(1.35);
+    transition:transform .6s cubic-bezier(.16,1,.3,1);
+    filter:drop-shadow(0 0 30px var(--sg));
+  }
+  .attach-card:hover .attach-media img { transform:scale(1.46); }
+  .attach-idx {
+    position:absolute; top:18px; left:20px;
+    font-size:.74rem; font-weight:600; color:var(--s); letter-spacing:.08em;
+  }
+  .attach-body { padding:26px 28px 30px; }
+  .attach-body h3 { font-weight:700; font-size:1.3rem; letter-spacing:-0.02em; margin-bottom:8px; }
+  .attach-body .spec { color:var(--s); font-size:.8rem; font-weight:500; margin-bottom:14px; }
+  .attach-body p { color:var(--pd); font-size:.96rem; font-weight:300; line-height:1.55; }
+
+  /* ============ FLEET ============ */
+  .fleet { background:var(--c1); border-top:1px solid var(--r); border-bottom:1px solid var(--r); overflow:hidden; }
+  .fleet-scroller { display:flex; gap:26px; overflow-x:auto; scroll-snap-type:x mandatory; padding:96px 28px 30px; margin:0 -28px; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:var(--s) transparent; }
+  .fleet-scroller::-webkit-scrollbar { height:6px; }
+  .fleet-scroller::-webkit-scrollbar-track { background:var(--r); border-radius:980px; }
+  .fleet-scroller::-webkit-scrollbar-thumb { background:var(--s); border-radius:980px; }
+  .fleet-card {
+    flex:0 0 360px; scroll-snap-align:center; position:relative; margin-top:84px;
+    background:linear-gradient(165deg, var(--c2) 0%, var(--c1) 100%);
+    border:1px solid var(--r); border-radius:24px;
+    padding:0 30px 38px; text-align:center;
+    transition:transform .5s cubic-bezier(.16,1,.3,1), border-color .5s, box-shadow .5s;
+  }
+  .fleet-card:hover { transform:translateY(-8px); border-color:var(--rs); box-shadow:0 30px 70px rgba(0,0,0,.55); }
+  .fleet-card img {
+    width:110%; height:250px; object-fit:contain; display:block; margin:-84px -5% 16px;
+    filter:drop-shadow(0 26px 42px rgba(0,0,0,.6));
+    transition:transform .55s cubic-bezier(.16,1,.3,1);
+  }
+  .fleet-card:hover img { transform:scale(1.06) translateY(-6px); }
+  .fleet-card h4 { font-weight:700; font-size:1.5rem; letter-spacing:-0.025em; margin-bottom:8px; }
+  .fleet-card .meta { color:var(--s); font-size:.9rem; font-weight:500; letter-spacing:.02em; }
+  .fleet-hint { text-align:center; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--a); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:10px; }
+  .fleet-hint::before, .fleet-hint::after { content:""; width:30px; height:1px; background:var(--rs); }
+
+  /* ============ ABOUT (Apple-style big statement) ============ */
+  .about { text-align:center; }
+  .about .statement {
+    font-weight:300; font-size:clamp(1.6rem,3.6vw,2.8rem);
+    line-height:1.28; letter-spacing:-0.025em; max-width:20ch; margin:0 auto 50px;
+  }
+  .about .statement em { font-style:normal; color:var(--s); font-weight:500; }
+  .about .statement .dim { color:var(--a); }
+  .about-meta {
+    display:inline-flex; flex-direction:column; gap:4px;
+    padding-top:26px; border-top:1px solid var(--r);
+  }
+  .about-meta strong { font-weight:700; font-size:1rem; letter-spacing:-0.01em; }
+  .about-meta span { font-size:.84rem; color:var(--a); }
+
+  /* ============ STATS ============ */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:80px; }
+  .stat { text-align:center; padding:36px 16px; border:1px solid var(--r); border-radius:18px; background:var(--c1); }
+  .stat .num { font-weight:800; font-size:3rem; color:var(--p); line-height:1; letter-spacing:-0.04em; }
+  .stat .num sup { color:var(--s); font-size:.4em; vertical-align:super; }
+  .stat .cap { font-size:.78rem; color:var(--a); margin-top:12px; font-weight:400; }
+
+  /* ============ SERVICES ============ */
+  .svc { background:var(--c1); border-top:1px solid var(--r); border-bottom:1px solid var(--r); }
+  .svc-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  .svc-card {
+    border:1px solid var(--r); border-radius:22px; padding:46px 42px;
+    background:linear-gradient(165deg, var(--c2) 0%, var(--c1) 100%);
+    transition:border-color .5s, transform .5s cubic-bezier(.16,1,.3,1);
+  }
+  .svc-card:hover { border-color:var(--rs); transform:translateY(-6px); }
+  .svc-card .idx { font-size:.8rem; font-weight:600; color:var(--s); letter-spacing:.04em; margin-bottom:18px; }
+  .svc-card h3 { font-weight:700; font-size:1.5rem; letter-spacing:-0.025em; margin-bottom:14px; }
+  .svc-card p { color:var(--pd); font-weight:300; font-size:1rem; line-height:1.6; }
+
+  /* ============ GALLERY ============ */
+  .gallery { display:flex; gap:16px; overflow-x:auto; padding:4px 28px 24px; margin:0 -28px; scroll-snap-type:x proximity; -webkit-overflow-scrolling:touch; scrollbar-width:thin; scrollbar-color:var(--s) transparent; }
+  .gallery::-webkit-scrollbar { height:6px; }
+  .gallery::-webkit-scrollbar-track { background:var(--r); border-radius:980px; }
+  .gallery::-webkit-scrollbar-thumb { background:var(--s); border-radius:980px; }
+  .gallery a { flex:0 0 auto; height:380px; scroll-snap-align:center; overflow:hidden; position:relative; display:block; border-radius:16px; border:1px solid var(--r); background:#0d0c0b; transition:border-color .4s, transform .4s cubic-bezier(.16,1,.3,1); }
+  .gallery a:hover { border-color:var(--rs); transform:translateY(-4px); }
+  .gallery img { height:100%; width:auto; display:block; object-fit:contain; transition:transform .7s cubic-bezier(.16,1,.3,1), filter .7s; filter:saturate(.95) brightness(.9); }
+  .gallery a:hover img { transform:scale(1.04); filter:saturate(1) brightness(1); }
+  .gallery .cap { position:absolute; bottom:0; left:0; right:0; padding:16px 18px 14px; background:linear-gradient(transparent, rgba(10,9,8,.85)); font-size:.78rem; font-weight:500; opacity:0; transition:opacity .4s; }
+  .gallery a:hover .cap { opacity:1; }
+  .gallery-hint { text-align:center; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--a); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:10px; }
+  .gallery-hint::before, .gallery-hint::after { content:""; width:30px; height:1px; background:var(--rs); }
+
+  /* ============ CTA ============ */
+  .cta-band { text-align:center; padding:150px 28px; position:relative; overflow:hidden; }
+  .cta-band::before {
+    content:""; position:absolute; inset:0; z-index:-1;
+    background:radial-gradient(ellipse 60% 60% at 50% 50%, var(--sg) 0%, transparent 70%);
+  }
+  .cta-band h2 { font-weight:700; font-size:clamp(2.2rem,6vw,4.4rem); line-height:1.0; letter-spacing:-0.035em; margin-bottom:22px; }
+  .cta-band h2 .red { color:var(--s); }
+  .cta-band p { color:var(--pd); max-width:46ch; margin:0 auto 40px; font-weight:300; font-size:1.15rem; }
+
+  /* ============ FOOTER ============ */
+  footer { padding:70px 28px 38px; border-top:1px solid var(--r); background:var(--c1); }
+  .foot-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+  footer .logo-block img { height:44px; margin-bottom:20px; }
+  footer .logo-block p { color:var(--a); font-weight:300; max-width:36ch; font-size:.94rem; line-height:1.6; }
+  footer h5 { font-weight:600; font-size:.82rem; letter-spacing:.02em; color:var(--p); margin-bottom:18px; }
+  footer ul { list-style:none; }
+  footer ul li { margin-bottom:11px; }
+  footer ul li a { color:var(--a); text-decoration:none; font-size:.92rem; font-weight:300; transition:color .3s; }
+  footer ul li a:hover { color:var(--s); }
+  .foot-bottom { border-top:1px solid var(--r); padding-top:26px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; color:var(--a); font-size:.82rem; font-weight:300; }
+
+  /* ============ BRANDS MARQUEE (glass / no-fill, floating) ============ */
+  .brands-head { text-align:center; margin-bottom:30px; }
+  .brands-label { font-size:.74rem; font-weight:600; letter-spacing:.28em; text-transform:uppercase; color:var(--a); }
+  .brands-marquee { position:relative; width:100%; overflow:hidden; padding:8px 0; -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); mask-image:linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%); }
+  .brands-track { display:flex; align-items:center; gap:80px; width:max-content; animation:brandscroll 46s linear infinite; }
+  .brands-marquee:hover .brands-track { animation-play-state:paused; }
+  .brand-logo { flex:0 0 auto; height:52px; display:flex; align-items:center; justify-content:center; }
+  .brand-logo img { height:100%; width:auto; max-width:200px; object-fit:contain; opacity:.62; filter:brightness(1.2); transition:opacity .35s, filter .35s, transform .35s; }
+  .brand-logo img.raster { mix-blend-mode:screen; opacity:.78; }
+  .brand-logo img:hover { opacity:1; transform:scale(1.06); }
+  .brand-logo img.raster:hover { opacity:1; }
+  @keyframes brandscroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1024px){
+    .attach-grid{ grid-template-columns:repeat(2,1fr);} 
+    .stats-grid{ grid-template-columns:repeat(2,1fr);} 
+  }
+  @media (max-width:680px){
+    .wrap{ padding:0 20px;} 
+    nav{ padding:14px 20px;} 
+    nav .nav-links{ display:none;} 
+    .menu-toggle{ display:block;} 
+    .attach-grid,.svc-grid{ grid-template-columns:1fr;} 
+    .fleet-card{ flex:0 0 80vw; }
+    .fleet-card img{ height:200px; }
+    .gallery{ padding:4px 20px 24px; margin:0 -20px; }
+    .gallery a{ height:280px; }
+    .pad{ padding:84px 0;} 
+    .brand-logo{ height:40px; }
+    .brands-track{ gap:48px; }
+    .stat .num{ font-size:2.3rem;} 
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="logo">
+    <svg viewBox="0 0 272 220" xmlns="http://www.w3.org/2000/svg" aria-label="All Angles Access" role="img" style="height:34px;width:auto;">
+      <polygon fill="#221F1F" points="200,21 0,0 26,183 226,173"/>
+      <polygon fill="#EA1F27" points="272,39 89,68 56,199 247,217"/>
+      <polygon fill="#221F1F" points="150,78 70,217 231,217"/>
+      <g stroke="#fff" stroke-miterlimit="10" fill="none">
+        <line stroke-width=".75" x1="150" y1="78" x2="167" y2="217"/>
+        <line stroke-width=".75" x1="150" y1="78" x2="199" y2="217"/>
+        <line stroke-width=".75" x1="150" y1="78" x2="231" y2="217"/>
+        <line stroke-width=".7" x1="150" y1="78" x2="134" y2="217"/>
+        <line stroke-width=".6" x1="150" y1="78" x2="102" y2="217"/>
+        <line stroke-width=".5" x1="150" y1="78" x2="70" y2="217"/>
+      </g>
+      <path fill="#fff" d="m181,127l-31-53l-31,53l-58,93h179l-58-93Zm-105,88l33-62l41-71l41,71l33,62h-148Z"/>
+    </svg>
+    <span class="logo-text">
+      <span class="logo-name">All Angles Access</span>
+      <span class="logo-sub">Film &middot; First &middot; Access</span>
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="equipment.html">All Equipment</a>
+    <a href="#fleet">The Fleet</a>
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#contact" class="nav-cta">Contact Sales</a>
+  </div>
+  <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').style.display='flex'">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <span class="eyebrow" id="hero-eyebrow">Est. 30+ Years &middot; Film Industry</span>
+  <h1 id="hero-heading">Every Frame.<span class="light">Every Angle.</span><span class="red">Every Time.</span></h1>
+  <p class="tagline" id="hero-tagline">Australia's specialist provider of telehandler attachments, rigging and access equipment for film and television. Dry hire or fully manned — we make your production possible.</p>
+  <div class="hero-ctas">
+    <a href="#attachments" class="btn btn-primary">View Equipment &rarr;</a>
+    <a href="#contact" class="btn btn-ghost">Get a Quote</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</header>
+
+<!-- ATTACHMENTS -->
+<section class="pad" id="attachments">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <span class="label">The Romastor Range</span>
+      <h2>Attachments engineered <span class="light">for film.</span></h2>
+      <p>Purpose-built motion attachments — interchangeable across our full fleet of Manitou and Magni telehandlers. Cinema-grade precision, certified for set.</p>
+    </div>
+    <div class="attach-grid">
+      <a class="attach-card reveal card-link" href="item.html?id=romastor-360" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+        <div class="attach-media"><span class="attach-idx">01</span><img src="https://static.wixstatic.com/media/5f3620_6d8bd79d468946b9bc54eb9c464b39da~mv2.gif" alt="Romastor 360 continuous pan" /></div>
+        <div class="attach-body"><h3>Romastor 360&deg;</h3><div class="spec">Continuous Pan</div><p>360 degree continuous panning horizontal rotation for uninterrupted, flowing camera movement.</p></div>
+      </a>
+      <a class="attach-card reveal card-link" href="item.html?id=romastor-pan-tilt" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+        <div class="attach-media"><span class="attach-idx">02</span><img src="https://static.wixstatic.com/media/5f3620_3d1aa9eb310a4b07865f584827163fa1~mv2.gif" alt="Romastor Pan and Tilt" /></div>
+        <div class="attach-body"><h3>Romastor Pan &amp; Tilt</h3><div class="spec">360&deg; &middot; 70&deg; Tilt</div><p>360 degree horizontal rotation with tilt up to 70 degrees for dynamic, versatile shot composition.</p></div>
+      </a>
+      <a class="attach-card reveal card-link" href="item.html?id=romastor-3d" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+        <div class="attach-media"><span class="attach-idx">03</span><img src="https://static.wixstatic.com/media/5f3620_cc33e1d71b6c4d3ca25eec65016636d4~mv2.gif" alt="Romastor 3D dual axis" /></div>
+        <div class="attach-body"><h3>Romastor 3D</h3><div class="spec">Dual Axis &middot; Full Sphere</div><p>Dual axis 360 degree rotation across both horizontal and vertical planes for total spatial freedom.</p></div>
+      </a>
+      <a class="attach-card reveal card-link" href="item.html?id=rotator" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+        <div class="attach-media"><span class="attach-idx">04</span><img src="https://static.wixstatic.com/media/5f3620_6748882355d04460bc2f86dd9c925366~mv2.gif" alt="Rotator vertical" /></div>
+        <div class="attach-body"><h3>Rotator</h3><div class="spec">360&deg; Vertical</div><p>Vertical rotating attachment with continuous 360 degree movement in either direction.</p></div>
+      </a>
+      <a class="attach-card reveal card-link" href="item.html?id=magni-panning-head" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+        <div class="attach-media"><span class="attach-idx">05</span><img src="https://static.wixstatic.com/media/5f3620_086458e010234109b75f868d998bdbda~mv2.gif" alt="Magni panning head" /></div>
+        <div class="attach-body"><h3>Magni Panning</h3><div class="spec">180&deg; Single Axis</div><p>Single axis 180 degree movement, perfectly suited to our range of Manitou MRT telehandlers.</p></div>
+      </a>
+      <a class="attach-card reveal card-link" href="item.html?id=alpha-truss" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+        <div class="attach-media"><span class="attach-idx">06</span><img src="https://static.wixstatic.com/media/5f3620_0f6153f8eb3e41f9ab038abdb9dc3ae6~mv2.gif" alt="Alpha Truss" /></div>
+        <div class="attach-body"><h3>Alpha Truss</h3><div class="spec">Trussing System</div><p>Specialist trussing and truss attachments for complex rigging, lighting and structural work.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FLEET -->
+<section class="pad fleet" id="fleet">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <span class="label">The Fleet</span>
+      <h2>Machines <span class="light">that deliver.</span></h2>
+      <p>An ever-growing fleet offering versatility and accessibility, with safety and limited-access solutions at the forefront.</p>
+    </div>
+    <div class="fleet-scroller">
+      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660-e" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png" alt="Manitou MRT 2660 Electric" /><h4>MRT 2660 E</h4><div class="meta">6T &middot; 26M</div></a>
+      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_1f02fa6e88c1477e955643e6d3012f62~mv2.png" alt="Manitou MRT 2660" /><h4>MRT 2660</h4><div class="meta">6T &middot; 26M</div></a>
+      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2150" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_564efbee064e49d1a69c3095baa2a9fe~mv2.png" alt="Manitou MRT 2150" /><h4>MRT 2150</h4><div class="meta">5T &middot; 21M</div></a>
+      <a class="fleet-card card-link" href="item.html?id=magni-th6-20" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png" alt="Magni TH 6.20" /><h4>Magni TH6.20</h4><div class="meta">Telehandler</div></a>
+      <a class="fleet-card card-link" href="item.html?id=magni-th-5-5-19" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png" alt="Magni TH 5.5 19" /><h4>Magni TH5.5</h4><div class="meta">Telehandler</div></a>
+    </div>
+    <div class="fleet-hint">Scroll to explore the fleet</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="pad about" id="about">
+  <div class="wrap reveal">
+    <span class="label" style="color:var(--s);font-size:.78rem;font-weight:600;display:inline-block;margin-bottom:24px;">Who We Are</span>
+    <p class="statement" id="about-statement">Every second on set counts in <em>dollars and cents.</em> <span class="dim">We get that.</span></p>
+    <p id="about-body" style="color:var(--pd);font-weight:300;font-size:1.1rem;line-height:1.7;max-width:50ch;margin:0 auto;">Led by <strong style="color:var(--p);font-weight:600;">Dan Oliver</strong>, All Angles Access brings over 30 years of personal film industry experience and a combined team depth of more than a century. We understand deadlines, departments, and the pressure of a shooting day.</p>
+    <div class="about-meta" style="margin-top:40px;">
+      <strong>Dan Oliver</strong>
+      <span>Founder &middot; All Angles Access PTY Ltd</span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><div class="num">30<sup>+</sup></div><div class="cap">Years personal experience</div></div>
+      <div class="stat"><div class="num">100<sup>+</sup></div><div class="cap">Combined team years</div></div>
+      <div class="stat"><div class="num">11</div><div class="cap">Film-engineered attachments</div></div>
+      <div class="stat"><div class="num">5</div><div class="cap">Telehandlers &middot; 19&ndash;26m</div></div>
+    </div>
+  <div class="wrap" style="margin-top:64px;">
+    <div class="brands-head"><span class="brands-label">The Brands We Trust &amp; Supply</span></div>
+    <div class="brands-marquee">
+      <div class="brands-track"><div class="brand-logo"><img src="images/brands/manitou.svg" alt="Manitou" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/magni.svg" alt="Magni" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/merlo.svg" alt="Merlo" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/romastor.svg" alt="Romastor" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/atlas-copco.jpg" alt="Atlas Copco" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/scania.svg" alt="Scania" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hino.jpg" alt="Hino" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hyundai.jpg" alt="Hyundai" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/manitou.svg" alt="Manitou" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/magni.svg" alt="Magni" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/merlo.svg" alt="Merlo" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/romastor.svg" alt="Romastor" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/atlas-copco.jpg" alt="Atlas Copco" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/scania.svg" alt="Scania" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hino.jpg" alt="Hino" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hyundai.jpg" alt="Hyundai" class="raster" loading="lazy"/></div></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="pad svc" id="services">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <span class="label">What We Do</span>
+      <h2>Built in-house. <span class="light">Tested on set.</span></h2>
+      <p>Let our team of in-house designers, engineers and rigging specialists make your vision a reality.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal"><div class="idx">01 &middot; Rentals</div><h3>Equipment Hire</h3><p>Dry hire and manned access equipment rentals, telehandler attachments, silenced generators, hi-flow diesel air compressors, vehicles and track matts.</p></div>
+      <div class="svc-card reveal"><div class="idx">02 &middot; Fabrication</div><h3>Engineering &amp; Cutting</h3><p>Full bed and tube laser cutting, plasma cutting facilities, a complete machine and engineering shop, plus steel and aluminium welding specialists.</p></div>
+      <div class="svc-card reveal"><div class="idx">03 &middot; Motion</div><h3>Motion Control</h3><p>Gimbals, winches and automated control systems for almost any in-camera film requirement, delivered by dedicated motion control specialists.</p></div>
+      <div class="svc-card reveal"><div class="idx">04 &middot; Design</div><h3>Custom Solutions</h3><p>Structural engineers with 100+ years combined film experience. No request is too unreasonable — we create the solution that's right for your production.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="pad">
+  <div class="wrap">
+    <div class="center-head reveal">
+      <span class="label">In Action</span>
+      <h2>Machines <span class="light">on set.</span></h2>
+    </div>
+    <div class="gallery">
+      <a href="#"><img src="https://static.wixstatic.com/media/5f3620_e80657d259b342d9869f0592f8e470a9~mv2.jpeg" alt="AAA solutions on set" /><span class="cap">Solutions on set</span></a>
+      <a href="#"><img src="https://static.wixstatic.com/media/5f3620_22a41ea1b61f4f9fb1519469957a6bbe~mv2.jpg" alt="Telehandler rigging" /><span class="cap">Telehandler rigging</span></a>
+      <a href="#"><img src="https://static.wixstatic.com/media/5f3620_b36469377561476ea960581c68c70350~mv2.jpeg" alt="Equipment horizontal" /><span class="cap">Equipment in the field</span></a>
+      <a href="#"><img src="https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg" alt="Laser cutting service" /><span class="cap">Laser cutting workshop</span></a>
+      <a href="#"><img src="https://static.wixstatic.com/media/5f3620_65e0b63047a843afb5e8844270b45251~mv2.jpg" alt="The fleet" /><span class="cap">The fleet</span></a>
+      <a href="#"><img src="https://static.wixstatic.com/media/5f3620_031bd3e3796b425fa4187aed6efd5ce9~mv2.jpeg" alt="On set rigging" /><span class="cap">On set rigging</span></a>
+    </div>
+    <div class="gallery-hint">Scroll to see more</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="contact">
+  <h2>Ready to roll camera?<br><span class="red">Let's talk.</span></h2>
+  <p>From the most outrageous to the simplest of film requests — our workshop and crew handle everything from manufacture to manning machines.</p>
+  <div class="hero-ctas" style="animation:none;opacity:1;justify-content:center;">
+    <a href="mailto:allanglesaccess@gmail.com?subject=AAA%20Enquiry" class="btn btn-primary">Start an Enquiry &rarr;</a>
+    <a href="tel:+61411508010" class="btn btn-ghost">+61 411 508 010</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="logo-block">
+        <svg viewBox="0 0 272 220" xmlns="http://www.w3.org/2000/svg" aria-label="All Angles Access" role="img" style="height:44px;width:auto;margin-bottom:20px;">
+          <polygon fill="#221F1F" points="200,21 0,0 26,183 226,173"/>
+          <polygon fill="#EA1F27" points="272,39 89,68 56,199 247,217"/>
+          <polygon fill="#221F1F" points="150,78 70,217 231,217"/>
+          <g stroke="#fff" stroke-miterlimit="10" fill="none">
+            <line stroke-width=".75" x1="150" y1="78" x2="167" y2="217"/>
+            <line stroke-width=".75" x1="150" y1="78" x2="199" y2="217"/>
+            <line stroke-width=".75" x1="150" y1="78" x2="231" y2="217"/>
+            <line stroke-width=".7" x1="150" y1="78" x2="134" y2="217"/>
+            <line stroke-width=".6" x1="150" y1="78" x2="102" y2="217"/>
+            <line stroke-width=".5" x1="150" y1="78" x2="70" y2="217"/>
+          </g>
+          <path fill="#fff" d="m181,127l-31-53l-31,53l-58,93h179l-58-93Zm-105,88l33-62l41-71l41,71l33,62h-148Z"/>
+        </svg>
+        <p>Australia's most trusted provider of telehandler attachments and rigging for the film industry. Film-first access solutions.</p>
+      </div>
+      <div>
+        <h5>Equipment</h5>
+        <ul>
+          <li><a href="#attachments">Attachments</a></li>
+          <li><a href="#fleet">The Fleet</a></li>
+          <li><a href="#services">Rigging Services</a></li>
+          <li><a href="#services">Motion Control</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+61411508010">+61 411 508 010</a></li>
+          <li><a href="mailto:allanglesaccess@gmail.com">allanglesaccess@gmail.com</a></li>
+          <li><a href="#">Botany, Sydney NSW</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 All Angles Access PTY Ltd &middot; ABN 92 664 436 320 &middot; Botany NSW</span>
+      <span>Film-First Access Solutions</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = ((i % 6) * 0.07) + 's';
+    io.observe(el);
+  });
+
+  (async function loadContent(){
+    try {
+      const res = await fetch('/content/home.json');
+      if (!res.ok) return;
+      const c = await res.json();
+      const setHTML = (id,v) => { const el=document.getElementById(id); if(el && v) el.innerHTML = v; };
+      const setText = (id,v) => { const el=document.getElementById(id); if(el && v) el.textContent = v; };
+      setHTML('hero-heading', c.hero_heading);
+      setText('hero-eyebrow', c.hero_eyebrow);
+      setText('hero-tagline', c.hero_tagline);
+      setHTML('about-statement', c.about_statement);
+      setHTML('about-body', c.about_body);
+      // contact links across the page
+      if (c.contact_email){
+        document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{
+          a.href = 'mailto:' + c.contact_email + (a.href.includes('?') ? a.href.substring(a.href.indexOf('?')) : '');
+        });
+        document.querySelectorAll('[data-email]').forEach(el=>el.textContent=c.contact_email);
+      }
+      if (c.contact_phone){
+        document.querySelectorAll('a[href^="tel:"]').forEach(a=>{ a.href='tel:'+c.contact_phone.replace(/\s/g,''); });
+        document.querySelectorAll('[data-phone]').forEach(el=>el.textContent=c.contact_phone);
+      }
+    } catch(e) { /* default content */ }
+  })();
+</script>
+<script>
+  // Redirect Netlify Identity invite/recovery links into the CMS admin
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+      }
+    });
+  }
+</script>
+</body>
+</html>

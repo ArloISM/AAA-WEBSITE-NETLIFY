@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Equipment Detail | All Angles Access</title>
+<meta name="description" content="Detailed specifications, gallery and related equipment from the All Angles Access fleet." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --c:#0a0908;--c1:#141312;--c2:#1d1b1a;--wb:#221F1F;
+    --s:#EA1F27;--sg:rgba(234,31,39,.18);
+    --p:#f5f1ea;--pd:#cfc9bf;--a:#8a857d;
+    --r:rgba(245,241,234,.08);--rs:rgba(245,241,234,.16);
+    --font:'Manrope',-apple-system,BlinkMacSystemFont,sans-serif;--maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:var(--c);color:var(--p);font-family:var(--font);font-weight:300;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;letter-spacing:-0.01em}
+  ::selection{background:var(--s);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  a{color:inherit}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:rgba(10,9,8,.72);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--r)}
+  nav .logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+  nav .logo svg{height:34px;width:auto;display:block}
+  nav .logo-text{display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--rs);padding-left:11px}
+  nav .logo-name{font-weight:700;font-size:.84rem;letter-spacing:.02em;color:var(--p);line-height:1;text-transform:uppercase}
+  nav .logo-sub{font-size:.6rem;letter-spacing:.18em;color:var(--s);text-transform:uppercase;font-weight:500}
+  nav .nav-links{display:flex;gap:38px;align-items:center}
+  nav .nav-links a{color:var(--pd);text-decoration:none;font-size:.82rem;font-weight:400;transition:color .3s}
+  nav .nav-links a:hover,nav .nav-links a.active{color:var(--p)}
+  nav .nav-cta{background:var(--s);color:#fff!important;padding:8px 18px;border-radius:980px;font-weight:600;font-size:.78rem;transition:background .3s,transform .3s}
+  nav .nav-cta:hover{background:#ff2e36;transform:scale(1.04)}
+  .menu-toggle{display:none;background:none;border:none;color:var(--p);cursor:pointer;font-size:1.4rem}
+
+  .page{padding-top:110px;min-height:100vh}
+  .breadcrumb{font-size:.8rem;color:var(--a);margin-bottom:30px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .breadcrumb a{color:var(--a);text-decoration:none;transition:color .3s}
+  .breadcrumb a:hover{color:var(--s)}
+  .breadcrumb .sep{color:var(--rs)}
+  .breadcrumb .here{color:var(--pd)}
+
+  /* HERO / ZOOM */
+  .item-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start;margin-bottom:30px}
+  .stage{position:relative}
+  .stage-main{aspect-ratio:4/3;border-radius:22px;overflow:hidden;border:1px solid var(--r);background:radial-gradient(circle at 50% 40%,#1c1a19 0%,#0d0c0b 100%);display:flex;align-items:center;justify-content:center;position:relative}
+  .stage-main img{width:100%;height:100%;object-fit:cover;transition:opacity .4s}
+  .stage-main img.contain{width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 0 36px var(--sg))}
+  .stage-main video{width:100%;height:100%;object-fit:cover;background:#000}
+  .stage-main iframe{width:100%;height:100%;border:0}
+  .stage-main .pdf-tile{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--pd)}
+  .stage-main .pdf-tile svg{width:46px;height:46px;stroke:var(--s)}
+  .stage-main .pdf-tile a{color:var(--s);text-decoration:none;font-weight:600;font-size:.9rem;border:1px solid var(--s);padding:8px 18px;border-radius:980px}
+  .stage-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(10,9,8,.6);border:1px solid var(--rs);backdrop-filter:blur(6px);color:var(--p);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:background .3s,border-color .3s;z-index:3}
+  .stage-nav:hover{background:var(--s);border-color:var(--s)}
+  .stage-nav.prev{left:14px}.stage-nav.next{right:14px}
+  .stage-kind{position:absolute;top:14px;left:16px;font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(234,31,39,.9);padding:4px 10px;border-radius:980px;z-index:3}
+  .thumbs{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .thumb{width:74px;height:56px;border-radius:10px;overflow:hidden;border:1px solid var(--r);cursor:pointer;position:relative;background:var(--c2);transition:border-color .3s,transform .3s;flex-shrink:0}
+  .thumb:hover{transform:translateY(-2px)}
+  .thumb.active{border-color:var(--s)}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .thumb .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,9,8,.45);color:#fff;font-size:.9rem}
+
+  .info .brand-chip{display:inline-block;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--s);padding:5px 12px;border-radius:980px;margin-bottom:18px}
+  .info .cat{font-size:.8rem;color:var(--a);letter-spacing:.04em;margin-bottom:10px;text-transform:uppercase}
+  .info h1{font-weight:700;font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.02;letter-spacing:-0.035em;margin-bottom:14px}
+  .info .headline-spec{color:var(--s);font-size:1.05rem;font-weight:500;margin-bottom:24px}
+  .info .long{color:var(--pd);font-size:1.05rem;font-weight:300;line-height:1.7;margin-bottom:30px}
+  .info .actions{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{font-family:var(--font);font-size:.9rem;font-weight:600;letter-spacing:-0.01em;padding:13px 26px;border-radius:980px;text-decoration:none;transition:all .3s cubic-bezier(.16,1,.3,1);cursor:pointer;display:inline-flex;align-items:center;gap:8px;border:1px solid transparent}
+  .btn-primary{background:var(--s);color:#fff}.btn-primary:hover{background:#ff2e36;transform:translateY(-2px);box-shadow:0 12px 34px var(--sg)}
+  .btn-ghost{background:rgba(245,241,234,.06);color:var(--p);border-color:var(--rs)}.btn-ghost:hover{background:rgba(245,241,234,.12);transform:translateY(-2px)}
+
+  /* SPECS */
+  .section{padding:60px 0;border-top:1px solid var(--r)}
+  .section.first{border-top:none}
+  .section h2{font-weight:700;font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-0.03em;margin-bottom:8px}
+  .section .lead{color:var(--a);font-size:.9rem;margin-bottom:30px}
+  .spec-table{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--r);border:1px solid var(--r);border-radius:16px;overflow:hidden}
+  .spec-row{background:var(--c1);padding:20px 24px;display:flex;flex-direction:column;gap:5px}
+  .spec-row .k{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+  .spec-row .v{font-size:1.05rem;font-weight:500;color:var(--p);letter-spacing:-0.01em}
+
+  /* GALLERY */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:12px}
+  .gallery .g{overflow:hidden;position:relative;border-radius:14px;border:1px solid var(--r);cursor:pointer}
+  .gallery .g.tall{grid-row:span 2}.gallery .g.wide{grid-column:span 2}
+  .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .6s,filter .6s;filter:saturate(.9) brightness(.82)}
+  .gallery .g:hover img{transform:scale(1.06);filter:saturate(1) brightness(1)}
+  .gallery .cap{position:absolute;bottom:0;left:0;right:0;padding:14px 16px 12px;background:linear-gradient(transparent,rgba(10,9,8,.85));font-size:.78rem;font-weight:500;opacity:0;transition:opacity .4s}
+  .gallery .g:hover .cap{opacity:1}
+
+  /* RELATED */
+  .rel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .rel-card{background:linear-gradient(165deg,var(--c2) 0%,var(--c1) 100%);border:1px solid var(--r);border-radius:18px;overflow:hidden;text-decoration:none;transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .5s}
+  .rel-card:hover{transform:translateY(-6px);border-color:var(--rs)}
+  .rel-media{aspect-ratio:4/3;overflow:hidden;background:radial-gradient(circle at 50% 40%,#1c1a19 0%,#0d0c0b 100%);display:flex;align-items:center;justify-content:center}
+  .rel-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+  .rel-media img.contain{width:100%;height:100%;object-fit:contain;transform:scale(1.3);filter:drop-shadow(0 0 22px var(--sg))}
+  .rel-card:hover .rel-media img.contain{transform:scale(1.4)}
+  .rel-media .ph{font-weight:800;font-size:1.8rem;color:var(--wb)}
+  .rel-body{padding:18px 20px 22px}
+  .rel-body .rc{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--s);margin-bottom:6px}
+  .rel-body h4{font-weight:700;font-size:1.05rem;letter-spacing:-0.02em}
+
+  /* LIGHTBOX */
+  .lightbox{position:fixed;inset:0;z-index:2000;background:rgba(8,7,6,.94);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:40px}
+  .lightbox.open{display:flex}
+  .lightbox-content{max-width:1000px;width:100%;max-height:86vh;position:relative}
+  .lightbox-content img,.lightbox-content video,.lightbox-content iframe{width:100%;max-height:86vh;object-fit:contain;border-radius:14px;display:block;background:#000}
+  .lb-close{position:absolute;top:-44px;right:0;background:none;border:none;color:var(--p);font-size:1.8rem;cursor:pointer;line-height:1}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(245,241,234,.1);border:1px solid var(--rs);color:#fff;cursor:pointer;font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:background .3s}
+  .lb-nav:hover{background:var(--s)}
+  .lb-nav.prev{left:-66px}.lb-nav.next{right:-66px}
+  .lb-cap{text-align:center;color:var(--pd);font-size:.85rem;margin-top:16px}
+
+  .notfound{text-align:center;padding:160px 28px;color:var(--a)}
+  .notfound h1{font-weight:700;font-size:2rem;color:var(--p);margin-bottom:14px;letter-spacing:-0.03em}
+
+  footer{padding:60px 28px 36px;border-top:1px solid var(--r);background:var(--c1);margin-top:40px}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:var(--a);font-size:.82rem;font-weight:300;max-width:var(--maxw);margin:0 auto}
+  .foot-bottom a{color:var(--s);text-decoration:none}
+
+  @media (max-width:900px){
+    .item-hero{grid-template-columns:1fr;gap:30px}
+    .gallery,.rel-grid{grid-template-columns:repeat(2,1fr)}
+    .lb-nav.prev{left:6px}.lb-nav.next{right:6px}
+  }
+  @media (max-width:680px){
+    .wrap{padding:0 20px}nav{padding:14px 20px}nav .nav-links{display:none}.menu-toggle{display:block}
+    .spec-table{grid-template-columns:1fr}.gallery{grid-auto-rows:150px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <svg viewBox="0 0 272 220" xmlns="http://www.w3.org/2000/svg" aria-label="All Angles Access" role="img" style="height:34px;width:auto;">
+      <polygon fill="#221F1F" points="200,21 0,0 26,183 226,173"/>
+      <polygon fill="#EA1F27" points="272,39 89,68 56,199 247,217"/>
+      <polygon fill="#221F1F" points="150,78 70,217 231,217"/>
+      <g stroke="#fff" stroke-miterlimit="10" fill="none">
+        <line stroke-width=".75" x1="150" y1="78" x2="167" y2="217"/>
+        <line stroke-width=".75" x1="150" y1="78" x2="199" y2="217"/>
+        <line stroke-width=".75" x1="150" y1="78" x2="231" y2="217"/>
+        <line stroke-width=".7" x1="150" y1="78" x2="134" y2="217"/>
+        <line stroke-width=".6" x1="150" y1="78" x2="102" y2="217"/>
+        <line stroke-width=".5" x1="150" y1="78" x2="70" y2="217"/>
+      </g>
+      <path fill="#fff" d="m181,127l-31-53l-31,53l-58,93h179l-58-93Zm-105,88l33-62l41-71l41,71l33,62h-148Z"/>
+    </svg>
+    <span class="logo-text"><span class="logo-name">All Angles Access</span><span class="logo-sub">Film &middot; First &middot; Access</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="equipment.html">All Equipment</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact" class="nav-cta">Contact Sales</a>
+  </div>
+  <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').style.display='flex'">&#9776;</button>
+</nav>
+
+<main class="page wrap" id="page"></main>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content" id="lb-content">
+    <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-nav prev" id="lb-prev" aria-label="Previous">&#8249;</button>
+    <div id="lb-stage"></div>
+    <button class="lb-nav next" id="lb-next" aria-label="Next">&#8250;</button>
+    <div class="lb-cap" id="lb-cap"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-bottom">
+    <span>&copy; 2026 All Angles Access PTY Ltd &middot; ABN 92 664 436 320 &middot; Botany NSW</span>
+    <span><a href="mailto:allanglesaccess@gmail.com">allanglesaccess@gmail.com</a> &middot; <a href="tel:+61411508010">+61 411 508 010</a></span>
+  </div>
+</footer>
+
+<script>
+  const FALLBACK_EQUIP = {
+  "items": [
+    { "slug": "romastor-360", "name": "Romastor 360°", "category": "Attachments", "brand": "Romastor", "spec": "Continuous Pan", "description": "360 degree continuous panning horizontal rotation for uninterrupted, flowing camera movement.", "long_description": "The Romastor 360° delivers continuous, uninterrupted horizontal rotation — ideal for sweeping reveals, follow shots and dynamic camera moves that never need to reset. Engineered in-house and certified for set, it mounts across our full fleet of Manitou and Magni rotating telehandlers.", "image": "https://static.wixstatic.com/media/5f3620_6d8bd79d468946b9bc54eb9c464b39da~mv2.gif", "specs": [ {"label": "Rotation", "value": "360° continuous horizontal"}, {"label": "Axis", "value": "Single (pan)"}, {"label": "Direction", "value": "Either direction, no stops"}, {"label": "Compatibility", "value": "Manitou MRT · Magni"}, {"label": "Application", "value": "Film & television"} ], "media": [], "tags": ["romastor", "manitou", "magni", "panning"], "order": 1 },
+    { "slug": "romastor-pan-tilt", "name": "Romastor Pan & Tilt", "category": "Attachments", "brand": "Romastor", "spec": "360° · 70° Tilt", "description": "360 degree horizontal rotation with tilt up to 70 degrees for dynamic, versatile shot composition.", "long_description": "Combining full horizontal rotation with up to 70 degrees of tilt, the Romastor Pan & Tilt opens up compound camera moves in a single attachment. Pan and tilt independently or together for complex, choreographed shots — fully interchangeable across the fleet.", "image": "https://static.wixstatic.com/media/5f3620_3d1aa9eb310a4b07865f584827163fa1~mv2.gif", "specs": [ {"label": "Horizontal Rotation", "value": "360°"}, {"label": "Tilt", "value": "Up to 70°"}, {"label": "Axes", "value": "Dual (pan + tilt)"}, {"label": "Compatibility", "value": "Manitou MRT · Magni"}, {"label": "Application", "value": "Compound camera moves"} ], "media": [], "tags": ["romastor", "manitou", "magni", "tilt"], "order": 2 },
+    { "slug": "romastor-3d", "name": "Romastor 3D", "category": "Attachments", "brand": "Romastor", "spec": "Dual Axis · Full Sphere", "description": "Dual axis 360 degree rotation across both horizontal and vertical planes for total spatial freedom.", "long_description": "The flagship of the Romastor range. Dual-axis 360 degree rotation across both horizontal and vertical planes gives effectively spherical freedom of movement — the most versatile motion attachment we build, for shots that defy a fixed plane.", "image": "https://static.wixstatic.com/media/5f3620_cc33e1d71b6c4d3ca25eec65016636d4~mv2.gif", "specs": [ {"label": "Rotation", "value": "360° horizontal + vertical"}, {"label": "Axes", "value": "Dual axis · full sphere"}, {"label": "Movement", "value": "Continuous, either direction"}, {"label": "Compatibility", "value": "Manitou MRT · Magni"}, {"label": "Application", "value": "Complex 3D camera paths"} ], "media": [], "tags": ["romastor", "manitou", "magni"], "order": 3 },
+    { "slug": "rotator", "name": "Rotator", "category": "Attachments", "brand": "Romastor", "spec": "360° Vertical", "description": "Vertical rotating attachment with continuous 360 degree movement in either direction.", "long_description": "A dedicated vertical rotating attachment offering continuous 360 degree movement in either direction. Purpose-built for vertical reveals, barrel rolls and rigging applications that demand smooth, unbroken rotation under load.", "image": "https://static.wixstatic.com/media/5f3620_6748882355d04460bc2f86dd9c925366~mv2.gif", "specs": [ {"label": "Rotation", "value": "360° continuous vertical"}, {"label": "Direction", "value": "Either direction"}, {"label": "Axis", "value": "Single (vertical)"}, {"label": "Compatibility", "value": "Manitou MRT · Magni"}, {"label": "Application", "value": "Vertical reveals & rigging"} ], "media": [], "tags": ["romastor", "manitou", "magni"], "order": 4 },
+    { "slug": "magni-panning-head", "name": "Magni Panning Head", "category": "Attachments", "brand": "Magni", "spec": "180° Single Axis", "description": "Single axis 180 degree movement, perfectly suited to our range of Manitou MRT telehandlers.", "long_description": "A single-axis panning attachment with 180 degrees of smooth horizontal movement, matched specifically to the Magni and Manitou MRT range. A reliable, no-fuss panning solution for productions that need clean horizontal motion without complexity.", "image": "https://static.wixstatic.com/media/5f3620_086458e010234109b75f868d998bdbda~mv2.gif", "specs": [ {"label": "Rotation", "value": "180° horizontal"}, {"label": "Axis", "value": "Single (pan)"}, {"label": "Designed For", "value": "Magni · Manitou MRT"}, {"label": "Application", "value": "Clean horizontal pans"} ], "media": [], "tags": ["magni", "panning"], "order": 5 },
+    { "slug": "alpha-truss", "name": "Alpha Truss", "category": "Attachments", "brand": "AAA", "spec": "Trussing System", "description": "Specialist trussing and truss attachments for complex rigging, lighting and structural work.", "long_description": "The Alpha Truss system provides specialist trussing and truss attachments for complex rigging, lighting and structural builds. Designed and fabricated in-house, it adapts to the most demanding set requirements where standard rigging won't reach.", "image": "https://static.wixstatic.com/media/5f3620_0f6153f8eb3e41f9ab038abdb9dc3ae6~mv2.gif", "specs": [ {"label": "Type", "value": "Modular truss system"}, {"label": "Use", "value": "Rigging · lighting · structural"}, {"label": "Build", "value": "In-house fabricated"}, {"label": "Application", "value": "Custom set structures"} ], "media": [], "tags": ["aaa", "truss", "rigging"], "order": 6 },
+
+    { "slug": "manitou-mrt-2660-e", "name": "Manitou MRT 2660 E", "category": "Telehandlers", "brand": "Manitou", "spec": "6T · 26M · Electric", "description": "Electric slewing telehandler — 6 tonne capacity, 26 metre reach. Silent, emission-free operation for interior and sensitive sets.", "long_description": "The fully electric MRT 2660 E pairs a 6 tonne capacity and 26 metre reach with silent, zero-emission operation — making it the go-to for interior shoots, sound-sensitive sets and enclosed locations where a diesel machine simply can't work.", "image": "https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png", "specs": [ {"label": "Capacity", "value": "6 tonnes"}, {"label": "Max Reach", "value": "26 metres"}, {"label": "Type", "value": "Rotating (slewing) telehandler"}, {"label": "Rotation", "value": "360° turret"}, {"label": "Drive", "value": "Fully electric · zero emission"} ], "media": [], "tags": ["manitou", "telehandler", "electric", "6t"], "order": 1 },
+    { "slug": "manitou-mrt-2660", "name": "Manitou MRT 2660", "category": "Telehandlers", "brand": "Manitou", "spec": "6T · 26M", "description": "Rotating telehandler with 6 tonne capacity and 26 metre reach — the workhorse of the fleet.", "long_description": "The workhorse of the fleet. The MRT 2660 rotating telehandler delivers 6 tonnes of capacity and 26 metres of reach with a 360 degree turret, handling the full spectrum of lifting, placement and rigging tasks across feature, TVC and series productions.", "image": "https://static.wixstatic.com/media/5f3620_1f02fa6e88c1477e955643e6d3012f62~mv2.png", "specs": [ {"label": "Capacity", "value": "6 tonnes"}, {"label": "Max Reach", "value": "26 metres"}, {"label": "Type", "value": "Rotating (slewing) telehandler"}, {"label": "Rotation", "value": "360° turret"}, {"label": "Drive", "value": "Diesel"} ], "media": [], "tags": ["manitou", "telehandler", "6t"], "order": 2 },
+    { "slug": "manitou-mrt-2150", "name": "Manitou MRT 2150", "category": "Telehandlers", "brand": "Manitou", "spec": "5T · 21M", "description": "Compact rotating telehandler — 5 tonne capacity, 21 metre reach. Versatile in limited-access environments.", "long_description": "A more compact rotating telehandler offering 5 tonnes of capacity and 21 metres of reach. Its smaller footprint makes it the versatile choice for limited-access environments and tighter set conditions without sacrificing rotating capability.", "image": "https://static.wixstatic.com/media/5f3620_564efbee064e49d1a69c3095baa2a9fe~mv2.png", "specs": [ {"label": "Capacity", "value": "5 tonnes"}, {"label": "Max Reach", "value": "21 metres"}, {"label": "Type", "value": "Rotating (slewing) telehandler"}, {"label": "Rotation", "value": "360° turret"}, {"label": "Best For", "value": "Limited-access sites"} ], "media": [], "tags": ["manitou", "telehandler", "5t"], "order": 3 },
+    { "slug": "magni-th6-20", "name": "Magni TH6.20", "category": "Telehandlers", "brand": "Magni", "spec": "6T · 20M", "description": "Fixed-frame telehandler engineered for reliability and reach across film and construction applications.", "long_description": "The Magni TH6.20 is a fixed-frame telehandler delivering 6 tonnes of capacity and around 20 metres of reach. Dependable and straightforward, it covers everyday lifting and placement across film and construction applications.", "image": "https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png", "specs": [ {"label": "Capacity", "value": "6 tonnes"}, {"label": "Max Reach", "value": "~20 metres"}, {"label": "Type", "value": "Fixed-frame telehandler"}, {"label": "Brand", "value": "Magni"} ], "media": [], "tags": ["magni", "telehandler"], "order": 4 },
+    { "slug": "magni-th-5-5-19", "name": "Magni TH 5.5 19", "category": "Telehandlers", "brand": "Magni", "spec": "5.5T · 19M", "description": "Fixed-frame Magni telehandler — dependable lifting and placement for everyday production needs.", "long_description": "A fixed-frame Magni telehandler rated to roughly 5.5 tonnes and 19 metres of reach. A dependable everyday machine for lifting and placement where a rotating turret isn't required.", "image": "https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png", "specs": [ {"label": "Capacity", "value": "~5.5 tonnes"}, {"label": "Max Reach", "value": "~19 metres"}, {"label": "Type", "value": "Fixed-frame telehandler"}, {"label": "Brand", "value": "Magni"} ], "media": [], "tags": ["magni", "telehandler"], "order": 5 },
+
+    { "slug": "silenced-generators", "name": "Silenced Generators", "category": "Plant Hire", "brand": "AAA", "spec": "Power · Silent", "description": "Low-noise diesel generators for powering sets, lighting and equipment without disrupting sound.", "long_description": "Low-noise diesel generators that power lighting, equipment and entire sets without intruding on sound recording. Available across a range of outputs to suit everything from a single rig to a full unit base.", "image": "", "specs": [ {"label": "Type", "value": "Silenced diesel generator"}, {"label": "Noise", "value": "Low-noise / sound-set rated"}, {"label": "Use", "value": "Set & lighting power"} ], "media": [], "tags": ["plant", "power", "silent"], "order": 1 },
+    { "slug": "hi-flow-air-compressors", "name": "Hi-Flow Diesel Air Compressors", "category": "Plant Hire", "brand": "AAA", "spec": "Compressed Air", "description": "High-flow diesel air compressors for special effects, pneumatics and rigging applications.", "long_description": "High-flow diesel air compressors supplying the volume needed for special effects, pneumatic rigs and rigging applications. Reliable air on demand for the most air-hungry set requirements.", "image": "", "specs": [ {"label": "Type", "value": "Hi-flow diesel compressor"}, {"label": "Use", "value": "SFX · pneumatics · rigging"} ], "media": [], "tags": ["plant", "air", "sfx"], "order": 2 },
+    { "slug": "track-matts", "name": "Track Matts", "category": "Plant Hire", "brand": "AAA", "spec": "Ground Access", "description": "Heavy-duty track matts for safe machine access and ground protection across difficult terrain.", "long_description": "Heavy-duty track matts that create safe, stable machine access while protecting sensitive ground and surfaces. Essential for moving telehandlers and plant across grass, sand and uneven terrain.", "image": "", "specs": [ {"label": "Type", "value": "Heavy-duty access matting"}, {"label": "Use", "value": "Machine access · ground protection"} ], "media": [], "tags": ["plant", "access"], "order": 3 },
+
+    { "slug": "prime-mover-transport", "name": "Prime Mover & Transport", "category": "Vehicles", "brand": "AAA", "spec": "Heavy Transport", "description": "Float and prime mover transport for moving telehandlers, attachments and plant to and from set.", "long_description": "Float and prime mover transport for moving telehandlers, attachments and plant safely to and from set. Logistics handled end to end so your equipment arrives ready to work.", "image": "", "specs": [ {"label": "Type", "value": "Prime mover & float"}, {"label": "Use", "value": "Equipment transport"} ], "media": [], "tags": ["vehicle", "transport"], "order": 1 },
+    { "slug": "crew-support-vehicles", "name": "Crew & Support Vehicles", "category": "Vehicles", "brand": "AAA", "spec": "On-Set Support", "description": "Support vehicles to keep crew, tools and parts moving across large or remote production sites.", "long_description": "Support vehicles that keep crew, tools and spare parts moving across large or remote production sites — minimising downtime when every minute on set counts.", "image": "", "specs": [ {"label": "Type", "value": "Crew & support vehicles"}, {"label": "Use", "value": "On-set logistics"} ], "media": [], "tags": ["vehicle", "support"], "order": 2 },
+
+    { "slug": "design-engineering", "name": "Design & Engineering", "category": "Services", "brand": "AAA", "spec": "In-House", "description": "Structural engineers and designers with 100+ years combined film experience, building the solution that's right for your production.", "long_description": "Our in-house designers and structural engineers bring over 100 years of combined film experience to every brief. From concept to certified solution, we design custom rigs, adaptions and attachments built specifically around your production's needs.", "image": "", "specs": [ {"label": "Discipline", "value": "Design & structural engineering"}, {"label": "Experience", "value": "100+ years combined"}, {"label": "Delivery", "value": "Concept to certified build"} ], "media": [], "tags": ["service", "design", "engineering"], "order": 1 },
+    { "slug": "laser-plasma-cutting", "name": "Laser & Plasma Cutting", "category": "Services", "brand": "AAA", "spec": "Fabrication", "description": "Full bed and tube laser cutting plus plasma facilities — precision fabrication in steel and aluminium.", "long_description": "A complete fabrication capability — full bed and tube laser cutting alongside plasma cutting facilities. Precision work in steel and aluminium, all under one roof in our Botany workshop, supporting both our own builds and custom client jobs.", "image": "https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg", "specs": [ {"label": "Services", "value": "Laser & plasma cutting"}, {"label": "Materials", "value": "Steel · aluminium"}, {"label": "Capability", "value": "Full bed & tube laser"} ], "media": [], "tags": ["service", "fabrication", "cutting"], "order": 2 },
+    { "slug": "motion-control", "name": "Motion Control", "category": "Services", "brand": "AAA", "spec": "Automated Systems", "description": "Gimbals, winches and automated control systems for almost any in-camera film requirement.", "long_description": "Gimbals, winches and automated control systems engineered for almost any in-camera requirement. Our motion control specialists deliver repeatable, frame-accurate movement for the most demanding shots.", "image": "", "specs": [ {"label": "Systems", "value": "Gimbals · winches · automation"}, {"label": "Use", "value": "In-camera motion control"} ], "media": [], "tags": ["service", "motion", "rigging"], "order": 3 },
+    { "slug": "rigging-services", "name": "Rigging Services", "category": "Services", "brand": "AAA", "spec": "Specialist Rigging", "description": "Lighting, stunts and special effects rigging — designed, certified and crewed by specialists.", "long_description": "Specialist rigging for lighting, stunts and special effects — designed, certified and crewed by our experienced team. Safety-first solutions for the most ambitious set-ups, manned by people who've worked across every department.", "image": "", "specs": [ {"label": "Disciplines", "value": "Lighting · stunts · SFX rigging"}, {"label": "Delivery", "value": "Designed · certified · crewed"} ], "media": [], "tags": ["service", "rigging"], "order": 4 }
+  ]
+};
+  const FALLBACK_GALLERY = {
+  "images": [
+    { "title": "Solutions on set", "image": "https://static.wixstatic.com/media/5f3620_e80657d259b342d9869f0592f8e470a9~mv2.jpeg", "tags": ["manitou", "onset", "rigging"], "order": 1 },
+    { "title": "Telehandler rigging", "image": "https://static.wixstatic.com/media/5f3620_22a41ea1b61f4f9fb1519469957a6bbe~mv2.jpg", "tags": ["magni", "onset"], "order": 2 },
+    { "title": "Equipment in field", "image": "https://static.wixstatic.com/media/5f3620_b36469377561476ea960581c68c70350~mv2.jpeg", "tags": ["manitou", "onset"], "order": 3 },
+    { "title": "Laser cutting workshop", "image": "https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg", "tags": ["service", "fabrication"], "order": 4 },
+    { "title": "The fleet", "image": "https://static.wixstatic.com/media/5f3620_65e0b63047a843afb5e8844270b45251~mv2.jpg", "tags": ["magni", "manitou", "fleet"], "order": 5 },
+    { "title": "On set rigging", "image": "https://static.wixstatic.com/media/5f3620_031bd3e3796b425fa4187aed6efd5ce9~mv2.jpeg", "tags": ["magni", "onset"], "order": 6 }
+  ]
+};
+  let EQUIP = FALLBACK_EQUIP.items;
+  let GALLERY = FALLBACK_GALLERY.images;
+
+  const slugify = s => (s||"").toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  const getParam = k => new URLSearchParams(location.search).get(k);
+  const isContain = c => c==="Attachments" || c==="Telehandlers";
+
+  // media list state for the slideshow
+  let MEDIA = [];
+  let cur = 0;
+
+  (async function init(){
+    try {
+      const [e,g] = await Promise.all([fetch('/content/equipment.json'), fetch('/content/gallery.json')]);
+      if (e.ok) EQUIP = (await e.json()).items;
+      if (g.ok) GALLERY = (await g.json()).images;
+    } catch(err){ /* fallback */ }
+    render();
+  })();
+
+  function videoEmbed(url){
+    const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/);
+    if (yt) return `<iframe src="https://www.youtube.com/embed/${yt[1]}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
+    const vm = url.match(/vimeo\.com\/(\d+)/);
+    if (vm) return `<iframe src="https://player.vimeo.com/video/${vm[1]}" allow="autoplay;fullscreen;picture-in-picture" allowfullscreen></iframe>`;
+    return `<video src="${url}" controls></video>`;
+  }
+
+  function render(){
+    const slug = getParam('id');
+    const item = EQUIP.find(i => (i.slug||slugify(i.name)) === slug);
+    const page = document.getElementById('page');
+
+    if (!item){
+      page.innerHTML = `<div class="notfound"><h1>Item not found</h1><p>That piece of equipment isn't in the catalogue.</p><p style="margin-top:24px"><a class="btn btn-primary" href="equipment.html">Browse all equipment &rarr;</a></p></div>`;
+      return;
+    }
+    document.title = item.name + " | All Angles Access";
+
+    // build media list: item image, then assigned media, then tag-matched gallery
+    MEDIA = [];
+    if (item.image) MEDIA.push({kind:'image', url:item.image, caption:item.name, contain:isContain(item.category)});
+    (item.media||[]).forEach(m => MEDIA.push({kind:(m.kind||'image').toLowerCase(), url:m.url, caption:m.caption||item.name}));
+    const itags = (item.tags||[]).map(t=>t.toLowerCase());
+    const bundled = GALLERY.filter(im => (im.tags||[]).some(t=>itags.includes(t.toLowerCase())));
+    bundled.forEach(im => { if (!MEDIA.some(x=>x.url===im.image)) MEDIA.push({kind:'image', url:im.image, caption:im.title}); });
+    if (!MEDIA.length) MEDIA.push({kind:'placeholder', caption:item.name});
+    cur = 0;
+
+    const specRows = (item.specs||[]).map(s => `<div class="spec-row"><span class="k">${s.label}</span><span class="v">${s.value}</span></div>`).join("");
+    const related = EQUIP.filter(i => i!==item && (i.tags||[]).some(t=>itags.includes(t.toLowerCase()))).slice(0,8);
+    const relCards = related.map(r => `
+      <a class="rel-card" href="item.html?id=${r.slug||slugify(r.name)}">
+        <div class="rel-media">${r.image ? `<img class="${isContain(r.category)?'contain':''}" src="${r.image}" alt="${r.name}" loading="lazy"/>` : `<span class="ph">AAA</span>`}</div>
+        <div class="rel-body"><div class="rc">${r.category}</div><h4>${r.name}</h4></div>
+      </a>`).join("");
+
+    // bundled gallery (images only) for the in-page gallery grid
+    const galleryImgs = MEDIA.filter(m => m.kind==='image');
+
+    page.innerHTML = `
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span>
+        <a href="equipment.html">All Equipment</a><span class="sep">/</span>
+        <a href="equipment.html#${item.category}">${item.category}</a><span class="sep">/</span>
+        <span class="here">${item.name}</span>
+      </div>
+
+      <div class="item-hero">
+        <div class="stage">
+          <div class="stage-main" id="stage-main"></div>
+          ${MEDIA.length>1 ? `<button class="stage-nav prev" id="st-prev" aria-label="Previous">&#8249;</button><button class="stage-nav next" id="st-next" aria-label="Next">&#8250;</button>` : ``}
+          ${MEDIA.length>1 ? `<div class="thumbs" id="thumbs"></div>` : ``}
+        </div>
+        <div class="info">
+          <span class="brand-chip">${item.brand}</span>
+          <div class="cat">${item.category}</div>
+          <h1>${item.name}</h1>
+          <div class="headline-spec">${item.spec||""}</div>
+          <p class="long">${item.long_description || item.description || ""}</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="mailto:allanglesaccess@gmail.com?subject=AAA%20Enquiry%20-%20${encodeURIComponent(item.name)}">Enquire About This &rarr;</a>
+            <a class="btn btn-ghost" href="equipment.html">Back to Equipment</a>
+          </div>
+        </div>
+      </div>
+
+      ${specRows ? `<section class="section first"><h2>Specifications</h2><div class="lead">Technical detail &amp; compatibility</div><div class="spec-table">${specRows}</div></section>` : ``}
+
+      ${galleryImgs.length>1 ? `<section class="section"><h2>Gallery</h2><div class="lead">Bundled imagery &mdash; ${item.name} and related ${item.brand} equipment on set</div><div class="gallery" id="page-gallery"></div></section>` : ``}
+
+      ${relCards ? `<section class="section"><h2>Related Equipment</h2><div class="lead">Machines, attachments &amp; services that share tags with this item</div><div class="rel-grid">${relCards}</div></section>` : ``}
+    `;
+
+    paintStage();
+    if (MEDIA.length>1){
+      paintThumbs();
+      document.getElementById('st-prev').onclick = ()=>step(-1);
+      document.getElementById('st-next').onclick = ()=>step(1);
+    }
+    // page gallery grid
+    const pg = document.getElementById('page-gallery');
+    if (pg){
+      galleryImgs.forEach((m,idx)=>{
+        const g = document.createElement('div');
+        g.className = 'g' + (idx===0?' wide':idx===1?' tall':'');
+        g.innerHTML = `<img src="${m.url}" alt="${m.caption}" loading="lazy"/><span class="cap">${m.caption}</span>`;
+        g.onclick = ()=>openLightbox(MEDIA.indexOf(m));
+        pg.appendChild(g);
+      });
+    }
+  }
+
+  function stageInner(m){
+    if (m.kind==='video') return `<span class="stage-kind">Video</span>` + videoEmbed(m.url);
+    if (m.kind==='pdf') return `<span class="stage-kind">Spec Sheet</span><div class="pdf-tile"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><div>${m.caption||'Spec sheet'}</div><a href="${m.url}" target="_blank" rel="noopener">Open PDF &rarr;</a></div>`;
+    if (m.kind==='placeholder') return `<span class="ph" style="font-weight:800;font-size:3rem;color:var(--wb)">AAA</span>`;
+    return `<img class="${m.contain?'contain':''}" src="${m.url}" alt="${m.caption||''}"/>`;
+  }
+  function paintStage(){
+    const main = document.getElementById('stage-main');
+    const m = MEDIA[cur];
+    main.innerHTML = stageInner(m);
+    if (m.kind==='image' || m.kind==='placeholder'){ main.style.cursor='zoom-in'; main.onclick=()=>openLightbox(cur); }
+    else { main.style.cursor='default'; main.onclick=null; }
+  }
+  function paintThumbs(){
+    const t = document.getElementById('thumbs');
+    if (!t) return;
+    t.innerHTML = "";
+    MEDIA.forEach((m,idx)=>{
+      const d = document.createElement('div');
+      d.className = 'thumb' + (idx===cur?' active':'');
+      if (m.kind==='video') d.innerHTML = `<div class="play">&#9658;</div>`;
+      else if (m.kind==='pdf') d.innerHTML = `<div class="play">PDF</div>`;
+      else if (m.kind==='placeholder') d.innerHTML = `<div class="play" style="font-size:.7rem;font-weight:700">AAA</div>`;
+      else d.innerHTML = `<img src="${m.url}" alt="${m.caption||''}"/>`;
+      d.onclick = ()=>{ cur=idx; paintStage(); paintThumbs(); };
+      t.appendChild(d);
+    });
+  }
+  function step(n){ cur=(cur+n+MEDIA.length)%MEDIA.length; paintStage(); paintThumbs(); }
+
+  /* Lightbox */
+  function openLightbox(idx){
+    cur = idx;
+    document.getElementById('lightbox').classList.add('open');
+    paintLightbox();
+  }
+  function paintLightbox(){
+    const m = MEDIA[cur];
+    const stage = document.getElementById('lb-stage');
+    if (m.kind==='video') stage.innerHTML = videoEmbed(m.url);
+    else if (m.kind==='pdf') stage.innerHTML = `<iframe src="${m.url}"></iframe>`;
+    else if (m.kind==='placeholder') stage.innerHTML = `<div style="padding:120px;text-align:center;color:var(--a)">No image available</div>`;
+    else stage.innerHTML = `<img src="${m.url}" alt="${m.caption||''}"/>`;
+    document.getElementById('lb-cap').textContent = m.caption || "";
+  }
+  document.getElementById('lb-close').onclick = ()=>document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lb-prev').onclick = ()=>{ step(-1); paintLightbox(); };
+  document.getElementById('lb-next').onclick = ()=>{ step(1); paintLightbox(); };
+  document.getElementById('lightbox').addEventListener('click', e=>{ if(e.target.id==='lightbox') e.currentTarget.classList.remove('open'); });
+  document.addEventListener('keydown', e=>{
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('open')) return;
+    if (e.key==='Escape') lb.classList.remove('open');
+    if (e.key==='ArrowLeft'){ step(-1); paintLightbox(); }
+    if (e.key==='ArrowRight'){ step(1); paintLightbox(); }
+  });
+</script>
+</body>
+</html>

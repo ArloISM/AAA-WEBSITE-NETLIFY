@@ -1,0 +1,10 @@
+{
+  "images": [
+    { "title": "Solutions on set", "image": "https://static.wixstatic.com/media/5f3620_e80657d259b342d9869f0592f8e470a9~mv2.jpeg", "tags": ["manitou", "onset", "rigging"], "order": 1 },
+    { "title": "Telehandler rigging", "image": "https://static.wixstatic.com/media/5f3620_22a41ea1b61f4f9fb1519469957a6bbe~mv2.jpg", "tags": ["magni", "onset"], "order": 2 },
+    { "title": "Equipment in field", "image": "https://static.wixstatic.com/media/5f3620_b36469377561476ea960581c68c70350~mv2.jpeg", "tags": ["manitou", "onset"], "order": 3 },
+    { "title": "Laser cutting workshop", "image": "https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg", "tags": ["service", "fabrication"], "order": 4 },
+    { "title": "The fleet", "image": "https://static.wixstatic.com/media/5f3620_65e0b63047a843afb5e8844270b45251~mv2.jpg", "tags": ["magni", "manitou", "fleet"], "order": 5 },
+    { "title": "On set rigging", "image": "https://static.wixstatic.com/media/5f3620_031bd3e3796b425fa4187aed6efd5ce9~mv2.jpeg", "tags": ["magni", "onset"], "order": 6 }
+  ]
+}
