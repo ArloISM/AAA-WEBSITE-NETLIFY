@@ -12,13 +12,61 @@ collections:
       - label: "Homepage Content"
         name: "home"
         file: "content/home.json"
-        description: "All editable text on the homepage — hero, about section and contact details."
+        description: "Every headline, paragraph and label on the homepage. HTML hint: <span class='light'>..</span> = grey, <span class='red'>..</span> or <em>..</em> = red, <span class='dim'>..</span> = muted."
         fields:
-          - { label: "Hero Eyebrow", name: "hero_eyebrow", widget: "string", hint: "Small line above the headline." }
-          - { label: "Hero Heading", name: "hero_heading", widget: "string", hint: "Main headline. Use <span class='light'>...</span> for grey and <span class='red'>...</span> for red words." }
-          - { label: "Hero Tagline", name: "hero_tagline", widget: "text" }
-          - { label: "About Statement", name: "about_statement", widget: "string", hint: "Large quote in the About section. Use <em>...</em> for red and <span class='dim'>...</span> for muted." }
-          - { label: "About Body", name: "about_body", widget: "text", hint: "Supporting paragraph under the statement. HTML allowed." }
+          - { label: "Hero — Eyebrow", name: "hero_eyebrow", widget: "string" }
+          - { label: "Hero — Heading", name: "hero_heading", widget: "string" }
+          - { label: "Hero — Tagline", name: "hero_tagline", widget: "text" }
+
+          - { label: "Attachments — Label", name: "attach_label", widget: "string" }
+          - { label: "Attachments — Heading", name: "attach_heading", widget: "string" }
+          - { label: "Attachments — Intro", name: "attach_intro", widget: "text" }
+
+          - { label: "Fleet — Label", name: "fleet_label", widget: "string" }
+          - { label: "Fleet — Heading", name: "fleet_heading", widget: "string" }
+          - { label: "Fleet — Intro", name: "fleet_intro", widget: "text" }
+          - { label: "Fleet — Scroll Hint", name: "fleet_hint", widget: "string" }
+
+          - { label: "About — Label", name: "about_label", widget: "string" }
+          - { label: "About — Statement", name: "about_statement", widget: "string" }
+          - { label: "About — Body", name: "about_body", widget: "text" }
+          - { label: "About — Founder Name", name: "about_founder_name", widget: "string" }
+          - { label: "About — Founder Role", name: "about_founder_role", widget: "string" }
+
+          - { label: "Stat 1 — Number", name: "stat1_num", widget: "string" }
+          - { label: "Stat 1 — Caption", name: "stat1_cap", widget: "string" }
+          - { label: "Stat 2 — Number", name: "stat2_num", widget: "string" }
+          - { label: "Stat 2 — Caption", name: "stat2_cap", widget: "string" }
+          - { label: "Stat 3 — Number", name: "stat3_num", widget: "string" }
+          - { label: "Stat 3 — Caption", name: "stat3_cap", widget: "string" }
+          - { label: "Stat 4 — Number", name: "stat4_num", widget: "string" }
+          - { label: "Stat 4 — Caption", name: "stat4_cap", widget: "string" }
+
+          - { label: "Brands — Label", name: "brands_label", widget: "string" }
+
+          - { label: "Services — Label", name: "svc_label", widget: "string" }
+          - { label: "Services — Heading", name: "svc_heading", widget: "string" }
+          - { label: "Services — Intro", name: "svc_intro", widget: "text" }
+          - { label: "Service 1 — Index", name: "svc1_idx", widget: "string" }
+          - { label: "Service 1 — Title", name: "svc1_title", widget: "string" }
+          - { label: "Service 1 — Body", name: "svc1_body", widget: "text" }
+          - { label: "Service 2 — Index", name: "svc2_idx", widget: "string" }
+          - { label: "Service 2 — Title", name: "svc2_title", widget: "string" }
+          - { label: "Service 2 — Body", name: "svc2_body", widget: "text" }
+          - { label: "Service 3 — Index", name: "svc3_idx", widget: "string" }
+          - { label: "Service 3 — Title", name: "svc3_title", widget: "string" }
+          - { label: "Service 3 — Body", name: "svc3_body", widget: "text" }
+          - { label: "Service 4 — Index", name: "svc4_idx", widget: "string" }
+          - { label: "Service 4 — Title", name: "svc4_title", widget: "string" }
+          - { label: "Service 4 — Body", name: "svc4_body", widget: "text" }
+
+          - { label: "Gallery — Label", name: "gallery_label", widget: "string" }
+          - { label: "Gallery — Heading", name: "gallery_heading", widget: "string" }
+          - { label: "Gallery — Hint", name: "gallery_hint", widget: "string" }
+
+          - { label: "CTA — Heading", name: "cta_heading", widget: "string" }
+          - { label: "CTA — Body", name: "cta_body", widget: "text" }
+
           - { label: "Contact Email", name: "contact_email", widget: "string" }
           - { label: "Contact Phone", name: "contact_phone", widget: "string" }
           - { label: "Location", name: "location", widget: "string" }
@@ -46,7 +94,7 @@ collections:
               - label: "Brand"
                 name: "brand"
                 widget: "select"
-                options: ["Romastor", "Magni", "Manitou", "Merlo", "AAA"]
+                options: ["Romastor", "Magni", "Manitou", "Merlo", "Atlas Copco", "Hyundai", "Hino", "Scania", "Volvo", "AAA"]
               - { label: "Spec Label", name: "spec", widget: "string", required: false, hint: "Short headline spec, e.g. 6T · 26M" }
               - { label: "Short Description", name: "description", widget: "text", hint: "One line shown on cards." }
               - { label: "Long Description", name: "long_description", widget: "text", required: false, hint: "Deeper description shown on the item detail page." }

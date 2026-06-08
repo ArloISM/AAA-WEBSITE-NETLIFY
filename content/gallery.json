@@ -1,10 +1,399 @@
 {
   "images": [
-    { "title": "Solutions on set", "image": "https://static.wixstatic.com/media/5f3620_e80657d259b342d9869f0592f8e470a9~mv2.jpeg", "tags": ["manitou", "onset", "rigging"], "order": 1 },
-    { "title": "Telehandler rigging", "image": "https://static.wixstatic.com/media/5f3620_22a41ea1b61f4f9fb1519469957a6bbe~mv2.jpg", "tags": ["magni", "onset"], "order": 2 },
-    { "title": "Equipment in field", "image": "https://static.wixstatic.com/media/5f3620_b36469377561476ea960581c68c70350~mv2.jpeg", "tags": ["manitou", "onset"], "order": 3 },
-    { "title": "Laser cutting workshop", "image": "https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg", "tags": ["service", "fabrication"], "order": 4 },
-    { "title": "The fleet", "image": "https://static.wixstatic.com/media/5f3620_65e0b63047a843afb5e8844270b45251~mv2.jpg", "tags": ["magni", "manitou", "fleet"], "order": 5 },
-    { "title": "On set rigging", "image": "https://static.wixstatic.com/media/5f3620_031bd3e3796b425fa4187aed6efd5ce9~mv2.jpeg", "tags": ["magni", "onset"], "order": 6 }
+    {
+      "title": "Merlo Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-01.jpg",
+      "tags": [
+        "merlo",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 1
+    },
+    {
+      "title": "Merlo Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-02.jpg",
+      "tags": [
+        "merlo",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 2
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-03.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 3
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-04.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 4
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-05.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 5
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-06.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 6
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-07.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 7
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-08.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 8
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-09.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 9
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-10.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 10
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-11.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 11
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-12.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 12
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-13.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 13
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-14.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 14
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-15.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 15
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-16.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 16
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-17.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 17
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-18.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 18
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-19.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 19
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-20.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 20
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-21.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 21
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-22.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 22
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-23.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 23
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-24.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 24
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-25.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 25
+    },
+    {
+      "title": "Merlo Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-26.jpg",
+      "tags": [
+        "merlo",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 26
+    },
+    {
+      "title": "Merlo Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-27.jpg",
+      "tags": [
+        "merlo",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 27
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-28.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 28
+    },
+    {
+      "title": "Magni Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-29.jpg",
+      "tags": [
+        "magni",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 29
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-30.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 30
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-31.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 31
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-32.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 32
+    },
+    {
+      "title": "Manitou Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-33.jpg",
+      "tags": [
+        "manitou",
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 33
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-34.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 34
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-35.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 35
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-36.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 36
+    },
+    {
+      "title": "Telehandler with AlphaTruss",
+      "image": "images/gallery/gallery-37.jpg",
+      "tags": [
+        "alphatruss",
+        "telehandler",
+        "onset"
+      ],
+      "order": 37
+    }
   ]
 }

@@ -255,10 +255,10 @@
   .gallery::-webkit-scrollbar { height:6px; }
   .gallery::-webkit-scrollbar-track { background:var(--r); border-radius:980px; }
   .gallery::-webkit-scrollbar-thumb { background:var(--s); border-radius:980px; }
-  .gallery a { flex:0 0 auto; height:380px; scroll-snap-align:center; overflow:hidden; position:relative; display:block; border-radius:16px; border:1px solid var(--r); background:#0d0c0b; transition:border-color .4s, transform .4s cubic-bezier(.16,1,.3,1); }
+  .gallery a { flex:0 0 auto; height:380px; width:auto; scroll-snap-align:center; overflow:hidden; position:relative; display:block; border-radius:16px; border:1px solid var(--r); background:#0d0c0b; transition:border-color .4s, transform .4s cubic-bezier(.16,1,.3,1); }
   .gallery a:hover { border-color:var(--rs); transform:translateY(-4px); }
-  .gallery img { height:100%; width:auto; display:block; object-fit:contain; transition:transform .7s cubic-bezier(.16,1,.3,1), filter .7s; filter:saturate(.95) brightness(.9); }
-  .gallery a:hover img { transform:scale(1.04); filter:saturate(1) brightness(1); }
+  .gallery img { height:100%; width:auto; display:block; object-fit:contain; transition:filter .5s; filter:saturate(.95) brightness(.9); }
+  .gallery a:hover img { filter:saturate(1) brightness(1); }
   .gallery .cap { position:absolute; bottom:0; left:0; right:0; padding:16px 18px 14px; background:linear-gradient(transparent, rgba(10,9,8,.85)); font-size:.78rem; font-weight:500; opacity:0; transition:opacity .4s; }
   .gallery a:hover .cap { opacity:1; }
   .gallery-hint { text-align:center; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--a); margin-top:8px; display:flex; align-items:center; justify-content:center; gap:10px; }
@@ -383,9 +383,9 @@
 <section class="pad" id="attachments">
   <div class="wrap">
     <div class="center-head reveal">
-      <span class="label">The Romastor Range</span>
-      <h2>Attachments engineered <span class="light">for film.</span></h2>
-      <p>Purpose-built motion attachments — interchangeable across our full fleet of Manitou and Magni telehandlers. Cinema-grade precision, certified for set.</p>
+      <span class="label" id="attach-label">The Romastor Range</span>
+      <h2 id="attach-heading">Attachments engineered <span class="light">for film.</span></h2>
+      <p id="attach-intro">Purpose-built motion attachments — interchangeable across our full fleet of Manitou and Magni telehandlers. Cinema-grade precision, certified for set.</p>
     </div>
     <div class="attach-grid">
       <a class="attach-card reveal card-link" href="item.html?id=romastor-360" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
@@ -420,9 +420,9 @@
 <section class="pad fleet" id="fleet">
   <div class="wrap">
     <div class="center-head reveal">
-      <span class="label">The Fleet</span>
-      <h2>Machines <span class="light">that deliver.</span></h2>
-      <p>An ever-growing fleet offering versatility and accessibility, with safety and limited-access solutions at the forefront.</p>
+      <span class="label" id="fleet-label">The Fleet</span>
+      <h2 id="fleet-heading">Machines <span class="light">that deliver.</span></h2>
+      <p id="fleet-intro">An ever-growing fleet offering versatility and accessibility, with safety and limited-access solutions at the forefront.</p>
     </div>
     <div class="fleet-scroller">
       <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660-e" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png" alt="Manitou MRT 2660 Electric" /><h4>MRT 2660 E</h4><div class="meta">6T &middot; 26M</div></a>
@@ -431,28 +431,28 @@
       <a class="fleet-card card-link" href="item.html?id=magni-th6-20" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png" alt="Magni TH 6.20" /><h4>Magni TH6.20</h4><div class="meta">Telehandler</div></a>
       <a class="fleet-card card-link" href="item.html?id=magni-th-5-5-19" style="text-decoration:none;color:inherit;cursor:pointer;"><img src="https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png" alt="Magni TH 5.5 19" /><h4>Magni TH5.5</h4><div class="meta">Telehandler</div></a>
     </div>
-    <div class="fleet-hint">Scroll to explore the fleet</div>
+    <div class="fleet-hint" id="fleet-hint">Scroll to explore the fleet</div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <section class="pad about" id="about">
   <div class="wrap reveal">
-    <span class="label" style="color:var(--s);font-size:.78rem;font-weight:600;display:inline-block;margin-bottom:24px;">Who We Are</span>
+    <span class="label" id="about-label" style="color:var(--s);font-size:.78rem;font-weight:600;display:inline-block;margin-bottom:24px;">Who We Are</span>
     <p class="statement" id="about-statement">Every second on set counts in <em>dollars and cents.</em> <span class="dim">We get that.</span></p>
     <p id="about-body" style="color:var(--pd);font-weight:300;font-size:1.1rem;line-height:1.7;max-width:50ch;margin:0 auto;">Led by <strong style="color:var(--p);font-weight:600;">Dan Oliver</strong>, All Angles Access brings over 30 years of personal film industry experience and a combined team depth of more than a century. We understand deadlines, departments, and the pressure of a shooting day.</p>
     <div class="about-meta" style="margin-top:40px;">
-      <strong>Dan Oliver</strong>
-      <span>Founder &middot; All Angles Access PTY Ltd</span>
+      <strong id="about-founder-name">Dan Oliver</strong>
+      <span id="about-founder-role">Founder &middot; All Angles Access PTY Ltd</span>
     </div>
     <div class="stats-grid">
-      <div class="stat"><div class="num">30<sup>+</sup></div><div class="cap">Years personal experience</div></div>
-      <div class="stat"><div class="num">100<sup>+</sup></div><div class="cap">Combined team years</div></div>
-      <div class="stat"><div class="num">11</div><div class="cap">Film-engineered attachments</div></div>
-      <div class="stat"><div class="num">5</div><div class="cap">Telehandlers &middot; 19&ndash;26m</div></div>
+      <div class="stat"><div class="num" id="stat1-num">30<sup>+</sup></div><div class="cap" id="stat1-cap">Years personal experience</div></div>
+      <div class="stat"><div class="num" id="stat2-num">100<sup>+</sup></div><div class="cap" id="stat2-cap">Combined team years</div></div>
+      <div class="stat"><div class="num" id="stat3-num">11</div><div class="cap" id="stat3-cap">Film-engineered attachments</div></div>
+      <div class="stat"><div class="num" id="stat4-num">5</div><div class="cap" id="stat4-cap">Telehandlers &middot; 19&ndash;26m</div></div>
     </div>
   <div class="wrap" style="margin-top:64px;">
-    <div class="brands-head"><span class="brands-label">The Brands We Trust &amp; Supply</span></div>
+    <div class="brands-head"><span class="brands-label" id="brands-label">The Brands We Trust &amp; Supply</span></div>
     <div class="brands-marquee">
       <div class="brands-track"><div class="brand-logo"><img src="images/brands/manitou.svg" alt="Manitou" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/magni.svg" alt="Magni" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/merlo.svg" alt="Merlo" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/romastor.svg" alt="Romastor" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/atlas-copco.jpg" alt="Atlas Copco" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/scania.svg" alt="Scania" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hino.jpg" alt="Hino" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hyundai.jpg" alt="Hyundai" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/manitou.svg" alt="Manitou" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/magni.svg" alt="Magni" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/merlo.svg" alt="Merlo" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/romastor.svg" alt="Romastor" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/atlas-copco.jpg" alt="Atlas Copco" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/scania.svg" alt="Scania" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hino.jpg" alt="Hino" class="raster" loading="lazy"/></div><div class="brand-logo"><img src="images/brands/hyundai.jpg" alt="Hyundai" class="raster" loading="lazy"/></div></div>
     </div>
@@ -464,15 +464,15 @@
 <section class="pad svc" id="services">
   <div class="wrap">
     <div class="center-head reveal">
-      <span class="label">What We Do</span>
-      <h2>Built in-house. <span class="light">Tested on set.</span></h2>
-      <p>Let our team of in-house designers, engineers and rigging specialists make your vision a reality.</p>
+      <span class="label" id="svc-label">What We Do</span>
+      <h2 id="svc-heading">Built in-house. <span class="light">Tested on set.</span></h2>
+      <p id="svc-intro">Let our team of in-house designers, engineers and rigging specialists make your vision a reality.</p>
     </div>
     <div class="svc-grid">
-      <div class="svc-card reveal"><div class="idx">01 &middot; Rentals</div><h3>Equipment Hire</h3><p>Dry hire and manned access equipment rentals, telehandler attachments, silenced generators, hi-flow diesel air compressors, vehicles and track matts.</p></div>
-      <div class="svc-card reveal"><div class="idx">02 &middot; Fabrication</div><h3>Engineering &amp; Cutting</h3><p>Full bed and tube laser cutting, plasma cutting facilities, a complete machine and engineering shop, plus steel and aluminium welding specialists.</p></div>
-      <div class="svc-card reveal"><div class="idx">03 &middot; Motion</div><h3>Motion Control</h3><p>Gimbals, winches and automated control systems for almost any in-camera film requirement, delivered by dedicated motion control specialists.</p></div>
-      <div class="svc-card reveal"><div class="idx">04 &middot; Design</div><h3>Custom Solutions</h3><p>Structural engineers with 100+ years combined film experience. No request is too unreasonable — we create the solution that's right for your production.</p></div>
+      <div class="svc-card reveal"><div class="idx" id="svc1-idx">01 &middot; Rentals</div><h3 id="svc1-title">Equipment Hire</h3><p id="svc1-body">Dry hire and manned access equipment rentals, telehandler attachments, silenced generators, hi-flow diesel air compressors, vehicles and track matts.</p></div>
+      <div class="svc-card reveal"><div class="idx" id="svc2-idx">02 &middot; Fabrication</div><h3 id="svc2-title">Engineering &amp; Cutting</h3><p id="svc2-body">Full bed and tube laser cutting, plasma cutting facilities, a complete machine and engineering shop, plus steel and aluminium welding specialists.</p></div>
+      <div class="svc-card reveal"><div class="idx" id="svc3-idx">03 &middot; Motion</div><h3 id="svc3-title">Motion Control</h3><p id="svc3-body">Gimbals, winches and automated control systems for almost any in-camera film requirement, delivered by dedicated motion control specialists.</p></div>
+      <div class="svc-card reveal"><div class="idx" id="svc4-idx">04 &middot; Design</div><h3 id="svc4-title">Custom Solutions</h3><p id="svc4-body">Structural engineers with 100+ years combined film experience. No request is too unreasonable — we create the solution that's right for your production.</p></div>
     </div>
   </div>
 </section>
@@ -481,27 +481,29 @@
 <section class="pad">
   <div class="wrap">
     <div class="center-head reveal">
-      <span class="label">In Action</span>
-      <h2>Machines <span class="light">on set.</span></h2>
+      <span class="label" id="gallery-label">In Action</span>
+      <h2 id="gallery-heading">Machines <span class="light">on set.</span></h2>
     </div>
     <div class="gallery" id="home-gallery">
-      <a role="button" tabindex="0" data-idx="0"><img src="https://static.wixstatic.com/media/5f3620_e80657d259b342d9869f0592f8e470a9~mv2.jpeg" alt="AAA solutions on set" /><span class="cap">Solutions on set</span></a>
-      <a role="button" tabindex="0" data-idx="1"><img src="https://static.wixstatic.com/media/5f3620_22a41ea1b61f4f9fb1519469957a6bbe~mv2.jpg" alt="Telehandler rigging" /><span class="cap">Telehandler rigging</span></a>
-      <a role="button" tabindex="0" data-idx="2"><img src="https://static.wixstatic.com/media/5f3620_b36469377561476ea960581c68c70350~mv2.jpeg" alt="Equipment horizontal" /><span class="cap">Equipment in the field</span></a>
-      <a role="button" tabindex="0" data-idx="3"><img src="https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg" alt="Laser cutting service" /><span class="cap">Laser cutting workshop</span></a>
-      <a role="button" tabindex="0" data-idx="4"><img src="https://static.wixstatic.com/media/5f3620_65e0b63047a843afb5e8844270b45251~mv2.jpg" alt="The fleet" /><span class="cap">The fleet</span></a>
-      <a role="button" tabindex="0" data-idx="5"><img src="https://static.wixstatic.com/media/5f3620_031bd3e3796b425fa4187aed6efd5ce9~mv2.jpeg" alt="On set rigging" /><span class="cap">On set rigging</span></a>
+      <a role="button" tabindex="0" data-idx="0"><img src="images/gallery/gallery-01.jpg" alt="Merlo Telehandler with AlphaTruss" /><span class="cap">Merlo Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="1"><img src="images/gallery/gallery-02.jpg" alt="Merlo Telehandler with AlphaTruss" /><span class="cap">Merlo Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="2"><img src="images/gallery/gallery-03.jpg" alt="Telehandler with AlphaTruss" /><span class="cap">Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="3"><img src="images/gallery/gallery-04.jpg" alt="Telehandler with AlphaTruss" /><span class="cap">Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="4"><img src="images/gallery/gallery-05.jpg" alt="Magni Telehandler with AlphaTruss" /><span class="cap">Magni Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="5"><img src="images/gallery/gallery-06.jpg" alt="Magni Telehandler with AlphaTruss" /><span class="cap">Magni Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="6"><img src="images/gallery/gallery-07.jpg" alt="Manitou Telehandler with AlphaTruss" /><span class="cap">Manitou Telehandler with AlphaTruss</span></a>
+      <a role="button" tabindex="0" data-idx="7"><img src="images/gallery/gallery-08.jpg" alt="Manitou Telehandler with AlphaTruss" /><span class="cap">Manitou Telehandler with AlphaTruss</span></a>
     </div>
-    <div class="gallery-hint">Scroll &middot; click to enlarge</div>
+    <div class="gallery-hint" id="gallery-hint-text">Scroll &middot; click to enlarge</div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-band" id="contact">
-  <h2>Ready to roll camera?<br><span class="red">Let's talk.</span></h2>
-  <p>From the most outrageous to the simplest of film requests — our workshop and crew handle everything from manufacture to manning machines.</p>
+  <h2 id="cta-heading">Ready to roll camera?<br><span class="red">Let's talk.</span></h2>
+  <p id="cta-body">From the most outrageous to the simplest of film requests — our workshop and crew handle everything from manufacture to manning machines.</p>
   <div class="hero-ctas" style="animation:none;opacity:1;justify-content:center;">
-    <a href="mailto:allanglesaccess@gmail.com?subject=AAA%20Enquiry" class="btn btn-primary">Start an Enquiry &rarr;</a>
+    <a href="mailto:allanglesaccess@gmail.com?subject=AAA%20Enquiry" class="btn btn-primary" id="cta-btn-primary">Start an Enquiry &rarr;</a>
     <a href="tel:+61411508010" class="btn btn-ghost">+61 411 508 010</a>
   </div>
 </section>
@@ -588,6 +590,24 @@
       setText('hero-tagline', c.hero_tagline);
       setHTML('about-statement', c.about_statement);
       setHTML('about-body', c.about_body);
+      // Section labels, headings & intros
+      setText('attach-label', c.attach_label);    setHTML('attach-heading', c.attach_heading);    setText('attach-intro', c.attach_intro);
+      setText('fleet-label', c.fleet_label);       setHTML('fleet-heading', c.fleet_heading);       setText('fleet-intro', c.fleet_intro);  setText('fleet-hint', c.fleet_hint);
+      setText('about-label', c.about_label);        setText('about-founder-name', c.about_founder_name); setHTML('about-founder-role', c.about_founder_role);
+      setText('brands-label', c.brands_label);
+      setText('svc-label', c.svc_label);            setHTML('svc-heading', c.svc_heading);            setText('svc-intro', c.svc_intro);
+      setText('gallery-label', c.gallery_label);    setHTML('gallery-heading', c.gallery_heading);    setText('gallery-hint-text', c.gallery_hint);
+      setHTML('cta-heading', c.cta_heading);        setText('cta-body', c.cta_body);
+      // Stats
+      setHTML('stat1-num', c.stat1_num); setText('stat1-cap', c.stat1_cap);
+      setHTML('stat2-num', c.stat2_num); setText('stat2-cap', c.stat2_cap);
+      setHTML('stat3-num', c.stat3_num); setText('stat3-cap', c.stat3_cap);
+      setHTML('stat4-num', c.stat4_num); setText('stat4-cap', c.stat4_cap);
+      // Service cards
+      setText('svc1-idx', c.svc1_idx); setText('svc1-title', c.svc1_title); setText('svc1-body', c.svc1_body);
+      setText('svc2-idx', c.svc2_idx); setText('svc2-title', c.svc2_title); setText('svc2-body', c.svc2_body);
+      setText('svc3-idx', c.svc3_idx); setText('svc3-title', c.svc3_title); setText('svc3-body', c.svc3_body);
+      setText('svc4-idx', c.svc4_idx); setText('svc4-title', c.svc4_title); setText('svc4-body', c.svc4_body);
       // contact links across the page
       if (c.contact_email){
         document.querySelectorAll('a[href^="mailto:"]').forEach(a=>{
