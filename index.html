@@ -103,10 +103,11 @@
     opacity:0; animation:fadeUp 1s cubic-bezier(.16,1,.3,1) .15s forwards;
   }
   .hero .eyebrow::before { content:""; width:22px; height:1px; background:var(--s); }
+  .hero .eyebrow::after { content:""; width:22px; height:1px; background:var(--s); }
   .hero h1 {
     font-weight:700; font-size:clamp(2.6rem,7.5vw,5.6rem);
-    line-height:1.0; letter-spacing:-0.035em;
-    max-width:16ch; margin-bottom:30px;
+    line-height:1.08; letter-spacing:-0.035em;
+    max-width:16ch; margin-bottom:34px;
     opacity:0; animation:fadeUp 1.1s cubic-bezier(.16,1,.3,1) .3s forwards;
   }
   .hero h1 .light { font-weight:200; color:var(--pd); display:block; }
@@ -147,19 +148,19 @@
   /* ============ SECTION ============ */
   section { position:relative; }
   .pad { padding:130px 0; }
-  .center-head { text-align:center; max-width:30ch; margin:0 auto 70px; }
+  .center-head { text-align:center; max-width:38ch; margin:0 auto 76px; }
   .center-head .label {
-    font-size:.78rem; font-weight:600; letter-spacing:.02em; color:var(--s);
-    display:inline-flex; align-items:center; gap:9px; margin-bottom:20px;
+    font-size:.74rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--s);
+    display:inline-flex; align-items:center; gap:12px; margin-bottom:28px;
   }
-  .center-head .label::before { content:""; width:18px; height:1px; background:var(--s); }
-  .center-head .label::after { content:""; width:18px; height:1px; background:var(--s); }
+  .center-head .label::before { content:""; width:24px; height:1px; background:var(--s); }
+  .center-head .label::after { content:""; width:24px; height:1px; background:var(--s); }
   .center-head h2 {
     font-weight:700; font-size:clamp(2rem,5vw,3.4rem);
-    line-height:1.02; letter-spacing:-0.03em; margin-bottom:20px;
+    line-height:1.12; letter-spacing:-0.03em; margin-bottom:24px;
   }
   .center-head h2 .light { font-weight:200; color:var(--pd); }
-  .center-head p { color:var(--pd); font-weight:300; font-size:1.08rem; line-height:1.6; max-width:46ch; margin:0 auto; }
+  .center-head p { color:var(--pd); font-weight:300; font-size:1.08rem; line-height:1.65; max-width:46ch; margin:0 auto; }
 
   /* ============ ATTACHMENTS ============ */
   .attach-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
@@ -319,14 +320,33 @@
   @media (max-width:680px){
     .wrap{ padding:0 20px;} 
     nav{ padding:14px 20px;} 
-    nav .nav-links{ display:none;} 
-    .menu-toggle{ display:block;} 
+    .menu-toggle{ display:block; z-index:1002; }
+    /* Mobile dropdown menu panel */
+    nav .nav-links{
+      display:flex; flex-direction:column; gap:0;
+      position:fixed; top:0; right:0; bottom:0;
+      width:78%; max-width:320px;
+      background:var(--c1); border-left:1px solid var(--wb);
+      padding:96px 28px 40px; z-index:1001;
+      transform:translateX(100%); transition:transform .42s cubic-bezier(.16,1,.3,1);
+      box-shadow:-30px 0 60px rgba(0,0,0,.5);
+    }
+    body.nav-open nav .nav-links{ transform:translateX(0); }
+    nav .nav-links a{ padding:18px 0; border-bottom:1px solid rgba(255,255,255,.06); font-size:1.05rem; width:100%; }
+    nav .nav-links a.nav-cta{ margin-top:20px; border-bottom:none; text-align:center; }
+    /* Dim backdrop behind menu */
+    body.nav-open::after{ content:""; position:fixed; inset:0; background:rgba(8,7,6,.6); z-index:1000; backdrop-filter:blur(2px); }
+    /* Smaller logo lockup so it stays on one line */
+    .logo-name{ font-size:.95rem; }
+    .logo-sub{ font-size:.6rem; }
+    .logo svg{ width:34px; height:34px; }
     .attach-grid,.svc-grid{ grid-template-columns:1fr;} 
-    .fleet-card{ flex:0 0 80vw; }
-    .fleet-card img{ height:200px; }
+    .fleet-card{ flex:0 0 80vw; margin-top:64px; padding:0 24px 30px; }
+    .fleet-card img{ height:200px; margin:-64px -5% 14px; }
+    .fleet-scroller{ padding:72px 20px 24px; margin:0 -20px; }
     .gallery{ padding:4px 20px 24px; margin:0 -20px; }
     .gallery a{ height:280px; }
-    .pad{ padding:84px 0;} 
+    .pad{ padding:60px 0;} 
     .brand-logo{ height:40px; }
     .brands-track{ gap:48px; }
     .stat .num{ font-size:2.3rem;} 
@@ -363,13 +383,13 @@
     <a href="#services">Services</a>
     <a href="#contact" class="nav-cta">Contact Sales</a>
   </div>
-  <button class="menu-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').style.display='flex'">&#9776;</button>
+  <button class="menu-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">&#9776;</button>
 </nav>
 
 <!-- HERO -->
 <header class="hero">
   <div class="hero-bg"></div>
-  <span class="eyebrow" id="hero-eyebrow">Est. 30+ Years &middot; Film Industry</span>
+  <span class="eyebrow" id="hero-eyebrow">Film First Access Solutions</span>
   <h1 id="hero-heading">Every Frame.<span class="light">Every Angle.</span><span class="red">Every Time.</span></h1>
   <p class="tagline" id="hero-tagline">Australia's specialist provider of telehandler attachments, rigging and access equipment for film and television. Dry hire or fully manned — we make your production possible.</p>
   <div class="hero-ctas">
@@ -383,34 +403,34 @@
 <section class="pad" id="attachments">
   <div class="wrap">
     <div class="center-head reveal">
-      <span class="label" id="attach-label">The Romastor Range</span>
-      <h2 id="attach-heading">Attachments engineered <span class="light">for film.</span></h2>
-      <p id="attach-intro">Purpose-built motion attachments — interchangeable across our full fleet of Manitou and Magni telehandlers. Cinema-grade precision, certified for set.</p>
+      <span class="label" id="attach-label">Attachments Range</span>
+      <h2 id="attach-heading">World-class attachments, <span class="light">re-engineered for film.</span></h2>
+      <p id="attach-intro">Carefully selected and re-engineered to cater specifically for the challenges of the film industry — versatile rigging across our full fleet of Manitou and Magni telehandlers, certified for set.</p>
     </div>
     <div class="attach-grid">
       <a class="attach-card reveal card-link" href="item.html?id=romastor-360" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
         <div class="attach-media"><span class="attach-idx">01</span><img src="https://static.wixstatic.com/media/5f3620_6d8bd79d468946b9bc54eb9c464b39da~mv2.gif" alt="Romastor 360 continuous pan" /></div>
-        <div class="attach-body"><h3>Romastor 360&deg;</h3><div class="spec">Continuous Pan</div><p>360 degree continuous panning horizontal rotation for uninterrupted, flowing camera movement.</p></div>
+        <div class="attach-body"><h3>Romastor 360&deg;</h3><div class="spec">Continuous Pan</div><p>Continuous 360&deg; panning rotation for versatile rigging — smoothly repositioning frames, scrims and lighting around the set.</p></div>
       </a>
       <a class="attach-card reveal card-link" href="item.html?id=romastor-pan-tilt" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
         <div class="attach-media"><span class="attach-idx">02</span><img src="https://static.wixstatic.com/media/5f3620_3d1aa9eb310a4b07865f584827163fa1~mv2.gif" alt="Romastor Pan and Tilt" /></div>
-        <div class="attach-body"><h3>Romastor Pan &amp; Tilt</h3><div class="spec">360&deg; &middot; 70&deg; Tilt</div><p>360 degree horizontal rotation with tilt up to 70 degrees for dynamic, versatile shot composition.</p></div>
+        <div class="attach-body"><h3>Romastor Pan &amp; Tilt</h3><div class="spec">360&deg; &middot; 70&deg; Tilt</div><p>360&deg; pan with up to 70&deg; tilt — versatile rigging for positioning frames, scrims and loads at almost any angle.</p></div>
       </a>
       <a class="attach-card reveal card-link" href="item.html?id=romastor-3d" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
         <div class="attach-media"><span class="attach-idx">03</span><img src="https://static.wixstatic.com/media/5f3620_cc33e1d71b6c4d3ca25eec65016636d4~mv2.gif" alt="Romastor 3D dual axis" /></div>
-        <div class="attach-body"><h3>Romastor 3D</h3><div class="spec">Dual Axis &middot; Full Sphere</div><p>Dual axis 360 degree rotation across both horizontal and vertical planes for total spatial freedom.</p></div>
+        <div class="attach-body"><h3>Romastor 3D</h3><div class="spec">Dual Axis &middot; Full Sphere</div><p>Dual-axis full-sphere movement — maximum rigging versatility for frames, scrims and suspended loads in any orientation.</p></div>
       </a>
       <a class="attach-card reveal card-link" href="item.html?id=rotator" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
         <div class="attach-media"><span class="attach-idx">04</span><img src="https://static.wixstatic.com/media/5f3620_6748882355d04460bc2f86dd9c925366~mv2.gif" alt="Rotator vertical" /></div>
-        <div class="attach-body"><h3>Rotator</h3><div class="spec">360&deg; Vertical</div><p>Vertical rotating attachment with continuous 360 degree movement in either direction.</p></div>
+        <div class="attach-body"><h3>Rotator</h3><div class="spec">360&deg; Vertical</div><p>Continuous 360&deg; vertical rotation in either direction — versatile, safe positioning of rigging loads, frames and scrims.</p></div>
       </a>
       <a class="attach-card reveal card-link" href="item.html?id=magni-panning-head" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
         <div class="attach-media"><span class="attach-idx">05</span><img src="https://static.wixstatic.com/media/5f3620_086458e010234109b75f868d998bdbda~mv2.gif" alt="Magni panning head" /></div>
-        <div class="attach-body"><h3>Magni Panning</h3><div class="spec">180&deg; Single Axis</div><p>Single axis 180 degree movement, perfectly suited to our range of Manitou MRT telehandlers.</p></div>
+        <div class="attach-body"><h3>Magni Panning</h3><div class="spec">180&deg; Single Axis</div><p>180&deg; single-axis movement, matched to our Manitou MRT fleet — versatile, safe rigging for frames, scrims and loads.</p></div>
       </a>
       <a class="attach-card reveal card-link" href="item.html?id=alpha-truss" style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
         <div class="attach-media"><span class="attach-idx">06</span><img src="https://static.wixstatic.com/media/5f3620_0f6153f8eb3e41f9ab038abdb9dc3ae6~mv2.gif" alt="Alpha Truss" /></div>
-        <div class="attach-body"><h3>Alpha Truss</h3><div class="spec">Trussing System</div><p>Specialist trussing and truss attachments for complex rigging, lighting and structural work.</p></div>
+        <div class="attach-body"><h3>Alpha Truss</h3><div class="spec">Trussing System</div><p>Specialist trussing and truss attachments — versatile, certified rigging for frames, scrims, lighting and structural loads.</p></div>
       </a>
     </div>
   </div>
@@ -465,8 +485,8 @@
   <div class="wrap">
     <div class="center-head reveal">
       <span class="label" id="svc-label">What We Do</span>
-      <h2 id="svc-heading">Built in-house. <span class="light">Tested on set.</span></h2>
-      <p id="svc-intro">Let our team of in-house designers, engineers and rigging specialists make your vision a reality.</p>
+      <h2 id="svc-heading">Built in-house. <span class="light">Rigorously tested.</span></h2>
+      <p id="svc-intro">Let our team of in-house designers, engineers and rigging specialists make your vision a reality — using the highest quality materials and holding to the highest safety specifications.</p>
     </div>
     <div class="svc-grid">
       <div class="svc-card reveal"><div class="idx" id="svc1-idx">01 &middot; Rentals</div><h3 id="svc1-title">Equipment Hire</h3><p id="svc1-body">Dry hire and manned access equipment rentals, telehandler attachments, silenced generators, hi-flow diesel air compressors, vehicles and track matts.</p></div>
@@ -621,6 +641,11 @@
       }
     } catch(e) { /* default content */ }
   })();
+
+  // Close mobile menu when a nav link is tapped
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click', ()=> document.body.classList.remove('nav-open'));
+  });
 
   // Homepage gallery lightbox
   (function(){

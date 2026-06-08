@@ -6,8 +6,8 @@
       "category": "Attachments",
       "brand": "Romastor",
       "spec": "Continuous Pan",
-      "description": "360 degree continuous panning horizontal rotation for uninterrupted, flowing camera movement.",
-      "long_description": "The Romastor 360\u00b0 delivers continuous, uninterrupted horizontal rotation \u2014 ideal for sweeping reveals, follow shots and dynamic camera moves that never need to reset. Engineered in-house and certified for set, it mounts across our full fleet of Manitou and Magni rotating telehandlers.",
+      "description": "Continuous 360\u00b0 panning rotation for versatile rigging \u2014 smoothly repositioning frames, scrims and lighting around the set.",
+      "long_description": "The Romastor 360\u00b0 provides continuous, uninterrupted horizontal rotation for versatile rigging work. It allows frames, scrims, soft-boxes and lighting elements to be panned and repositioned smoothly and safely around a set, giving riggers and gaffers precise placement without re-rigging. Engineered for reliability and certified for safe operation at height.",
       "image": "https://static.wixstatic.com/media/5f3620_6d8bd79d468946b9bc54eb9c464b39da~mv2.gif",
       "specs": [
         {
@@ -46,8 +46,8 @@
       "category": "Attachments",
       "brand": "Romastor",
       "spec": "360\u00b0 \u00b7 70\u00b0 Tilt",
-      "description": "360 degree horizontal rotation with tilt up to 70 degrees for dynamic, versatile shot composition.",
-      "long_description": "Combining full horizontal rotation with up to 70 degrees of tilt, the Romastor Pan & Tilt opens up compound camera moves in a single attachment. Pan and tilt independently or together for complex, choreographed shots \u2014 fully interchangeable across the fleet.",
+      "description": "360\u00b0 pan with up to 70\u00b0 tilt \u2014 versatile rigging for positioning frames, scrims and rigging loads at almost any angle.",
+      "long_description": "The Romastor Pan & Tilt combines 360\u00b0 horizontal rotation with up to 70\u00b0 of tilt, giving riggers exceptional versatility when positioning frames, scrims, diffusion and lighting loads. Its dual movement lets crews place and angle rigging elements safely and precisely, adapting to complex set geometry without additional rigging passes.",
       "image": "https://static.wixstatic.com/media/5f3620_3d1aa9eb310a4b07865f584827163fa1~mv2.gif",
       "specs": [
         {
@@ -68,7 +68,7 @@
         },
         {
           "label": "Application",
-          "value": "Compound camera moves"
+          "value": "Angled rigging & positioning"
         }
       ],
       "media": [],
@@ -86,8 +86,8 @@
       "category": "Attachments",
       "brand": "Romastor",
       "spec": "Dual Axis \u00b7 Full Sphere",
-      "description": "Dual axis 360 degree rotation across both horizontal and vertical planes for total spatial freedom.",
-      "long_description": "The flagship of the Romastor range. Dual-axis 360 degree rotation across both horizontal and vertical planes gives effectively spherical freedom of movement \u2014 the most versatile motion attachment we build, for shots that defy a fixed plane.",
+      "description": "Dual-axis full-sphere movement \u2014 maximum rigging versatility for frames, scrims and suspended loads in any orientation.",
+      "long_description": "The Romastor 3D offers dual-axis rotation across both horizontal and vertical planes for total spatial freedom. It delivers the widest rigging versatility in the range, letting crews orient frames, scrims and suspended elements in virtually any direction \u2014 safely, repeatably and without re-rigging \u2014 for the most demanding set requirements.",
       "image": "https://static.wixstatic.com/media/5f3620_cc33e1d71b6c4d3ca25eec65016636d4~mv2.gif",
       "specs": [
         {
@@ -108,7 +108,7 @@
         },
         {
           "label": "Application",
-          "value": "Complex 3D camera paths"
+          "value": "Complex 3D rigging paths"
         }
       ],
       "media": [],
@@ -125,8 +125,8 @@
       "category": "Attachments",
       "brand": "Romastor",
       "spec": "360\u00b0 Vertical",
-      "description": "Vertical rotating attachment with continuous 360 degree movement in either direction.",
-      "long_description": "A dedicated vertical rotating attachment offering continuous 360 degree movement in either direction. Purpose-built for vertical reveals, barrel rolls and rigging applications that demand smooth, unbroken rotation under load.",
+      "description": "Continuous 360\u00b0 vertical rotation in either direction \u2014 versatile, safe positioning of rigging loads, frames and scrims.",
+      "long_description": "The Rotator provides continuous 360\u00b0 vertical rotation in either direction, adding rigging versatility for positioning frames, scrims and suspended loads. Built for safe, controlled movement at height, it gives riggers a dependable way to orient and adjust rigging elements precisely on set.",
       "image": "https://static.wixstatic.com/media/5f3620_6748882355d04460bc2f86dd9c925366~mv2.gif",
       "specs": [
         {
@@ -164,8 +164,8 @@
       "category": "Attachments",
       "brand": "Magni",
       "spec": "180\u00b0 Single Axis",
-      "description": "Single axis 180 degree movement, perfectly suited to our range of Manitou MRT telehandlers.",
-      "long_description": "A single-axis panning attachment with 180 degrees of smooth horizontal movement, matched specifically to the Magni and Manitou MRT range. A reliable, no-fuss panning solution for productions that need clean horizontal motion without complexity.",
+      "description": "180\u00b0 single-axis movement, matched to our Manitou MRT fleet \u2014 versatile, safe rigging for frames, scrims and loads.",
+      "long_description": "The Magni Panning Head delivers smooth 180\u00b0 single-axis movement and pairs perfectly with our Manitou MRT telehandlers. It is built for versatile rigging \u2014 panning frames, scrims and lighting loads into position safely and precisely, giving crews flexible placement without compromising stability at height.",
       "image": "https://static.wixstatic.com/media/5f3620_086458e010234109b75f868d998bdbda~mv2.gif",
       "specs": [
         {
@@ -198,8 +198,8 @@
       "category": "Attachments",
       "brand": "AAA",
       "spec": "Trussing System",
-      "description": "Specialist trussing and truss attachments for complex rigging, lighting and structural work.",
-      "long_description": "The Alpha Truss system provides specialist trussing and truss attachments for complex rigging, lighting and structural builds. Designed and fabricated in-house, it adapts to the most demanding set requirements where standard rigging won't reach.",
+      "description": "Specialist trussing and truss attachments \u2014 versatile, certified rigging for frames, scrims, lighting and structural loads.",
+      "long_description": "The Alpha Truss system provides specialist trussing and truss attachments for complex rigging. It carries frames, scrims, lighting, rope lines and structural loads with versatility and safety at its core \u2014 designed, certified and crewed for demanding film and television rigging where stability and adaptability matter most.",
       "image": "https://static.wixstatic.com/media/5f3620_0f6153f8eb3e41f9ab038abdb9dc3ae6~mv2.gif",
       "specs": [
         {
@@ -232,9 +232,9 @@
       "name": "Manitou MRT 2660 E",
       "category": "Telehandlers",
       "brand": "Manitou",
-      "spec": "6T \u00b7 26M \u00b7 Electric",
-      "description": "Electric slewing telehandler \u2014 6 tonne capacity, 26 metre reach. Silent, emission-free operation for interior and sensitive sets.",
-      "long_description": "The fully electric MRT 2660 E pairs a 6 tonne capacity and 26 metre reach with silent, zero-emission operation \u2014 making it the go-to for interior shoots, sound-sensitive sets and enclosed locations where a diesel machine simply can't work.",
+      "spec": "6T \u00b7 26M \u00b7 Electric \u00b7 First in Country",
+      "description": "Australia\u2019s first electric slewing telehandler \u2014 6T capacity, 26M reach. Zero exhaust and fumes for safe indoor studio operation.",
+      "long_description": "The Manitou MRT 2660 E is the first electric rotating telehandler in the country \u2014 a genuine industry first. With 6 tonne capacity and 26 metre reach, it matches the performance of its diesel counterpart while running completely emission-free. Because it produces no exhaust or fumes, it can be operated inside sound stages and studios where diesel machines simply cannot go \u2014 making it ideal for interior rigging, enclosed sets and emission-sensitive environments, with silent operation that suits live-sound shooting.",
       "image": "https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png",
       "specs": [
         {
@@ -263,7 +263,10 @@
         "manitou",
         "telehandler",
         "electric",
-        "6t"
+        "6t",
+        "studio",
+        "emissionfree",
+        "firstincountry"
       ],
       "order": 1
     },
@@ -452,7 +455,7 @@
       "spec": "Fabrication",
       "description": "Full bed and tube laser cutting plus plasma facilities \u2014 precision fabrication in steel and aluminium.",
       "long_description": "A complete fabrication capability \u2014 full bed and tube laser cutting alongside plasma cutting facilities. Precision work in steel and aluminium, all under one roof in our Botany workshop, supporting both our own builds and custom client jobs.",
-      "image": "https://static.wixstatic.com/media/5f3620_6759f5a331a74f7ebecf3f716fb89905~mv2.jpeg",
+      "image": "images/services/laser-cutter-01.jpg",
       "specs": [
         {
           "label": "Services",
@@ -471,7 +474,9 @@
       "tags": [
         "service",
         "fabrication",
-        "cutting"
+        "cutting",
+        "laser",
+        "plasma"
       ],
       "order": 2
     },
@@ -483,7 +488,7 @@
       "spec": "Automated Systems",
       "description": "Gimbals, winches and automated control systems for almost any in-camera film requirement.",
       "long_description": "Gimbals, winches and automated control systems engineered for almost any in-camera requirement. Our motion control specialists deliver repeatable, frame-accurate movement for the most demanding shots.",
-      "image": "",
+      "image": "images/gallery/gallery-03.jpg",
       "specs": [
         {
           "label": "Systems",
@@ -494,11 +499,18 @@
           "value": "In-camera motion control"
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "kind": "image",
+          "url": "images/gallery/gallery-04.jpg",
+          "caption": "Helicopter rigging \u2014 telehandler-mounted motion work"
+        }
+      ],
       "tags": [
         "service",
         "motion",
-        "rigging"
+        "rigging",
+        "helicopter"
       ],
       "order": 3
     },
@@ -510,7 +522,7 @@
       "spec": "Specialist Rigging",
       "description": "Lighting, stunts and special effects rigging \u2014 designed, certified and crewed by specialists.",
       "long_description": "Specialist rigging for lighting, stunts and special effects \u2014 designed, certified and crewed by our experienced team. Safety-first solutions for the most ambitious set-ups, manned by people who've worked across every department.",
-      "image": "",
+      "image": "images/gallery/gallery-09.jpg",
       "specs": [
         {
           "label": "Disciplines",
@@ -521,10 +533,18 @@
           "value": "Designed \u00b7 certified \u00b7 crewed"
         }
       ],
-      "media": [],
+      "media": [
+        {
+          "kind": "image",
+          "url": "images/gallery/gallery-10.jpg",
+          "caption": "AlphaTruss rigging with suspended rope line"
+        }
+      ],
       "tags": [
         "service",
-        "rigging"
+        "rigging",
+        "alphatruss",
+        "rope"
       ],
       "order": 4
     },
@@ -700,7 +720,7 @@
       "spec": "4.5\u20136.5t GVM",
       "description": "Hyundai Mighty flatbed / tilt-tray truck for transporting attachments, plant and gear to set.",
       "long_description": "The Hyundai Mighty is a light-rigid flatbed and tilt-tray truck rated from 4.5t GVM (car licence) up to 6.5t. With a steel tray and drop-down sides, it's the everyday workhorse for moving attachments, plant and crew gear to and from set quickly and efficiently.",
-      "image": "images/vehicles/vehicles-02.jpg",
+      "image": "images/vehicles/vehicles-03.jpg",
       "specs": [
         {
           "label": "GVM",
@@ -719,13 +739,7 @@
           "value": "Equipment & gear transport"
         }
       ],
-      "media": [
-        {
-          "kind": "image",
-          "url": "images/vehicles/vehicles-03.jpg",
-          "caption": "Hyundai Mighty Flatbed"
-        }
-      ],
+      "media": [],
       "tags": [
         "hyundai",
         "vehicle",
@@ -852,6 +866,39 @@
         "transport"
       ],
       "order": 4
+    },
+    {
+      "slug": "4x4-ute",
+      "name": "4x4 Ute",
+      "category": "Vehicles",
+      "brand": "AAA",
+      "spec": "Crew \u00b7 Site Access",
+      "description": "4x4 tray-back ute for crew transport, gear runs and access across rough and remote location terrain.",
+      "long_description": "A 4x4 tray-back ute for fast crew movement, equipment runs and reaching difficult or remote locations. Rugged all-terrain capability makes it the go-anywhere support vehicle for production days on location.",
+      "image": "images/vehicles/vehicles-02.jpg",
+      "specs": [
+        {
+          "label": "Drive",
+          "value": "4x4 / All-terrain"
+        },
+        {
+          "label": "Body",
+          "value": "Tray-back ute"
+        },
+        {
+          "label": "Use",
+          "value": "Crew transport \u00b7 gear runs \u00b7 site access"
+        }
+      ],
+      "media": [],
+      "tags": [
+        "ute",
+        "4x4",
+        "vehicle",
+        "crew",
+        "transport"
+      ],
+      "order": 5
     }
   ]
 }
