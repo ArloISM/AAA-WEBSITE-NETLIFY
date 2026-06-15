@@ -64,7 +64,7 @@
         },
         {
           "label": "Compatibility",
-          "value": "Manitou MRT \u00b7 Magni"
+          "value": "Magni"
         },
         {
           "label": "Application",
@@ -74,7 +74,6 @@
       "media": [],
       "tags": [
         "romastor",
-        "manitou",
         "magni",
         "tilt"
       ],
@@ -104,7 +103,7 @@
         },
         {
           "label": "Compatibility",
-          "value": "Manitou MRT \u00b7 Magni"
+          "value": "Manitou MRT \u00b7 Magni \u00b7 Merlo"
         },
         {
           "label": "Application",
@@ -115,7 +114,8 @@
       "tags": [
         "romastor",
         "manitou",
-        "magni"
+        "magni",
+        "merlo"
       ],
       "order": 3
     },
@@ -162,7 +162,7 @@
       "slug": "magni-panning-head",
       "name": "Magni Panning Head",
       "category": "Attachments",
-      "brand": "Magni",
+      "brand": "Manitou",
       "spec": "180\u00b0 Single Axis",
       "description": "180\u00b0 single-axis movement, matched to our Manitou MRT fleet \u2014 versatile, safe rigging for frames, scrims and loads.",
       "long_description": "The Magni Panning Head delivers smooth 180\u00b0 single-axis movement and pairs perfectly with our Manitou MRT telehandlers. It is built for versatile rigging \u2014 panning frames, scrims and lighting loads into position safely and precisely, giving crews flexible placement without compromising stability at height.",
@@ -178,7 +178,7 @@
         },
         {
           "label": "Designed For",
-          "value": "Magni \u00b7 Manitou MRT"
+          "value": "Manitou MRT"
         },
         {
           "label": "Application",
@@ -187,7 +187,7 @@
       ],
       "media": [],
       "tags": [
-        "magni",
+        "manitou",
         "panning"
       ],
       "order": 5

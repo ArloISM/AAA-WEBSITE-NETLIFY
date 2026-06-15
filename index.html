@@ -4,11 +4,42 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>All Angles Access | Film-First Access Solutions</title>
-<meta name="description" content="Australia's most trusted provider of telehandler attachments and rigging for the film industry. ROMASTER, Manitou & Magni equipment for film-specific solutions." />
+<meta name="description" content="Australia's specialist film access solutions — telehandler attachments, Romastor heads, Manitou & Magni fleet, rigging and motion control for film and TV. Dry hire or fully manned. Based in Botany, Sydney NSW." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="All Angles Access | Film-First Access Solutions" />
+<meta property="og:description" content="Australia's specialist film access solutions — telehandler attachments, rigging and motion control for film and TV. Dry hire or fully manned. Sydney NSW." />
+<meta property="og:url" content="https://www.aaaccess.com.au/" />
+<meta property="og:image" content="https://static.wixstatic.com/media/5f3620_ba92e43af63841338862a2f6ff6ac905~mv2.png/v1/fill/w_1200,h_630,q_85,enc_auto/file.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="All Angles Access | Film-First Access Solutions" />
+<meta name="twitter:description" content="Australia's specialist film access solutions — telehandler attachments, rigging and motion control for film and TV." />
+<meta name="twitter:image" content="https://static.wixstatic.com/media/5f3620_ba92e43af63841338862a2f6ff6ac905~mv2.png/v1/fill/w_1200,h_630,q_85,enc_auto/file.jpg" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://www.aaaccess.com.au/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "All Angles Access",
+  "description": "Australia's specialist provider of telehandler attachments, rigging and access equipment for film and television.",
+  "url": "https://www.aaaccess.com.au",
+  "telephone": "+61411508010",
+  "email": "allanglesaccess@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Botany",
+    "addressRegion": "NSW",
+    "addressCountry": "AU"
+  },
+  "areaServed": "Australia",
+  "sameAs": ["https://www.aaaccess.com.au"]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
-<link rel="preload" as="image" href="https://static.wixstatic.com/media/5f3620_ba92e43af63841338862a2f6ff6ac905~mv2.png/v1/fill/w_1480,h_980,q_70,enc_auto/file.jpg" fetchpriority="high" />
+<link rel="preload" as="image" href="https://static.wixstatic.com/media/5f3620_ba92e43af63841338862a2f6ff6ac905~mv2.png/v1/fill/w_1480,h_980,q_70,enc_auto/file.jpg" fetchpriority="high" media="(min-width:769px)" />
+<link rel="preload" as="image" href="https://static.wixstatic.com/media/5f3620_ba92e43af63841338862a2f6ff6ac905~mv2.png/v1/fill/w_768,h_512,q_75,enc_auto/file.jpg" fetchpriority="high" media="(max-width:768px)" />
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
@@ -40,6 +71,30 @@
     letter-spacing:-0.01em;
   }
   ::selection { background:var(--s); color:#fff; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+  :focus-visible {
+    outline: 2px solid var(--s);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+  .sr-only:focus {
+    position: fixed; top: 16px; left: 16px; z-index: 9999;
+    width: auto; height: auto; clip: auto; white-space: normal;
+    background: var(--s); color: #fff;
+    padding: 12px 22px; border-radius: 6px;
+    font-size: .92rem; font-weight: 600;
+  }
   .wrap { max-width:var(--maxw); margin:0 auto; padding:0 28px; }
 
   /* ============ NAV ============ */
@@ -356,6 +411,7 @@
 </style>
 </head>
 <body>
+<a href="#main-content" class="sr-only">Skip to main content</a>
 
 <nav id="nav">
   <a href="index.html" class="logo">
@@ -385,7 +441,7 @@
     <a href="#services">Services</a>
     <a href="#contact" class="nav-cta">Contact Sales</a>
   </div>
-  <button class="menu-toggle" aria-label="Menu" onclick="document.body.classList.toggle('nav-open')">&#9776;</button>
+  <button class="menu-toggle" aria-label="Open navigation menu" aria-expanded="false" id="menu-btn" onclick="var o=document.body.classList.toggle('nav-open');this.setAttribute('aria-expanded',o);this.setAttribute('aria-label',o?'Close navigation menu':'Open navigation menu')"><svg width="22" height="18" viewBox="0 0 22 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><line x1="0" y1="2" x2="22" y2="2"/><line x1="0" y1="9" x2="22" y2="9"/><line x1="0" y1="16" x2="22" y2="16"/></svg></button>
 </nav>
 
 <!-- HERO -->
@@ -401,8 +457,9 @@
   <div class="scroll-hint">Scroll</div>
 </header>
 
+<main id="main-content">
 <!-- ATTACHMENTS -->
-<section class="pad" id="attachments">
+<section class="pad" id="attachments" aria-label="Attachments Range">
   <div class="wrap">
     <div class="center-head reveal">
       <span class="label" id="attach-label">Attachments Range</span>
@@ -439,7 +496,7 @@
 </section>
 
 <!-- FLEET -->
-<section class="pad fleet" id="fleet">
+<section class="pad fleet" id="fleet" aria-label="The Fleet">
   <div class="wrap">
     <div class="center-head reveal">
       <span class="label" id="fleet-label">The Fleet</span>
@@ -447,18 +504,18 @@
       <p id="fleet-intro">An ever-growing fleet offering versatility and accessibility, with safety and limited-access solutions at the forefront.</p>
     </div>
     <div class="fleet-scroller">
-      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660-e" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" src="https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Manitou MRT 2660 Electric" /><h4>MRT 2660 E</h4><div class="meta">6T &middot; 26M</div></a>
-      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" src="https://static.wixstatic.com/media/5f3620_1f02fa6e88c1477e955643e6d3012f62~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Manitou MRT 2660" /><h4>MRT 2660</h4><div class="meta">6T &middot; 26M</div></a>
-      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2150" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" src="https://static.wixstatic.com/media/5f3620_564efbee064e49d1a69c3095baa2a9fe~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Manitou MRT 2150" /><h4>MRT 2150</h4><div class="meta">5T &middot; 21M</div></a>
-      <a class="fleet-card card-link" href="item.html?id=magni-th6-20" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" src="https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Magni TH 6.20" /><h4>Magni TH6.20</h4><div class="meta">Telehandler</div></a>
-      <a class="fleet-card card-link" href="item.html?id=magni-th-5-5-19" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" src="https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Magni TH 5.5 19" /><h4>Magni TH5.5</h4><div class="meta">Telehandler</div></a>
+      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660-e" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" decoding="async" src="https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Manitou MRT 2660 Electric" /><h4>MRT 2660 E</h4><div class="meta">6T &middot; 26M</div></a>
+      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2660" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" decoding="async" src="https://static.wixstatic.com/media/5f3620_1f02fa6e88c1477e955643e6d3012f62~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Manitou MRT 2660" /><h4>MRT 2660</h4><div class="meta">6T &middot; 26M</div></a>
+      <a class="fleet-card card-link" href="item.html?id=manitou-mrt-2150" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" decoding="async" src="https://static.wixstatic.com/media/5f3620_564efbee064e49d1a69c3095baa2a9fe~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Manitou MRT 2150" /><h4>MRT 2150</h4><div class="meta">5T &middot; 21M</div></a>
+      <a class="fleet-card card-link" href="item.html?id=magni-th6-20" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" decoding="async" src="https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Magni TH 6.20" /><h4>Magni TH6.20</h4><div class="meta">Telehandler</div></a>
+      <a class="fleet-card card-link" href="item.html?id=magni-th-5-5-19" style="text-decoration:none;color:inherit;cursor:pointer;"><img loading="lazy" decoding="async" src="https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png/v1/fill/w_720,h_540,q_85,enc_auto/file.png" alt="Magni TH 5.5 19" /><h4>Magni TH5.5</h4><div class="meta">Telehandler</div></a>
     </div>
     <div class="fleet-hint" id="fleet-hint">Scroll to explore the fleet</div>
   </div>
 </section>
 
 <!-- ABOUT -->
-<section class="pad about" id="about">
+<section class="pad about" id="about" aria-label="About Us">
   <div class="wrap reveal">
     <span class="label" id="about-label" style="color:var(--s);font-size:.78rem;font-weight:600;display:inline-block;margin-bottom:24px;">Who We Are</span>
     <p class="statement" id="about-statement">Every second on set counts in <em>dollars and cents.</em> <span class="dim">We get that.</span></p>
@@ -483,7 +540,7 @@
 </section>
 
 <!-- SERVICES -->
-<section class="pad svc" id="services">
+<section class="pad svc" id="services" aria-label="Services">
   <div class="wrap">
     <div class="center-head reveal">
       <span class="label" id="svc-label">What We Do</span>
@@ -521,7 +578,7 @@
 </section>
 
 <!-- CTA -->
-<section class="cta-band" id="contact">
+<section class="cta-band" id="contact" aria-label="Contact">
   <h2 id="cta-heading">Ready to roll camera?<br><span class="red">Let's talk.</span></h2>
   <p id="cta-body">From the most outrageous to the simplest of film requests — our workshop and crew handle everything from manufacture to manning machines.</p>
   <div class="hero-ctas" style="animation:none;opacity:1;justify-content:center;">
@@ -530,6 +587,7 @@
   </div>
 </section>
 
+</main>
 <!-- FOOTER -->
 <div class="glb" id="glb">
   <div class="glb-content">
