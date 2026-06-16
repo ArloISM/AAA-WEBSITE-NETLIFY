@@ -1,18 +1,15 @@
 {
   "items": [
     {
-      "slug": "romastor-360",
-      "name": "Romastor 360\u00b0",
-      "category": "Attachments",
+      "media": [],
       "brand": "Romastor",
-      "spec": "Continuous Pan",
-      "description": "Continuous 360\u00b0 panning rotation for versatile rigging \u2014 smoothly repositioning frames, scrims and lighting around the set.",
-      "long_description": "The Romastor 360\u00b0 provides continuous, uninterrupted horizontal rotation for versatile rigging work. It allows frames, scrims, soft-boxes and lighting elements to be panned and repositioned smoothly and safely around a set, giving riggers and gaffers precise placement without re-rigging. Engineered for reliability and certified for safe operation at height.",
-      "image": "https://static.wixstatic.com/media/5f3620_6d8bd79d468946b9bc54eb9c464b39da~mv2.gif",
+      "name": "Romastor 360°",
+      "slug": "romastor-360",
+      "order": 1,
       "specs": [
         {
           "label": "Rotation",
-          "value": "360\u00b0 continuous horizontal"
+          "value": "360° continuous horizontal"
         },
         {
           "label": "Axis",
@@ -24,39 +21,39 @@
         },
         {
           "label": "Compatibility",
-          "value": "Manitou MRT \u00b7 Magni"
+          "value": "Manitou MRT · Magni"
         },
         {
           "label": "Application",
           "value": "Film & television"
         }
       ],
-      "media": [],
       "tags": [
         "romastor",
         "manitou",
         "magni",
         "panning"
       ],
-      "order": 1
+      "long_description": "The Romastor 360° provides continuous, uninterrupted horizontal rotation for versatile rigging work. It allows frames, scrims, soft-boxes and lighting elements to be panned and repositioned smoothly and safely around a set, giving riggers and gaffers precise placement without re-rigging. Engineered for reliability and certified for safe operation at height.",
+      "image": "https://static.wixstatic.com/media/5f3620_6d8bd79d468946b9bc54eb9c464b39da~mv2.gif",
+      "spec": "Continuous Pan",
+      "description": "Continuous 360° panning rotation for versatile rigging — smoothly repositioning frames, scrims and lighting around the set.",
+      "category": "Attachments"
     },
     {
-      "slug": "romastor-pan-tilt",
-      "name": "Romastor Pan & Tilt",
-      "category": "Attachments",
+      "media": [],
       "brand": "Romastor",
-      "spec": "360\u00b0 \u00b7 70\u00b0 Tilt",
-      "description": "360\u00b0 pan with up to 70\u00b0 tilt \u2014 versatile rigging for positioning frames, scrims and rigging loads at almost any angle.",
-      "long_description": "The Romastor Pan & Tilt combines 360\u00b0 horizontal rotation with up to 70\u00b0 of tilt, giving riggers exceptional versatility when positioning frames, scrims, diffusion and lighting loads. Its dual movement lets crews place and angle rigging elements safely and precisely, adapting to complex set geometry without additional rigging passes.",
-      "image": "https://static.wixstatic.com/media/5f3620_3d1aa9eb310a4b07865f584827163fa1~mv2.gif",
+      "name": "Romastor Pan & Tilt",
+      "slug": "romastor-pan-tilt",
+      "order": 2,
       "specs": [
         {
           "label": "Horizontal Rotation",
-          "value": "360\u00b0"
+          "value": "360°"
         },
         {
           "label": "Tilt",
-          "value": "Up to 70\u00b0"
+          "value": "Up to 70°"
         },
         {
           "label": "Axes",
@@ -71,31 +68,31 @@
           "value": "Angled rigging & positioning"
         }
       ],
-      "media": [],
       "tags": [
         "romastor",
         "magni",
         "tilt"
       ],
-      "order": 2
+      "long_description": "The Romastor Pan & Tilt combines 360° horizontal rotation with up to 70° of tilt, giving riggers exceptional versatility when positioning frames, scrims, diffusion and lighting loads. Its dual movement lets crews place and angle rigging elements safely and precisely, adapting to complex set geometry without additional rigging passes.",
+      "image": "https://static.wixstatic.com/media/5f3620_3d1aa9eb310a4b07865f584827163fa1~mv2.gif",
+      "spec": "360° · 70° Tilt",
+      "description": "360° pan with up to 70° tilt — versatile rigging for positioning frames, scrims and rigging loads at almost any angle.",
+      "category": "Attachments"
     },
     {
-      "slug": "romastor-3d",
-      "name": "Romastor 3D",
-      "category": "Attachments",
+      "media": [],
       "brand": "Romastor",
-      "spec": "Dual Axis \u00b7 Full Sphere",
-      "description": "Dual-axis full-sphere movement \u2014 maximum rigging versatility for frames, scrims and suspended loads in any orientation.",
-      "long_description": "The Romastor 3D offers dual-axis rotation across both horizontal and vertical planes for total spatial freedom. It delivers the widest rigging versatility in the range, letting crews orient frames, scrims and suspended elements in virtually any direction \u2014 safely, repeatably and without re-rigging \u2014 for the most demanding set requirements.",
-      "image": "https://static.wixstatic.com/media/5f3620_cc33e1d71b6c4d3ca25eec65016636d4~mv2.gif",
+      "name": "Romastor 3D",
+      "slug": "romastor-3d",
+      "order": 3,
       "specs": [
         {
           "label": "Rotation",
-          "value": "360\u00b0 horizontal + vertical"
+          "value": "360° horizontal + vertical"
         },
         {
           "label": "Axes",
-          "value": "Dual axis \u00b7 full sphere"
+          "value": "Dual axis · full sphere"
         },
         {
           "label": "Movement",
@@ -103,35 +100,35 @@
         },
         {
           "label": "Compatibility",
-          "value": "Manitou MRT \u00b7 Magni \u00b7 Merlo"
+          "value": "Manitou MRT · Magni · Merlo"
         },
         {
           "label": "Application",
           "value": "Complex 3D rigging paths"
         }
       ],
-      "media": [],
       "tags": [
         "romastor",
         "manitou",
         "magni",
         "merlo"
       ],
-      "order": 3
+      "long_description": "The Romastor 3D offers dual-axis rotation across both horizontal and vertical planes for total spatial freedom. It delivers the widest rigging versatility in the range, letting crews orient frames, scrims and suspended elements in virtually any direction — safely, repeatably and without re-rigging — for the most demanding set requirements.",
+      "image": "https://static.wixstatic.com/media/5f3620_cc33e1d71b6c4d3ca25eec65016636d4~mv2.gif",
+      "spec": "Dual Axis · Full Sphere",
+      "description": "Dual-axis full-sphere movement — maximum rigging versatility for frames, scrims and suspended loads in any orientation.",
+      "category": "Attachments"
     },
     {
-      "slug": "rotator",
-      "name": "Rotator",
-      "category": "Attachments",
+      "media": [],
       "brand": "Romastor",
-      "spec": "360\u00b0 Vertical",
-      "description": "Continuous 360\u00b0 vertical rotation in either direction \u2014 versatile, safe positioning of rigging loads, frames and scrims.",
-      "long_description": "The Rotator provides continuous 360\u00b0 vertical rotation in either direction, adding rigging versatility for positioning frames, scrims and suspended loads. Built for safe, controlled movement at height, it gives riggers a dependable way to orient and adjust rigging elements precisely on set.",
-      "image": "https://static.wixstatic.com/media/5f3620_6748882355d04460bc2f86dd9c925366~mv2.gif",
+      "name": "Rotator",
+      "slug": "rotator",
+      "order": 4,
       "specs": [
         {
           "label": "Rotation",
-          "value": "360\u00b0 continuous vertical"
+          "value": "360° continuous vertical"
         },
         {
           "label": "Direction",
@@ -143,34 +140,34 @@
         },
         {
           "label": "Compatibility",
-          "value": "Manitou MRT \u00b7 Magni"
+          "value": "Manitou MRT · Magni"
         },
         {
           "label": "Application",
           "value": "Vertical reveals & rigging"
         }
       ],
-      "media": [],
       "tags": [
         "romastor",
         "manitou",
         "magni"
       ],
-      "order": 4
+      "long_description": "The Rotator provides continuous 360° vertical rotation in either direction, adding rigging versatility for positioning frames, scrims and suspended loads. Built for safe, controlled movement at height, it gives riggers a dependable way to orient and adjust rigging elements precisely on set.",
+      "image": "https://static.wixstatic.com/media/5f3620_6748882355d04460bc2f86dd9c925366~mv2.gif",
+      "spec": "360° Vertical",
+      "description": "Continuous 360° vertical rotation in either direction — versatile, safe positioning of rigging loads, frames and scrims.",
+      "category": "Attachments"
     },
     {
-      "slug": "magni-panning-head",
-      "name": "Magni Panning Head",
-      "category": "Attachments",
+      "media": [],
       "brand": "Manitou",
-      "spec": "180\u00b0 Single Axis",
-      "description": "180\u00b0 single-axis movement, matched to our Manitou MRT fleet \u2014 versatile, safe rigging for frames, scrims and loads.",
-      "long_description": "The Magni Panning Head delivers smooth 180\u00b0 single-axis movement and pairs perfectly with our Manitou MRT telehandlers. It is built for versatile rigging \u2014 panning frames, scrims and lighting loads into position safely and precisely, giving crews flexible placement without compromising stability at height.",
-      "image": "https://static.wixstatic.com/media/5f3620_086458e010234109b75f868d998bdbda~mv2.gif",
+      "name": "Manitou Panning Head",
+      "slug": "Manitou-panning-head",
+      "order": 5,
       "specs": [
         {
           "label": "Rotation",
-          "value": "180\u00b0 horizontal"
+          "value": "180° horizontal"
         },
         {
           "label": "Axis",
@@ -185,22 +182,22 @@
           "value": "Clean horizontal pans"
         }
       ],
-      "media": [],
       "tags": [
         "manitou",
         "panning"
       ],
-      "order": 5
+      "long_description": "The Magni Panning Head delivers smooth 180° single-axis movement and pairs perfectly with our Manitou MRT telehandlers. It is built for versatile rigging — panning frames, scrims and lighting loads into position safely and precisely, giving crews flexible placement without compromising stability at height.",
+      "image": "https://static.wixstatic.com/media/5f3620_086458e010234109b75f868d998bdbda~mv2.gif",
+      "spec": "180° Single Axis",
+      "description": "180° single-axis movement, matched to our Manitou MRT fleet — versatile, safe rigging for frames, scrims and loads.",
+      "category": "Attachments"
     },
     {
-      "slug": "alpha-truss",
-      "name": "Alpha Truss",
-      "category": "Attachments",
+      "media": [],
       "brand": "AAA",
-      "spec": "Trussing System",
-      "description": "Specialist trussing and truss attachments \u2014 versatile, certified rigging for frames, scrims, lighting and structural loads.",
-      "long_description": "The Alpha Truss system provides specialist trussing and truss attachments for complex rigging. It carries frames, scrims, lighting, rope lines and structural loads with versatility and safety at its core \u2014 designed, certified and crewed for demanding film and television rigging where stability and adaptability matter most.",
-      "image": "https://static.wixstatic.com/media/5f3620_0f6153f8eb3e41f9ab038abdb9dc3ae6~mv2.gif",
+      "name": "Alpha Truss",
+      "slug": "alpha-truss",
+      "order": 6,
       "specs": [
         {
           "label": "Type",
@@ -208,7 +205,7 @@
         },
         {
           "label": "Use",
-          "value": "Rigging \u00b7 lighting \u00b7 structural"
+          "value": "Rigging · lighting · structural"
         },
         {
           "label": "Build",
@@ -219,23 +216,23 @@
           "value": "Custom set structures"
         }
       ],
-      "media": [],
       "tags": [
         "aaa",
         "truss",
         "rigging"
       ],
-      "order": 6
+      "long_description": "The Alpha Truss system provides specialist trussing and truss attachments for complex rigging. It carries frames, scrims, lighting, rope lines and structural loads with versatility and safety at its core — designed, certified and crewed for demanding film and television rigging where stability and adaptability matter most.",
+      "image": "https://static.wixstatic.com/media/5f3620_0f6153f8eb3e41f9ab038abdb9dc3ae6~mv2.gif",
+      "spec": "Trussing System",
+      "description": "Specialist trussing and truss attachments — versatile, certified rigging for frames, scrims, lighting and structural loads.",
+      "category": "Attachments"
     },
     {
-      "slug": "manitou-mrt-2660-e",
-      "name": "Manitou MRT 2660 E",
-      "category": "Telehandlers",
+      "media": [],
       "brand": "Manitou",
-      "spec": "6T \u00b7 26M \u00b7 Electric \u00b7 First in Country",
-      "description": "Australia\u2019s first electric slewing telehandler \u2014 6T capacity, 26M reach. Zero exhaust and fumes for safe indoor studio operation.",
-      "long_description": "The Manitou MRT 2660 E is the first electric rotating telehandler in the country \u2014 a genuine industry first. With 6 tonne capacity and 26 metre reach, it matches the performance of its diesel counterpart while running completely emission-free. Because it produces no exhaust or fumes, it can be operated inside sound stages and studios where diesel machines simply cannot go \u2014 making it ideal for interior rigging, enclosed sets and emission-sensitive environments, with silent operation that suits live-sound shooting.",
-      "image": "https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png",
+      "name": "Manitou MRT 2660 E",
+      "slug": "manitou-mrt-2660-e",
+      "order": 1,
       "specs": [
         {
           "label": "Capacity",
@@ -251,14 +248,13 @@
         },
         {
           "label": "Rotation",
-          "value": "360\u00b0 turret"
+          "value": "360° turret"
         },
         {
           "label": "Drive",
-          "value": "Fully electric \u00b7 zero emission"
+          "value": "Fully electric · zero emission"
         }
       ],
-      "media": [],
       "tags": [
         "manitou",
         "telehandler",
@@ -268,17 +264,18 @@
         "emissionfree",
         "firstincountry"
       ],
-      "order": 1
+      "long_description": "The Manitou MRT 2660 E is the first electric rotating telehandler in the country — a genuine industry first. With 6 tonne capacity and 26 metre reach, it matches the performance of its diesel counterpart while running completely emission-free. Because it produces no exhaust or fumes, it can be operated inside sound stages and studios where diesel machines simply cannot go — making it ideal for interior rigging, enclosed sets and emission-sensitive environments, with silent operation that suits live-sound shooting.",
+      "image": "https://static.wixstatic.com/media/5f3620_3137f6b58b4f4452ba59ced6061bb963~mv2.png",
+      "spec": "6T · 26M · Electric · First in Country",
+      "description": "Australia’s first electric slewing telehandler — 6T capacity, 26M reach. Zero exhaust and fumes for safe indoor studio operation.",
+      "category": "Telehandlers"
     },
     {
-      "slug": "manitou-mrt-2660",
-      "name": "Manitou MRT 2660",
-      "category": "Telehandlers",
+      "media": [],
       "brand": "Manitou",
-      "spec": "6T \u00b7 26M",
-      "description": "Rotating telehandler with 6 tonne capacity and 26 metre reach \u2014 the workhorse of the fleet.",
-      "long_description": "The workhorse of the fleet. The MRT 2660 rotating telehandler delivers 6 tonnes of capacity and 26 metres of reach with a 360 degree turret, handling the full spectrum of lifting, placement and rigging tasks across feature, TVC and series productions.",
-      "image": "https://static.wixstatic.com/media/5f3620_1f02fa6e88c1477e955643e6d3012f62~mv2.png",
+      "name": "Manitou MRT 2660",
+      "slug": "manitou-mrt-2660",
+      "order": 2,
       "specs": [
         {
           "label": "Capacity",
@@ -294,30 +291,30 @@
         },
         {
           "label": "Rotation",
-          "value": "360\u00b0 turret"
+          "value": "360° turret"
         },
         {
           "label": "Drive",
           "value": "Diesel"
         }
       ],
-      "media": [],
       "tags": [
         "manitou",
         "telehandler",
         "6t"
       ],
-      "order": 2
+      "long_description": "The workhorse of the fleet. The MRT 2660 rotating telehandler delivers 6 tonnes of capacity and 26 metres of reach with a 360 degree turret, handling the full spectrum of lifting, placement and rigging tasks across feature, TVC and series productions.",
+      "image": "https://static.wixstatic.com/media/5f3620_1f02fa6e88c1477e955643e6d3012f62~mv2.png",
+      "spec": "6T · 26M",
+      "description": "Rotating telehandler with 6 tonne capacity and 26 metre reach — the workhorse of the fleet.",
+      "category": "Telehandlers"
     },
     {
-      "slug": "manitou-mrt-2150",
-      "name": "Manitou MRT 2150",
-      "category": "Telehandlers",
+      "media": [],
       "brand": "Manitou",
-      "spec": "5T \u00b7 21M",
-      "description": "Compact rotating telehandler \u2014 5 tonne capacity, 21 metre reach. Versatile in limited-access environments.",
-      "long_description": "A more compact rotating telehandler offering 5 tonnes of capacity and 21 metres of reach. Its smaller footprint makes it the versatile choice for limited-access environments and tighter set conditions without sacrificing rotating capability.",
-      "image": "https://static.wixstatic.com/media/5f3620_564efbee064e49d1a69c3095baa2a9fe~mv2.png",
+      "name": "Manitou MRT 2150",
+      "slug": "manitou-mrt-2150",
+      "order": 3,
       "specs": [
         {
           "label": "Capacity",
@@ -333,30 +330,30 @@
         },
         {
           "label": "Rotation",
-          "value": "360\u00b0 turret"
+          "value": "360° turret"
         },
         {
           "label": "Best For",
           "value": "Limited-access sites"
         }
       ],
-      "media": [],
       "tags": [
         "manitou",
         "telehandler",
         "5t"
       ],
-      "order": 3
+      "long_description": "A more compact rotating telehandler offering 5 tonnes of capacity and 21 metres of reach. Its smaller footprint makes it the versatile choice for limited-access environments and tighter set conditions without sacrificing rotating capability.",
+      "image": "https://static.wixstatic.com/media/5f3620_564efbee064e49d1a69c3095baa2a9fe~mv2.png",
+      "spec": "5T · 21M",
+      "description": "Compact rotating telehandler — 5 tonne capacity, 21 metre reach. Versatile in limited-access environments.",
+      "category": "Telehandlers"
     },
     {
-      "slug": "magni-th6-20",
-      "name": "Magni TH6.20",
-      "category": "Telehandlers",
+      "media": [],
       "brand": "Magni",
-      "spec": "6T \u00b7 20M",
-      "description": "Fixed-frame telehandler engineered for reliability and reach across film and construction applications.",
-      "long_description": "The Magni TH6.20 is a fixed-frame telehandler delivering 6 tonnes of capacity and around 20 metres of reach. Dependable and straightforward, it covers everyday lifting and placement across film and construction applications.",
-      "image": "https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png",
+      "name": "Magni TH6.20",
+      "slug": "magni-th6-20",
+      "order": 4,
       "specs": [
         {
           "label": "Capacity",
@@ -375,22 +372,22 @@
           "value": "Magni"
         }
       ],
-      "media": [],
       "tags": [
         "magni",
         "telehandler"
       ],
-      "order": 4
+      "long_description": "The Magni TH6.20 is a fixed-frame telehandler delivering 6 tonnes of capacity and around 20 metres of reach. Dependable and straightforward, it covers everyday lifting and placement across film and construction applications.",
+      "image": "https://static.wixstatic.com/media/5f3620_e6cb996c098b41369c04e6692a81cccf~mv2.png",
+      "spec": "6T · 20M",
+      "description": "Fixed-frame telehandler engineered for reliability and reach across film and construction applications.",
+      "category": "Telehandlers"
     },
     {
-      "slug": "magni-th-5-5-19",
-      "name": "Magni TH 5.5 19",
-      "category": "Telehandlers",
+      "media": [],
       "brand": "Magni",
-      "spec": "5.5T \u00b7 19M",
-      "description": "Fixed-frame Magni telehandler \u2014 dependable lifting and placement for everyday production needs.",
-      "long_description": "A fixed-frame Magni telehandler rated to roughly 5.5 tonnes and 19 metres of reach. A dependable everyday machine for lifting and placement where a rotating turret isn't required.",
-      "image": "https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png",
+      "name": "Magni TH 5.5 19",
+      "slug": "magni-th-5-5-19",
+      "order": 5,
       "specs": [
         {
           "label": "Capacity",
@@ -409,22 +406,22 @@
           "value": "Magni"
         }
       ],
-      "media": [],
       "tags": [
         "magni",
         "telehandler"
       ],
-      "order": 5
+      "long_description": "A fixed-frame Magni telehandler rated to roughly 5.5 tonnes and 19 metres of reach. A dependable everyday machine for lifting and placement where a rotating turret isn't required.",
+      "image": "https://static.wixstatic.com/media/5f3620_73de96345117431b8f3e07c6cc01bedd~mv2.png",
+      "spec": "5.5T · 19M",
+      "description": "Fixed-frame Magni telehandler — dependable lifting and placement for everyday production needs.",
+      "category": "Telehandlers"
     },
     {
-      "slug": "design-engineering",
-      "name": "Design & Engineering",
-      "category": "Services",
+      "media": [],
       "brand": "AAA",
-      "spec": "In-House",
-      "description": "Structural engineers and designers with 100+ years combined film experience, building the solution that's right for your production.",
-      "long_description": "Our in-house designers and structural engineers bring over 100 years of combined film experience to every brief. From concept to certified solution, we design custom rigs, adaptions and attachments built specifically around your production's needs.",
-      "image": "",
+      "name": "Design & Engineering",
+      "slug": "design-engineering",
+      "order": 1,
       "specs": [
         {
           "label": "Discipline",
@@ -439,23 +436,23 @@
           "value": "Concept to certified build"
         }
       ],
-      "media": [],
       "tags": [
         "service",
         "design",
         "engineering"
       ],
-      "order": 1
+      "long_description": "Our in-house designers and structural engineers bring over 100 years of combined film experience to every brief. From concept to certified solution, we design custom rigs, adaptions and attachments built specifically around your production's needs.",
+      "image": "",
+      "spec": "In-House",
+      "description": "Structural engineers and designers with 100+ years combined film experience, building the solution that's right for your production.",
+      "category": "Services"
     },
     {
-      "slug": "laser-plasma-cutting",
-      "name": "Laser & Plasma Cutting",
-      "category": "Services",
+      "media": [],
       "brand": "AAA",
-      "spec": "Fabrication",
-      "description": "Full bed and tube laser cutting plus plasma facilities \u2014 precision fabrication in steel and aluminium.",
-      "long_description": "A complete fabrication capability \u2014 full bed and tube laser cutting alongside plasma cutting facilities. Precision work in steel and aluminium, all under one roof in our Botany workshop, supporting both our own builds and custom client jobs.",
-      "image": "images/services/laser-cutter-01.jpg",
+      "name": "Laser & Plasma Cutting",
+      "slug": "laser-plasma-cutting",
+      "order": 2,
       "specs": [
         {
           "label": "Services",
@@ -463,14 +460,13 @@
         },
         {
           "label": "Materials",
-          "value": "Steel \u00b7 aluminium"
+          "value": "Steel · aluminium"
         },
         {
           "label": "Capability",
           "value": "Full bed & tube laser"
         }
       ],
-      "media": [],
       "tags": [
         "service",
         "fabrication",
@@ -478,32 +474,32 @@
         "laser",
         "plasma"
       ],
-      "order": 2
+      "long_description": "A complete fabrication capability — full bed and tube laser cutting alongside plasma cutting facilities. Precision work in steel and aluminium, all under one roof in our Botany workshop, supporting both our own builds and custom client jobs.",
+      "image": "images/services/laser-cutter-01.jpg",
+      "spec": "Fabrication",
+      "description": "Full bed and tube laser cutting plus plasma facilities — precision fabrication in steel and aluminium.",
+      "category": "Services"
     },
     {
-      "slug": "motion-control",
-      "name": "Motion Control",
-      "category": "Services",
-      "brand": "AAA",
-      "spec": "Automated Systems",
-      "description": "Gimbals, winches and automated control systems for almost any in-camera film requirement.",
-      "long_description": "Gimbals, winches and automated control systems engineered for almost any in-camera requirement. Our motion control specialists deliver repeatable, frame-accurate movement for the most demanding shots.",
-      "image": "images/gallery/gallery-03.jpg",
-      "specs": [
-        {
-          "label": "Systems",
-          "value": "Gimbals \u00b7 winches \u00b7 automation"
-        },
-        {
-          "label": "Use",
-          "value": "In-camera motion control"
-        }
-      ],
       "media": [
         {
           "kind": "image",
           "url": "images/gallery/gallery-04.jpg",
-          "caption": "Helicopter rigging \u2014 telehandler-mounted motion work"
+          "caption": "Helicopter rigging — telehandler-mounted motion work"
+        }
+      ],
+      "brand": "AAA",
+      "name": "Motion Control",
+      "slug": "motion-control",
+      "order": 3,
+      "specs": [
+        {
+          "label": "Systems",
+          "value": "Gimbals · winches · automation"
+        },
+        {
+          "label": "Use",
+          "value": "In-camera motion control"
         }
       ],
       "tags": [
@@ -512,32 +508,32 @@
         "rigging",
         "helicopter"
       ],
-      "order": 3
+      "long_description": "Gimbals, winches and automated control systems engineered for almost any in-camera requirement. Our motion control specialists deliver repeatable, frame-accurate movement for the most demanding shots.",
+      "image": "images/gallery/gallery-03.jpg",
+      "spec": "Automated Systems",
+      "description": "Gimbals, winches and automated control systems for almost any in-camera film requirement.",
+      "category": "Services"
     },
     {
-      "slug": "rigging-services",
-      "name": "Rigging Services",
-      "category": "Services",
-      "brand": "AAA",
-      "spec": "Specialist Rigging",
-      "description": "Lighting, stunts and special effects rigging \u2014 designed, certified and crewed by specialists.",
-      "long_description": "Specialist rigging for lighting, stunts and special effects \u2014 designed, certified and crewed by our experienced team. Safety-first solutions for the most ambitious set-ups, manned by people who've worked across every department.",
-      "image": "images/gallery/gallery-09.jpg",
-      "specs": [
-        {
-          "label": "Disciplines",
-          "value": "Lighting \u00b7 stunts \u00b7 SFX rigging"
-        },
-        {
-          "label": "Delivery",
-          "value": "Designed \u00b7 certified \u00b7 crewed"
-        }
-      ],
       "media": [
         {
           "kind": "image",
           "url": "images/gallery/gallery-10.jpg",
           "caption": "AlphaTruss rigging with suspended rope line"
+        }
+      ],
+      "brand": "AAA",
+      "name": "Rigging Services",
+      "slug": "rigging-services",
+      "order": 4,
+      "specs": [
+        {
+          "label": "Disciplines",
+          "value": "Lighting · stunts · SFX rigging"
+        },
+        {
+          "label": "Delivery",
+          "value": "Designed · certified · crewed"
         }
       ],
       "tags": [
@@ -546,43 +542,13 @@
         "alphatruss",
         "rope"
       ],
-      "order": 4
+      "long_description": "Specialist rigging for lighting, stunts and special effects — designed, certified and crewed by our experienced team. Safety-first solutions for the most ambitious set-ups, manned by people who've worked across every department.",
+      "image": "images/gallery/gallery-09.jpg",
+      "spec": "Specialist Rigging",
+      "description": "Lighting, stunts and special effects rigging — designed, certified and crewed by specialists.",
+      "category": "Services"
     },
     {
-      "slug": "atlas-copco-xas-375",
-      "name": "Atlas Copco XAS 375 DD6 Compressor",
-      "category": "Plant Hire",
-      "brand": "Atlas Copco",
-      "spec": "392 CFM \u00b7 Diesel",
-      "description": "Heavy-duty portable diesel air compressor \u2014 392 CFM free air delivery for SFX, pneumatics and rigging.",
-      "long_description": "The Atlas Copco XAS 375 DD6 is a portable, oil-injected rotary-screw diesel air compressor delivering 392 CFM of free air at 102 psi working pressure. Powered by a reliable Deutz diesel engine, its silenced canopy makes it suitable for use near sound-sensitive sets, residential areas and night work \u2014 ideal for special effects, pneumatic rigs and air-hungry on-set requirements.",
-      "image": "images/plant/plant-01.jpg",
-      "specs": [
-        {
-          "label": "Free Air Delivery",
-          "value": "392 CFM"
-        },
-        {
-          "label": "Working Pressure",
-          "value": "102 psi (7 bar)"
-        },
-        {
-          "label": "Type",
-          "value": "Oil-injected rotary screw"
-        },
-        {
-          "label": "Engine",
-          "value": "Deutz diesel"
-        },
-        {
-          "label": "Configuration",
-          "value": "Single-axle towable"
-        },
-        {
-          "label": "Best For",
-          "value": "SFX \u00b7 pneumatics \u00b7 sandblasting"
-        }
-      ],
       "media": [
         {
           "kind": "image",
@@ -610,6 +576,36 @@
           "caption": "Atlas Copco XAS 375 DD6"
         }
       ],
+      "brand": "Atlas Copco",
+      "name": "Atlas Copco XAS 375 DD6 Compressor",
+      "slug": "atlas-copco-xas-375",
+      "order": 1,
+      "specs": [
+        {
+          "label": "Free Air Delivery",
+          "value": "392 CFM"
+        },
+        {
+          "label": "Working Pressure",
+          "value": "102 psi (7 bar)"
+        },
+        {
+          "label": "Type",
+          "value": "Oil-injected rotary screw"
+        },
+        {
+          "label": "Engine",
+          "value": "Deutz diesel"
+        },
+        {
+          "label": "Configuration",
+          "value": "Single-axle towable"
+        },
+        {
+          "label": "Best For",
+          "value": "SFX · pneumatics · sandblasting"
+        }
+      ],
       "tags": [
         "atlascopco",
         "compressor",
@@ -617,17 +613,24 @@
         "air",
         "sfx"
       ],
-      "order": 1
+      "long_description": "The Atlas Copco XAS 375 DD6 is a portable, oil-injected rotary-screw diesel air compressor delivering 392 CFM of free air at 102 psi working pressure. Powered by a reliable Deutz diesel engine, its silenced canopy makes it suitable for use near sound-sensitive sets, residential areas and night work — ideal for special effects, pneumatic rigs and air-hungry on-set requirements.",
+      "image": "images/plant/plant-01.jpg",
+      "spec": "392 CFM · Diesel",
+      "description": "Heavy-duty portable diesel air compressor — 392 CFM free air delivery for SFX, pneumatics and rigging.",
+      "category": "Plant Hire"
     },
     {
-      "slug": "denyo-dca-45usi-generator",
-      "name": "Denyo DCA-45USI2 Generator",
-      "category": "Plant Hire",
+      "media": [
+        {
+          "kind": "image",
+          "url": "images/plant/plant-02.jpg",
+          "caption": "Denyo DCA-45USI2 Generator"
+        }
+      ],
       "brand": "AAA",
-      "spec": "45 kVA \u00b7 Ultra-Silenced",
-      "description": "Ultra-silenced 45 kVA three-phase diesel generator \u2014 film-grade quiet power.",
-      "long_description": "The Denyo DCA-45USI2 is an ultra-silenced diesel generator built for the film industry, delivering 37 kVA at 50 Hz (45 kVA at 60 Hz) in three-phase operation. Powered by an Isuzu turbo-diesel engine with a brushless AVR alternator, its sound-insulated canopy keeps it whisper-quiet on set \u2014 perfect for powering lighting and equipment without intruding on sound recording.",
-      "image": "images/plant/plant-07.jpg",
+      "name": "Denyo DCA-45USI2 Generator",
+      "slug": "denyo-dca-45usi-generator",
+      "order": 2,
       "specs": [
         {
           "label": "Output",
@@ -651,14 +654,7 @@
         },
         {
           "label": "Best For",
-          "value": "Film \u00b7 TV \u00b7 sound-sensitive sets"
-        }
-      ],
-      "media": [
-        {
-          "kind": "image",
-          "url": "images/plant/plant-02.jpg",
-          "caption": "Denyo DCA-45USI2 Generator"
+          "value": "Film · TV · sound-sensitive sets"
         }
       ],
       "tags": [
@@ -668,31 +664,13 @@
         "silent",
         "denyo"
       ],
-      "order": 2
+      "long_description": "The Denyo DCA-45USI2 is an ultra-silenced diesel generator built for the film industry, delivering 37 kVA at 50 Hz (45 kVA at 60 Hz) in three-phase operation. Powered by an Isuzu turbo-diesel engine with a brushless AVR alternator, its sound-insulated canopy keeps it whisper-quiet on set — perfect for powering lighting and equipment without intruding on sound recording.",
+      "image": "images/plant/plant-07.jpg",
+      "spec": "45 kVA · Ultra-Silenced",
+      "description": "Ultra-silenced 45 kVA three-phase diesel generator — film-grade quiet power.",
+      "category": "Plant Hire"
     },
     {
-      "slug": "track-mats",
-      "name": "Track Mats",
-      "category": "Plant Hire",
-      "brand": "AAA",
-      "spec": "Ground Access",
-      "description": "Heavy-duty track mats for safe machine access and ground protection across difficult terrain.",
-      "long_description": "Heavy-duty composite track mats that create safe, stable access for telehandlers and plant while protecting sensitive ground, turf and surfaces. Essential for moving machinery across grass, sand and uneven terrain on location without leaving a mark.",
-      "image": "images/plant/plant-08.jpg",
-      "specs": [
-        {
-          "label": "Type",
-          "value": "Composite access matting"
-        },
-        {
-          "label": "Use",
-          "value": "Machine access \u00b7 ground protection"
-        },
-        {
-          "label": "Surfaces",
-          "value": "Grass \u00b7 sand \u00b7 uneven terrain"
-        }
-      ],
       "media": [
         {
           "kind": "image",
@@ -705,26 +683,45 @@
           "caption": "Track Mats"
         }
       ],
+      "brand": "AAA",
+      "name": "Track Mats",
+      "slug": "track-mats",
+      "order": 3,
+      "specs": [
+        {
+          "label": "Type",
+          "value": "Composite access matting"
+        },
+        {
+          "label": "Use",
+          "value": "Machine access · ground protection"
+        },
+        {
+          "label": "Surfaces",
+          "value": "Grass · sand · uneven terrain"
+        }
+      ],
       "tags": [
         "trackmats",
         "plant",
         "access"
       ],
-      "order": 3
+      "long_description": "Heavy-duty composite track mats that create safe, stable access for telehandlers and plant while protecting sensitive ground, turf and surfaces. Essential for moving machinery across grass, sand and uneven terrain on location without leaving a mark.",
+      "image": "images/plant/plant-08.jpg",
+      "spec": "Ground Access",
+      "description": "Heavy-duty track mats for safe machine access and ground protection across difficult terrain.",
+      "category": "Plant Hire"
     },
     {
-      "slug": "hyundai-mighty-flatbed",
-      "name": "Hyundai Mighty Flatbed",
-      "category": "Vehicles",
+      "media": [],
       "brand": "Hyundai",
-      "spec": "4.5\u20136.5t GVM",
-      "description": "Hyundai Mighty flatbed / tilt-tray truck for transporting attachments, plant and gear to set.",
-      "long_description": "The Hyundai Mighty is a light-rigid flatbed and tilt-tray truck rated from 4.5t GVM (car licence) up to 6.5t. With a steel tray and drop-down sides, it's the everyday workhorse for moving attachments, plant and crew gear to and from set quickly and efficiently.",
-      "image": "images/vehicles/vehicles-03.jpg",
+      "name": "Hyundai Mighty Flatbed",
+      "slug": "hyundai-mighty-flatbed",
+      "order": 1,
       "specs": [
         {
           "label": "GVM",
-          "value": "4.5t \u2013 6.5t"
+          "value": "4.5t – 6.5t"
         },
         {
           "label": "Body",
@@ -739,24 +736,30 @@
           "value": "Equipment & gear transport"
         }
       ],
-      "media": [],
       "tags": [
         "hyundai",
         "vehicle",
         "flatbed",
         "transport"
       ],
-      "order": 1
+      "long_description": "The Hyundai Mighty is a light-rigid flatbed and tilt-tray truck rated from 4.5t GVM (car licence) up to 6.5t. With a steel tray and drop-down sides, it's the everyday workhorse for moving attachments, plant and crew gear to and from set quickly and efficiently.",
+      "image": "images/vehicles/vehicles-03.jpg",
+      "spec": "4.5–6.5t GVM",
+      "description": "Hyundai Mighty flatbed / tilt-tray truck for transporting attachments, plant and gear to set.",
+      "category": "Vehicles"
     },
     {
-      "slug": "hino-box-truck",
-      "name": "Hino Box Truck",
-      "category": "Vehicles",
+      "media": [
+        {
+          "kind": "image",
+          "url": "images/vehicles/vehicles-09.jpg",
+          "caption": "Hino Box Truck"
+        }
+      ],
       "brand": "Hino",
-      "spec": "Enclosed Pantech",
-      "description": "Enclosed Hino box truck for secure, weatherproof transport of equipment and sensitive gear.",
-      "long_description": "A Hino box (pantech) truck providing fully enclosed, weatherproof transport for attachments, tools and sensitive equipment. Ideal for keeping gear secure and protected between locations.",
-      "image": "images/vehicles/vehicles-01.jpg",
+      "name": "Hino Box Truck",
+      "slug": "hino-box-truck",
+      "order": 2,
       "specs": [
         {
           "label": "Body",
@@ -771,44 +774,19 @@
           "value": "Secure equipment transport"
         }
       ],
-      "media": [
-        {
-          "kind": "image",
-          "url": "images/vehicles/vehicles-09.jpg",
-          "caption": "Hino Box Truck"
-        }
-      ],
       "tags": [
         "hino",
         "vehicle",
         "boxtruck",
         "transport"
       ],
-      "order": 2
+      "long_description": "A Hino box (pantech) truck providing fully enclosed, weatherproof transport for attachments, tools and sensitive equipment. Ideal for keeping gear secure and protected between locations.",
+      "image": "images/vehicles/vehicles-01.jpg",
+      "spec": "Enclosed Pantech",
+      "description": "Enclosed Hino box truck for secure, weatherproof transport of equipment and sensitive gear.",
+      "category": "Vehicles"
     },
     {
-      "slug": "scania-water-tanker",
-      "name": "Scania P-Series Water Tanker",
-      "category": "Vehicles",
-      "brand": "Scania",
-      "spec": "Water Supply",
-      "description": "Scania P-Series water tanker for on-set water supply, dust suppression and effects.",
-      "long_description": "A Scania P-Series water tanker supplying water on location for dust suppression, special effects, wet-downs and general production needs. A heavy-duty, reliable platform for high-volume water delivery to set.",
-      "image": "images/vehicles/vehicles-04.jpg",
-      "specs": [
-        {
-          "label": "Type",
-          "value": "Water tanker"
-        },
-        {
-          "label": "Chassis",
-          "value": "Scania P-Series"
-        },
-        {
-          "label": "Use",
-          "value": "Dust suppression \u00b7 wet-downs \u00b7 SFX"
-        }
-      ],
       "media": [
         {
           "kind": "image",
@@ -821,23 +799,48 @@
           "caption": "Scania Water Tanker"
         }
       ],
+      "brand": "Scania",
+      "name": "Scania P-Series Water Tanker",
+      "slug": "scania-water-tanker",
+      "order": 3,
+      "specs": [
+        {
+          "label": "Type",
+          "value": "Water tanker"
+        },
+        {
+          "label": "Chassis",
+          "value": "Scania P-Series"
+        },
+        {
+          "label": "Use",
+          "value": "Dust suppression · wet-downs · SFX"
+        }
+      ],
       "tags": [
         "scania",
         "vehicle",
         "water",
         "tanker"
       ],
-      "order": 3
+      "long_description": "A Scania P-Series water tanker supplying water on location for dust suppression, special effects, wet-downs and general production needs. A heavy-duty, reliable platform for high-volume water delivery to set.",
+      "image": "images/vehicles/vehicles-04.jpg",
+      "spec": "Water Supply",
+      "description": "Scania P-Series water tanker for on-set water supply, dust suppression and effects.",
+      "category": "Vehicles"
     },
     {
-      "slug": "volvo-crane-truck",
-      "name": "Volvo Crane Truck",
-      "category": "Vehicles",
+      "media": [
+        {
+          "kind": "image",
+          "url": "images/vehicles/vehicles-06.jpg",
+          "caption": "Volvo Crane Truck"
+        }
+      ],
       "brand": "AAA",
-      "spec": "Flatbed + Crane",
-      "description": "Volvo flatbed truck with mounted crane for loading, transport and on-site lifting.",
-      "long_description": "A Volvo flatbed truck fitted with a mounted crane (HIAB), combining transport and lifting in one platform. Used to load and place attachments, plant and rigging on site without needing a separate crane.",
-      "image": "images/vehicles/vehicles-05.jpg",
+      "name": "Volvo Crane Truck",
+      "slug": "volvo-crane-truck",
+      "order": 4,
       "specs": [
         {
           "label": "Body",
@@ -852,30 +855,24 @@
           "value": "Transport + on-site lifting"
         }
       ],
-      "media": [
-        {
-          "kind": "image",
-          "url": "images/vehicles/vehicles-06.jpg",
-          "caption": "Volvo Crane Truck"
-        }
-      ],
       "tags": [
         "volvo",
         "vehicle",
         "crane",
         "transport"
       ],
-      "order": 4
+      "long_description": "A Volvo flatbed truck fitted with a mounted crane (HIAB), combining transport and lifting in one platform. Used to load and place attachments, plant and rigging on site without needing a separate crane.",
+      "image": "images/vehicles/vehicles-05.jpg",
+      "spec": "Flatbed + Crane",
+      "description": "Volvo flatbed truck with mounted crane for loading, transport and on-site lifting.",
+      "category": "Vehicles"
     },
     {
-      "slug": "4x4-ute",
-      "name": "4x4 Ute",
-      "category": "Vehicles",
+      "media": [],
       "brand": "AAA",
-      "spec": "Crew \u00b7 Site Access",
-      "description": "4x4 tray-back ute for crew transport, gear runs and access across rough and remote location terrain.",
-      "long_description": "A 4x4 tray-back ute for fast crew movement, equipment runs and reaching difficult or remote locations. Rugged all-terrain capability makes it the go-anywhere support vehicle for production days on location.",
-      "image": "images/vehicles/vehicles-02.jpg",
+      "name": "4x4 Ute",
+      "slug": "4x4-ute",
+      "order": 5,
       "specs": [
         {
           "label": "Drive",
@@ -887,10 +884,9 @@
         },
         {
           "label": "Use",
-          "value": "Crew transport \u00b7 gear runs \u00b7 site access"
+          "value": "Crew transport · gear runs · site access"
         }
       ],
-      "media": [],
       "tags": [
         "ute",
         "4x4",
@@ -898,7 +894,11 @@
         "crew",
         "transport"
       ],
-      "order": 5
+      "long_description": "A 4x4 tray-back ute for fast crew movement, equipment runs and reaching difficult or remote locations. Rugged all-terrain capability makes it the go-anywhere support vehicle for production days on location.",
+      "image": "images/vehicles/vehicles-02.jpg",
+      "spec": "Crew · Site Access",
+      "description": "4x4 tray-back ute for crew transport, gear runs and access across rough and remote location terrain.",
+      "category": "Vehicles"
     }
   ]
 }
