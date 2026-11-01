@@ -17,12 +17,16 @@ const ATTACHMENTS = [
     desc: 'Continuous 360° panning rotation for versatile rigging — smoothly repositioning frames, scrims and lighting around the set.',
     mount: [0, 0],
     funcs: [{ key: 'pan', label: 'Pan', min: -180, max: 180, wrap: true }] },
-  { id: 'romastor-pan-tilt', name: 'Romastor Pan & Tilt', spec: '360° · 60° Up / 30° Down',
-    desc: '360° pan with 60° up and 30° down tilt — versatile rigging for positioning frames, scrims and loads at almost any angle.',
+  { id: 'romastor-pan-tilt', name: 'Romastor Pan & Tilt', spec: '360° · 70° Tilt',
+    desc: '360° pan with up to 70° tilt — versatile rigging for positioning frames, scrims and loads at almost any angle.',
     // this scene's empty sits above and behind the hook throat; the other three sit on it
     mount: [-0.077, 0.21],
+    // the model's coordinates, not the scene's pivot: follows Romastor's Tilt 5.0T drawing, with
+    // the hinge high on the frame's front corner and the ram driving a lug below it
+    hinge: [-5.737, 4.888],
+    ram: { a: [-5.0597, 4.6868], b: [-5.7015, 4.5676], barrel: 'Cube_037', rod: '109_004', rigid: 'Cube_034' },
     funcs: [{ key: 'pan', label: 'Pan', min: -180, max: 180, wrap: true },
-            { key: 'tilt', label: 'Tilt', min: -60, max: 30, pitch: true }] },
+            { key: 'tilt', label: 'Tilt', min: -70, max: 0, pitch: true, flip: true }] },
   { id: 'romastor-3d', name: 'Romastor 3D', spec: 'Dual Axis · Full Sphere',
     desc: 'Dual-axis full-sphere movement — maximum rigging versatility for frames, scrims and suspended loads in any orientation.',
     mount: [0, 0],
@@ -270,26 +274,36 @@ function buildAttachment(cfg, glb) {
   for (const n of m.nodes) {
     if (!n.group.startsWith('drv:')) parentOf[n.group].add(glb.scene.getObjectByName(n.node));
   }
-  // hydraulic ram parts follow the tilt through a sampled table
+  // hydraulic ram: pin A stays on the pan frame, pin B rides on the tilting frame, and barrel and rod aim at each other
   let driven = null;
   if (m.driven) {
-    const driverJoint = joints[m.driven.driver];
-    const host = driverJoint.group.parent;
-    const parts = [];
-    for (const [key, mats] of Object.entries(m.driven.parts)) {
-      const obj = nodeOf(m.nodes.find((n) => n.group.replace('drv:', '').replace(/[. ]/g, '_') === key && n.group.startsWith('drv:')).group);
+    const joint = joints[m.driven.driver];
+    const parts = {};
+    for (const key of m.driven.parts) {
+      const obj = nodeOf(m.nodes.find((n) => n.group.startsWith('drv:') && n.group.replace('drv:', '').replace(/[. ]/g, '_') === key).group);
       const g = manualGroup(key);
       g.add(obj);
-      host.add(g);
-      const samples = mats.map((a) => {
-        const M = new THREE.Matrix4().fromArray(a);
-        const p = new THREE.Vector3(), q = new THREE.Quaternion(), s = new THREE.Vector3();
-        M.decompose(p, q, s);
-        return { p, q, s };
-      });
-      parts.push({ group: g, samples });
+      joint.group.parent.add(g);
+      parts[key] = g;
     }
-    driven = { joint: driverJoint, deg: m.driven.deg, parts };
+    // how far barrel and rod each reach along the ram, so they can be kept overlapping
+    const { a: pa, b: pb } = cfg.ram;
+    const len = Math.hypot(pa[0] - pb[0], pa[1] - pb[1]);
+    const dx = (pa[0] - pb[0]) / len, dy = (pa[1] - pb[1]) / len;
+    const reach = (key, ox, oy, sign) => {
+      let most = 0;
+      parts[key].traverse((o) => {
+        if (!o.isMesh) return;
+        const p = o.geometry.attributes.position;
+        for (let i = 0; i < p.count; i++) most = Math.max(most, sign * ((p.getX(i) - ox) * dx + (p.getY(i) - oy) * dy));
+      });
+      return most;
+    };
+    driven = { joint, ram: cfg.ram, parts, barrelLen: reach(cfg.ram.barrel, pb[0], pb[1], 1), rodLen: reach(cfg.ram.rod, pa[0], pa[1], -1) };
+  }
+  if (cfg.hinge) {
+    joints.tilt.pivot.setX(cfg.hinge[0]).setY(cfg.hinge[1]);
+    addHingeLugs(joints.pan.group, joints.tilt.pivot, cfg.hinge);
   }
   dress(holder);
   // arcs live in the joint's parent so they lean with the boom but don't spin with their own head
@@ -302,25 +316,64 @@ function buildAttachment(cfg, glb) {
   // the view orbits the middle of the whole attachment, head and truss together
   const box = new THREE.Box3();
   holder.traverse((o) => {
-    if (o.isMesh && o.material !== arcMat) { o.geometry.computeBoundingBox(); box.union(o.geometry.boundingBox); }
+    if (o.isMesh && o.material !== arcMat) { o.geometry.computeBoundingBox(); box.union(o.geometry.boundingBox.clone().translate(o.position)); }
   });
   const centre = box.getCenter(new THREE.Vector3()).add(holder.position);
   return { cfg, holder, joints, driven, last, centre };
 }
 
-const _p = new THREE.Vector3(), _q = new THREE.Quaternion(), _s = new THREE.Vector3();
-function updateDriven(d) {
-  const a = d.joint.cur, deg = d.deg;
-  const f = THREE.MathUtils.clamp((a - deg[0]) / (deg[1] - deg[0]), 0, deg.length - 1.0001);
-  const i = Math.floor(f), t = f - i;
-  for (const part of d.parts) {
-    const A = part.samples[i], B = part.samples[i + 1];
-    _p.lerpVectors(A.p, B.p, t);
-    _q.slerpQuaternions(A.q, B.q, t);
-    _s.lerpVectors(A.s, B.s, t);
-    part.group.matrix.compose(_p, _q, _s);
-    part.group.matrixWorldNeedsUpdate = true;
+// the pan arm stops short of the hinge, so lugs carry it up to the pin
+const LUG = [[0.257, -0.128], [0.077, -0.188], [-0.063, -0.028], [-0.023, 0.062], [0.057, 0.062]];
+function addHingeLugs(host, pivot, hinge) {
+  const shape = new THREE.Shape(LUG.map(([x, y]) => new THREE.Vector2(hinge[0] + x, hinge[1] + y)));
+  const plate = new THREE.ExtrudeGeometry(shape, { depth: 0.024, bevelSize: 0.003, bevelThickness: 0.003, bevelSegments: 1 });
+  const zCyl = (r, len) => new THREE.CylinderGeometry(r, r, len, 28).rotateX(Math.PI / 2);
+  const add = (geo, mat, z, x = 0, y = 0) => {
+    const m = new THREE.Mesh(geo, mat);
+    m.castShadow = m.receiveShadow = true;
+    m.position.set(x, y, z);
+    host.add(m);
+  };
+  for (const side of [-1, 1]) {
+    add(plate, MATS.aa_black, pivot.z + side * 0.405 - 0.012);
+    add(zCyl(0.07, 0.03), MATS.aa_black, pivot.z + side * 0.42, pivot.x, pivot.y);
+    add(zCyl(0.035, 0.02), MATS.aa_steel, pivot.z + side * 0.44, pivot.x, pivot.y);
   }
+  add(zCyl(0.03, 0.84), MATS.aa_steel, pivot.z, pivot.x, pivot.y);
+}
+
+const _rot = new THREE.Matrix4(), _toA = new THREE.Matrix4(), _toB = new THREE.Matrix4();
+const _stretch = new THREE.Matrix4(), _aim = new THREE.Matrix4(), _aimBack = new THREE.Matrix4(), _sx = new THREE.Matrix4();
+function aroundPin(m, x, y, deg, tx = x, ty = y) {
+  _rot.makeRotationZ(deg * DEG);
+  _toA.makeTranslation(tx, ty, 0);
+  _toB.makeTranslation(-x, -y, 0);
+  m.copy(_toA).multiply(_rot).multiply(_toB);
+}
+function updateDriven(d) {
+  const { ram, parts, joint } = d;
+  const a = joint.cur * joint.axis.z;
+  const c = Math.cos(a * DEG), n = Math.sin(a * DEG);
+  const px = joint.pivot.x, py = joint.pivot.y;
+  const bx = ram.b[0] - px, by = ram.b[1] - py;
+  const nx = px + bx * c - by * n, ny = py + bx * n + by * c;   // pin B after the tilt
+  const aim0 = Math.atan2(ram.a[1] - ram.b[1], ram.a[0] - ram.b[0]);
+  const aim = Math.atan2(ram.a[1] - ny, ram.a[0] - nx);
+  const turn = (aim - aim0) / DEG;
+  aroundPin(parts[ram.barrel].matrix, ram.b[0], ram.b[1], turn, nx, ny);
+  // this hinge needs more stroke than the modelled ram has, so the barrel telescopes to keep hold of the rod
+  const length = Math.hypot(ram.a[0] - nx, ram.a[1] - ny);
+  const f = Math.max(1, (length - d.rodLen + 0.05) / d.barrelLen);
+  if (f > 1) {
+    _aim.makeRotationZ(aim0);
+    _aimBack.makeRotationZ(-aim0);
+    _sx.makeScale(f, 1, 1);
+    _stretch.makeTranslation(ram.b[0], ram.b[1], 0).multiply(_aim).multiply(_sx).multiply(_aimBack).multiply(_toA.makeTranslation(-ram.b[0], -ram.b[1], 0));
+    parts[ram.barrel].matrix.multiply(_stretch);
+  }
+  aroundPin(parts[ram.rod].matrix, ram.a[0], ram.a[1], turn);
+  aroundPin(parts[ram.rigid].matrix, px, py, a);
+  for (const k in parts) parts[k].matrixWorldNeedsUpdate = true;
 }
 
 /* ── State ── */
@@ -340,16 +393,19 @@ function makeControl(def, get, set) {
   const wrap = document.createElement('div');
   wrap.className = 'ctl';
   const id = `c-${def.key}`;
+  // `flip` runs the slider the other way, so 0° up can sit on the left
+  const sign = def.flip ? -1 : 1;
+  const lo = Math.min(def.min * sign, def.max * sign), hi = Math.max(def.min * sign, def.max * sign);
   wrap.innerHTML = `<div class="row"><label for="${id}">${def.label}</label><output for="${id}"></output></div>
-    <input id="${id}" type="range" min="${def.min}" max="${def.max}" step="1" value="${get()}">`;
+    <input id="${id}" type="range" min="${lo}" max="${hi}" step="1" value="${get() * sign}">`;
   const input = wrap.querySelector('input'), out = wrap.querySelector('output');
   const paint = (v) => {
-    input.value = Math.round(v);
-    input.style.setProperty('--pct', `${((v - def.min) / (def.max - def.min)) * 100}%`);
+    input.value = Math.round(v * sign);
+    input.style.setProperty('--pct', `${((v * sign - lo) / (hi - lo)) * 100}%`);
     out.textContent = fmt(def, v);
     input.setAttribute('aria-valuetext', fmt(def, v));
   };
-  input.addEventListener('input', () => { stopDemo(); set(+input.value); paint(+input.value); showArc(def.key); });
+  input.addEventListener('input', () => { stopDemo(); set(+input.value * sign); paint(+input.value * sign); showArc(def.key); });
   paint(get());
   return { el: wrap, paint, def };
 }
