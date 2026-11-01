@@ -1,0 +1,683 @@
+import * as THREE from 'three';
+import { OrbitControls } from './vendor/addons/OrbitControls.js';
+import { GLTFLoader } from './vendor/addons/GLTFLoader.js';
+import { DRACOLoader } from './vendor/addons/DRACOLoader.js';
+import { buildBoomEnd, PIN } from './boom-end.js';
+
+/* ── Attachment data ──────────────────────────────────────────────
+   Wording for the Romastor heads and Rotator is the AAA homepage copy.
+   Ranges come from the homepage specs and the keyframes in the source
+   .blend, see README. `wrap` = continuous rotation, `pitch` = shown as
+   up / down. Positive pitch is nose-down. Each scene's TELEHANDLER TILT
+   empty is baked at one point, which moves onto the boom's tilt pin. `mount`
+   corrects a scene whose empty misses its hitch (metres, x forward-negative,
+   y up). */
+const ATTACHMENTS = [
+  { id: 'romastor-360', name: 'Romastor 360°', spec: 'Continuous Pan',
+    desc: 'Continuous 360° panning rotation for versatile rigging — smoothly repositioning frames, scrims and lighting around the set.',
+    mount: [0, 0],
+    funcs: [{ key: 'pan', label: 'Pan', min: -180, max: 180, wrap: true }] },
+  { id: 'romastor-pan-tilt', name: 'Romastor Pan & Tilt', spec: '360° · 60° Up / 30° Down',
+    desc: '360° pan with 60° up and 30° down tilt — versatile rigging for positioning frames, scrims and loads at almost any angle.',
+    // this scene's empty sits above and behind the hook throat; the other three sit on it
+    mount: [-0.077, 0.21],
+    funcs: [{ key: 'pan', label: 'Pan', min: -180, max: 180, wrap: true },
+            { key: 'tilt', label: 'Tilt', min: -60, max: 30, pitch: true }] },
+  { id: 'romastor-3d', name: 'Romastor 3D', spec: 'Dual Axis · Full Sphere',
+    desc: 'Dual-axis full-sphere movement — maximum rigging versatility for frames, scrims and suspended loads in any orientation.',
+    mount: [0, 0],
+    funcs: [{ key: 'axis1', label: 'Axis 1 · Pan', min: -180, max: 180, wrap: true },
+            { key: 'axis2', label: 'Axis 2 · Roll', min: -180, max: 180, wrap: true }] },
+  { id: 'rotator', name: 'Rotator', spec: '360° Vertical',
+    desc: 'Continuous 360° vertical rotation in either direction — versatile, safe positioning of rigging loads, frames and scrims.',
+    mount: [0, 0],
+    funcs: [{ key: 'rotate', label: 'Rotate', min: -180, max: 180, wrap: true }] },
+];
+const BOOM = { key: 'boom', label: 'Tilt', min: -31, max: 41, pitch: true };
+
+const $ = (id) => document.getElementById(id);
+const DEG = Math.PI / 180;
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const qs = new URLSearchParams(location.search);
+
+/* ── Scene ────────────────────────────────────────────────────── */
+const canvas = $('gl');
+const stage = $('stage');
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });   // transparent: the page behind is the backdrop
+} catch {
+  stage.insertAdjacentHTML('beforeend', '<p class="err">This 3D view needs WebGL, which is not available in this browser.</p>');
+  throw new Error('WebGL unavailable');
+}
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+/* What the metal reflects: the AAA home page. Colours are sampled from its hero image:
+   mostly teal-blue from above and behind, orange lower down, a touch of the buttons' red,
+   and long cream softboxes whose streaks keep black parts from going to black. */
+function pageEnvironment() {
+  const env = new THREE.Scene();
+  const glow = (hex, power) => new THREE.MeshBasicMaterial({ color: new THREE.Color(hex).multiplyScalar(power), side: THREE.DoubleSide });
+  env.add(new THREE.Mesh(new THREE.SphereGeometry(40, 32, 16), glow(0x1c2a31, 1)));
+  const panel = (w, h, hex, power, x, y, z) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), glow(hex, power));
+    m.position.set(x, y, z);
+    m.lookAt(0, 0, 0);
+    env.add(m);
+  };
+  panel(34, 8, 0xf5f1ea, 10, 0, 24, 8);       // long overhead softbox
+  panel(6, 26, 0xf5f1ea, 7, -26, 4, 14);      // tall strip, camera left
+  panel(5, 22, 0xf5f1ea, 5, 24, 6, -18);    // kicker behind
+  panel(44, 18, 0x3b7f92, 3.2, -4, 12, -28);  // teal sky behind
+  panel(16, 28, 0x3b7f92, 2.6, 30, 3, 8);     // and at the boom side
+  panel(32, 10, 0xc8703a, 2.4, 4, -22, 14);   // orange from below
+  panel(6, 6, 0xea1f27, 1.2, -18, -16, 18);   // a small accent of the buttons' red
+  return pmrem.fromScene(env, 0.03).texture;
+}
+scene.environment = pageEnvironment();
+scene.environmentIntensity = 1;
+
+const key = new THREE.DirectionalLight(0xfff4e6, 2.1);
+key.position.set(-14, 20, 12);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+Object.assign(key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 50 });
+key.shadow.bias = -0.0004;
+key.shadow.normalBias = 0.02;
+scene.add(key);
+// rim lights that travel with the camera, so the head's far edges always catch light
+// against the dark page as it orbits or the head moves
+const rim = new THREE.DirectionalLight(0xfff1e4, 2.4);
+const blueRim = new THREE.DirectionalLight(0x5fa8bd, 1.5);
+const fill = new THREE.DirectionalLight(0xe0935c, 0.8);        // soft orange, low from the viewer's side, so the undersides of black parts still read
+scene.add(rim, rim.target, blueRim, blueRim.target, fill, fill.target, key.target);
+const _cam = new THREE.Vector3(), _side = new THREE.Vector3();
+function updateRims() {
+  _cam.subVectors(HEAD, camera.position).setY(0).normalize();    // pointing away from the viewer
+  _side.set(-_cam.z, 0, _cam.x);
+  rim.target.position.copy(HEAD);
+  blueRim.target.position.copy(HEAD);
+  rim.position.copy(HEAD).addScaledVector(_cam, 10).addScaledVector(_side, -6).setY(HEAD.y + 7);
+  blueRim.position.copy(HEAD).addScaledVector(_cam, 8).addScaledVector(_side, 8).setY(HEAD.y - 4);
+  fill.target.position.copy(HEAD);
+  fill.position.copy(HEAD).addScaledVector(_cam, -10).addScaledVector(_side, 4).setY(HEAD.y - 2);
+}
+
+const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 200);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.maxPolarAngle = Math.PI * 0.495;
+controls.minDistance = 3;
+controls.maxDistance = 14;
+controls.enablePan = false;
+
+/* ── Materials: the .blend's procedural shaders don't survive glTF, so rebuild by class ── */
+const std = (color, metalness, roughness) => new THREE.MeshStandardMaterial({ color, metalness, roughness });
+const MATS = {
+  aa_black: std(0x1c1d21, 0.3, 0.38),
+  aa_rubber: std(0x0d0d0d, 0, 0.9),
+  aa_alu: std(0xaeb1b5, 1, 0.42),
+  aa_steel: std(0x8f9297, 1, 0.34),
+  aa_brass: std(0xb08d4a, 1, 0.38),
+  aa_blue: std(0x24418f, 0.3, 0.45),
+  aa_red: std(0xb31b24, 0.2, 0.45),
+};
+function dress(root) {
+  root.traverse((o) => {
+    if (!o.isMesh) return;
+    o.castShadow = true;
+    o.receiveShadow = true;
+    const n = o.material.name;
+    if (MATS[n]) o.material = MATS[n];
+  });
+}
+
+/* Everything but the attachment and truss is context only: one 10% ghost. A depth-only pass first, so the
+   ghost shows its nearest surface instead of every inner face stacked up. Both
+   passes run after the opaque head, so the head still shows through. */
+const GHOST_OPACITY = 0.1;
+const ghostDepth = new THREE.MeshBasicMaterial({ colorWrite: false, transparent: true, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+const ghostSkin = new THREE.MeshStandardMaterial({ color: 0xea1f27, metalness: 0, roughness: 0.6, transparent: true, opacity: GHOST_OPACITY, depthWrite: false });
+// fine edges on the boom end, because modelled detail barely reads in a 10% surface alone
+const EDGE_OPACITY = 0.3;
+const edgeMat = new THREE.LineBasicMaterial({ color: 0xea1f27, transparent: true, opacity: EDGE_OPACITY, depthWrite: false });
+function outlined(o) {
+  const lines = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 28), edgeMat);
+  lines.renderOrder = 3;
+  o.add(lines);
+  return o;
+}
+function ghostMesh(o, skin) {
+  const depth = new THREE.Mesh(o.geometry, ghostDepth);
+  depth.renderOrder = 1;
+  o.add(depth);
+  o.material = skin;
+  o.renderOrder = 2;
+  return o;
+}
+function ghost(root) {
+  const meshes = [];
+  root.traverse((o) => { if (o.isMesh) meshes.push(o); });
+  for (const o of meshes) {
+    if (o.material.name === 'tele_head') { o.removeFromParent(); continue; }  // the head is the hitch carriage now
+    ghostMesh(o, ghostSkin);
+  }
+}
+
+/* ── Rig helpers: every part is baked in one assembly frame; a joint is T(p) R(axis, a) T(-p) ── */
+const _t = new THREE.Matrix4(), _r = new THREE.Matrix4(), _b = new THREE.Matrix4();
+function setJoint(group, pivot, axis, deg) {
+  _t.makeTranslation(pivot.x, pivot.y, pivot.z);
+  _r.makeRotationAxis(axis, deg * DEG);
+  _b.makeTranslation(-pivot.x, -pivot.y, -pivot.z);
+  group.matrix.copy(_t).multiply(_r).multiply(_b);
+  group.matrixWorldNeedsUpdate = true;
+}
+function manualGroup(name) {
+  const g = new THREE.Group();
+  g.name = name;
+  g.matrixAutoUpdate = false;
+  return g;
+}
+
+/* arc showing the travel of the joint being driven */
+const arcMat = new THREE.MeshBasicMaterial({ color: 0xea1f27, transparent: true, opacity: 0, depthTest: false, fog: false });
+function makeArc(pivot, axis, radius, fn) {
+  const span = (fn.max - fn.min) * DEG;
+  const geo = new THREE.TorusGeometry(radius, radius * 0.008, 8, Math.max(24, Math.round(span * 24)), span);
+  const m = new THREE.Mesh(geo, arcMat);
+  const refDir = Math.abs(axis.x) > 0.9 ? new THREE.Vector3(0, -1, 0) : new THREE.Vector3(-1, 0, 0);
+  const u = refDir.clone().addScaledVector(axis, -refDir.dot(axis)).normalize();
+  const v = axis.clone().cross(u);
+  m.matrixAutoUpdate = false;
+  m.matrix.makeBasis(u, v, axis).premultiply(new THREE.Matrix4().makeRotationAxis(axis, fn.min * DEG)).setPosition(pivot);
+  m.renderOrder = 10;
+  m.visible = false;
+  return m;
+}
+
+/* ── Rig ── */
+const boomGroup = manualGroup('boom');
+scene.add(boomGroup);
+let HEAD = new THREE.Vector3(), BOOM_AXIS = new THREE.Vector3(0, 0, 1), boomArc = null;
+const BAKED = new THREE.Vector3();                         // where the export puts each scene's tilt empty
+const BOOM_Z = -0.605;                                     // boom centreline
+const RAM = { barrel: 0.5, rod: 0.55 };
+const ram = { barrel: null, rod: null, clevis: null, ear: null, anchor: null };
+const nose = new THREE.Group();
+scene.add(nose);
+const ghosted = (geo) => ghostMesh(new THREE.Mesh(geo), ghostSkin);
+function buildNose() {
+  const end = buildBoomEnd(BOOM_Z);
+  nose.add(outlined(ghosted(end.fixed)));
+  boomGroup.add(outlined(ghosted(end.carriage)));   // swings with the tilt, carrying the head
+  ram.ear = end.ear;
+  ram.anchor = end.anchor;
+  ram.barrel = ghosted(new THREE.CylinderGeometry(0.06, 0.06, RAM.barrel, 24).translate(0, RAM.barrel / 2, 0));
+  ram.rod = ghosted(new THREE.CylinderGeometry(0.032, 0.032, RAM.rod, 20).translate(0, RAM.rod / 2, 0));
+  ram.clevis = ghosted(new THREE.CylinderGeometry(0.06, 0.06, 0.1, 20).rotateX(Math.PI / 2));
+  nose.add(ram.barrel, ram.rod, ram.clevis);
+}
+const _ear = new THREE.Vector3(), _dir = new THREE.Vector3(), _up = new THREE.Vector3(0, 1, 0), _rev = new THREE.Vector3();
+function updateRam() {
+  if (!ram.barrel) return;
+  const a = boom.cur * DEG, c = Math.cos(a), n = Math.sin(a);   // the lug swings with the tilt
+  _ear.set(HEAD.x + ram.ear.x * c - ram.ear.y * n, HEAD.y + ram.ear.x * n + ram.ear.y * c, BOOM_Z);
+  _dir.subVectors(_ear, ram.anchor).normalize();
+  ram.barrel.position.copy(ram.anchor);
+  ram.barrel.quaternion.setFromUnitVectors(_up, _dir);
+  ram.rod.position.copy(_ear);
+  ram.rod.quaternion.setFromUnitVectors(_up, _rev.copy(_dir).negate());
+  ram.clevis.position.copy(_ear);
+}
+
+const manager = new THREE.LoadingManager();
+const draco = new DRACOLoader(manager).setDecoderPath('vendor/draco/');
+const gltf = new GLTFLoader(manager).setDRACOLoader(draco);
+manager.onProgress = (_u, done, total) => { $('loaderBar').style.width = `${Math.round((done / total) * 100)}%`; };
+
+let manifest;
+const built = new Map();
+
+function buildAttachment(cfg, glb) {
+  const m = manifest[cfg.id];
+  const holder = new THREE.Group();          // mount offset + swap animation
+  holder.name = cfg.id;
+  const nodeOf = (group) => glb.scene.getObjectByName(m.nodes.find((n) => n.group === group)?.node);
+  // carry the baked tilt empty to the nose pin, centred under the boom
+  holder.position.set(HEAD.x - BAKED.x + cfg.mount[0], HEAD.y - BAKED.y + cfg.mount[1], BOOM_Z - m.funcs[0].pivot[2]);
+  holder.userData.home = holder.position.clone();
+  const fixed = new THREE.Group();
+  holder.add(fixed);
+  const joints = {};
+  const parentOf = { fixed };
+  for (const f of m.funcs) {
+    const g = manualGroup(f.key);
+    const def = cfg.funcs.find((x) => x.key === f.key);
+    joints[f.key] = { group: g, pivot: new THREE.Vector3().fromArray(f.pivot), axis: new THREE.Vector3().fromArray(f.axis).normalize(), def, cur: 0, target: 0 };
+    parentOf[f.key] = g;
+  }
+  for (const f of m.funcs) (f.parent ? joints[f.parent].group : fixed).add(joints[f.key].group);
+
+  for (const n of m.nodes) {
+    if (!n.group.startsWith('drv:')) parentOf[n.group].add(glb.scene.getObjectByName(n.node));
+  }
+  // hydraulic ram parts follow the tilt through a sampled table
+  let driven = null;
+  if (m.driven) {
+    const driverJoint = joints[m.driven.driver];
+    const host = driverJoint.group.parent;
+    const parts = [];
+    for (const [key, mats] of Object.entries(m.driven.parts)) {
+      const obj = nodeOf(m.nodes.find((n) => n.group.replace('drv:', '').replace(/[. ]/g, '_') === key && n.group.startsWith('drv:')).group);
+      const g = manualGroup(key);
+      g.add(obj);
+      host.add(g);
+      const samples = mats.map((a) => {
+        const M = new THREE.Matrix4().fromArray(a);
+        const p = new THREE.Vector3(), q = new THREE.Quaternion(), s = new THREE.Vector3();
+        M.decompose(p, q, s);
+        return { p, q, s };
+      });
+      parts.push({ group: g, samples });
+    }
+    driven = { joint: driverJoint, deg: m.driven.deg, parts };
+  }
+  dress(holder);
+  // arcs live in the joint's parent so they lean with the boom but don't spin with their own head
+  for (const k in joints) {
+    const j = joints[k];
+    j.arc = makeArc(j.pivot, j.axis, 1.5, j.def);
+    j.group.parent.add(j.arc);
+  }
+  const last = joints[m.funcs[m.funcs.length - 1].key].group;
+  return { cfg, holder, joints, driven, last };
+}
+
+const _p = new THREE.Vector3(), _q = new THREE.Quaternion(), _s = new THREE.Vector3();
+function updateDriven(d) {
+  const a = d.joint.cur, deg = d.deg;
+  const f = THREE.MathUtils.clamp((a - deg[0]) / (deg[1] - deg[0]), 0, deg.length - 1.0001);
+  const i = Math.floor(f), t = f - i;
+  for (const part of d.parts) {
+    const A = part.samples[i], B = part.samples[i + 1];
+    _p.lerpVectors(A.p, B.p, t);
+    _q.slerpQuaternions(A.q, B.q, t);
+    _s.lerpVectors(A.s, B.s, t);
+    part.group.matrix.compose(_p, _q, _s);
+    part.group.matrixWorldNeedsUpdate = true;
+  }
+}
+
+/* ── State ── */
+let current = null;
+let index = 0;
+const boom = { cur: 0, target: 0, def: BOOM };
+let needsRender = true;
+function invalidate() { needsRender = true; }
+
+/* ── UI ── */
+function fmt(def, v) {
+  const r = Math.round(v);
+  if (def.pitch) return r === 0 ? '0°' : `${Math.abs(r)}° ${r < 0 ? 'up' : 'down'}`;
+  return `${r}°`;
+}
+function makeControl(def, get, set) {
+  const wrap = document.createElement('div');
+  wrap.className = 'ctl';
+  const id = `c-${def.key}`;
+  wrap.innerHTML = `<div class="row"><label for="${id}">${def.label}</label><output for="${id}"></output></div>
+    <input id="${id}" type="range" min="${def.min}" max="${def.max}" step="1" value="${get()}">`;
+  const input = wrap.querySelector('input'), out = wrap.querySelector('output');
+  const paint = (v) => {
+    input.value = Math.round(v);
+    input.style.setProperty('--pct', `${((v - def.min) / (def.max - def.min)) * 100}%`);
+    out.textContent = fmt(def, v);
+    input.setAttribute('aria-valuetext', fmt(def, v));
+  };
+  input.addEventListener('input', () => { stopDemo(); set(+input.value); paint(+input.value); showArc(def.key); });
+  paint(get());
+  return { el: wrap, paint, def };
+}
+const list = $('list');
+ATTACHMENTS.forEach((a, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'item';
+  b.innerHTML = `<span class="n">${String(i + 1).padStart(2, '0')}</span><span>${a.name}</span>`;
+  b.addEventListener('click', () => { stopDemo(); select(i); });
+  list.appendChild(b);
+});
+
+let funcControls = [];
+const boomCtl = makeControl(BOOM, () => boom.target, (v) => { boom.target = v; invalidate(); });
+$('boomSlot').appendChild(boomCtl.el);
+
+function renderFuncs() {
+  const box = $('funcs');
+  box.replaceChildren();
+  funcControls = current.cfg.funcs.filter((def) => !def.hidden).map((def) => {
+    const j = current.joints[def.key];
+    const c = makeControl(def, () => j.target, (v) => { j.target = v; invalidate(); });
+    box.appendChild(c.el);
+    return c;
+  });
+}
+function renderInfo(i) {
+  const a = ATTACHMENTS[i];
+  $('idx').textContent = String(i + 1).padStart(2, '0');
+  $('name').textContent = a.name;
+  $('spec').textContent = a.spec;
+  $('desc').textContent = a.desc;
+  [...list.children].forEach((el, n) => {
+    if (n === i) { el.setAttribute('aria-current', 'true'); el.scrollIntoView?.({ block: 'nearest', inline: 'center' }); }
+    else el.removeAttribute('aria-current');
+  });
+}
+
+/* ── Arc feedback ── */
+let arcOn = null, arcUntil = 0;
+function showArc(key) {
+  if (arcOn) arcOn.visible = false;
+  arcOn = key === 'boom' ? boomArc : current?.joints[key]?.arc;
+  if (arcOn) { arcOn.visible = true; arcUntil = performance.now() + 1400; }
+  invalidate();
+}
+
+/* ── Selecting / loading ── */
+async function loadAttachment(i) {
+  const cfg = ATTACHMENTS[i];
+  if (built.has(cfg.id)) return built.get(cfg.id);
+  const p = gltf.loadAsync(`assets/${cfg.id}.glb`).then((glb) => buildAttachment(cfg, glb));
+  built.set(cfg.id, p);
+  p.catch(() => built.delete(cfg.id));
+  return p;
+}
+let swap = null, token = 0;
+async function select(i) {
+  index = (i + ATTACHMENTS.length) % ATTACHMENTS.length;
+  renderInfo(index);
+  const mine = ++token;
+  const loader = $('loader');
+  $('loaderText').textContent = `Loading ${ATTACHMENTS[index].name}`;
+  loader.classList.remove('done');
+  let next;
+  try {
+    next = await loadAttachment(index);
+  } catch (e) {
+    console.error(e);
+    $('loaderText').textContent = `Could not load ${ATTACHMENTS[index].name}`;
+    return;
+  }
+  if (mine !== token) return;
+  loader.classList.add('done');
+  if (swap) { swap.t0 = -1e9; runSwap(performance.now()); }   // finish any swap still running
+  const prev = current;
+  if (prev === next) return;
+  current = next;
+  for (const k in next.joints) applyJoint(next.joints[k]);
+  if (next.driven) updateDriven(next.driven);
+  boomGroup.add(next.holder);
+  updateRam();
+  renderFuncs();
+  updateAttitude();
+  if (reduced || !prev) {
+    if (prev) boomGroup.remove(prev.holder);
+    next.holder.position.copy(next.holder.userData.home);
+    next.holder.scale.setScalar(1);
+  } else {
+    swap = { prev, next, t0: performance.now(), dur: 560 };
+  }
+  invalidate();
+  scheduleWarm();
+}
+function applyJoint(j) { setJoint(j.group, j.pivot, j.axis, j.cur); }
+
+function scheduleWarm() {
+  const n = (index + 1) % ATTACHMENTS.length;
+  (window.requestIdleCallback || setTimeout)(() => loadAttachment(n).catch(() => {}));
+}
+
+const OFF = new THREE.Vector3(-1.2, -0.9, 0);
+function runSwap(now) {
+  const { prev, next, t0, dur } = swap;
+  const t = Math.min(1, (now - t0) / dur);
+  const out = Math.min(1, t * 2), inn = Math.max(0, t * 2 - 1);
+  const ease = (x) => x * x * (3 - 2 * x);
+  prev.holder.position.copy(prev.holder.userData.home).addScaledVector(OFF, ease(out));
+  prev.holder.visible = out < 1;
+  next.holder.visible = inn > 0;
+  next.holder.position.copy(next.holder.userData.home).addScaledVector(OFF, 1 - ease(inn));
+  if (t >= 1) {
+    boomGroup.remove(prev.holder);
+    prev.holder.visible = true;
+    prev.holder.position.copy(prev.holder.userData.home);
+    next.holder.visible = true;
+    next.holder.position.copy(next.holder.userData.home);
+    swap = null;
+  }
+  needsRender = true;
+}
+
+/* ── Camera ── */
+function frameHead() {
+  const target = HEAD.clone().add(new THREE.Vector3(-0.15, 0.25, 0));
+  const pos = HEAD.clone().add(new THREE.Vector3(-1.1, 0.9, 6.5));
+  // pull back on narrow stages so the 3 m truss and the drop arm stay in frame
+  const pull = Math.max(1, 1 / (stage.clientWidth / stage.clientHeight));
+  camera.position.copy(pos.sub(target).multiplyScalar(pull).add(target));
+  controls.target.copy(target);
+  controls.update();
+  invalidate();
+}
+controls.addEventListener('change', () => { updateRims(); invalidate(); });
+
+/* ── Demo ── */
+const demoBtn = $('demo');
+let demo = !reduced && !qs.has('nodemo');
+function paintDemo() {
+  demoBtn.setAttribute('aria-pressed', String(demo));
+  demoBtn.textContent = demo ? 'Stop demo' : 'Run demo';
+  demoBtn.className = `btn ${demo ? 'btn-ghost' : 'btn-primary'}`;
+}
+function stopDemo() { if (demo) { demo = false; paintDemo(); } }
+demoBtn.addEventListener('click', () => {
+  demo = !demo;
+  if (demo) { demoT = 0; demoLast = performance.now(); }
+  paintDemo();
+});
+let demoT = 0, demoLast = performance.now();
+const STEP = 3.6;      // seconds per movement
+function demoTick(now) {
+  const dt = Math.min(0.1, (now - demoLast) / 1000);
+  demoLast = now;
+  if (!current || swap) return;
+  demoT += dt;
+  const defs = [...current.cfg.funcs.filter((d) => !d.hidden).map((d) => ({ d, j: current.joints[d.key] })), { d: BOOM, j: boom }];
+  const sweep = demoT / STEP;
+  const active = Math.floor(sweep);
+  if (active >= defs.length + 1) {
+    demoT = 0;
+    defs.forEach(({ j }) => { j.target = 0; });
+    select(index + 1);
+    return;
+  }
+  if (active < defs.length) {
+    const { d, j } = defs[active];
+    const u = Math.sin((sweep - active) * Math.PI * 2);
+    const hi = d.wrap ? 110 : d.max * 0.85, lo = d.wrap ? -110 : d.min * 0.85;
+    // boom stays tilted for the combined pass; head movements return to centre
+    if (d === BOOM) j.target = u >= 0 ? hi * u : lo * -u;
+    else j.target = u >= 0 ? hi * u : lo * -u;
+    if (active !== demoArc) { demoArc = active; showArc(d.key); }
+  } else {
+    // combined: everything moving together at once, which is the whole point of the boom tilt
+    const u = (sweep - active) * Math.PI * 2;
+    defs.forEach(({ d, j }, i) => {
+      const hi = d.wrap ? 70 : d.max * 0.6, lo = d.wrap ? -70 : d.min * 0.6;
+      const s = Math.sin(u + i * 0.9);
+      j.target = s >= 0 ? hi * s : lo * -s;
+    });
+    demoArc = -1;
+  }
+  arcUntil = Math.max(arcUntil, active < defs.length ? now + 300 : 0);
+  if (funcControls.length) {
+    funcControls.forEach((c) => c.paint(current.joints[c.def.key].target));
+    boomCtl.paint(boom.target);
+  }
+  needsRender = true;
+}
+let demoArc = -1;
+paintDemo();
+
+/* ── Controls ── */
+$('prev').addEventListener('click', () => { stopDemo(); select(index - 1); });
+$('next').addEventListener('click', () => { stopDemo(); select(index + 1); });
+$('reset').addEventListener('click', () => {
+  stopDemo();
+  boom.target = 0;
+  boomCtl.paint(0);
+  if (current) {
+    for (const k in current.joints) current.joints[k].target = 0;
+    funcControls.forEach((c) => c.paint(0));
+  }
+  invalidate();
+});
+const closeLightbox = () => parent.postMessage({ type: 'aaa-viewer:close' }, location.origin);
+$('close').addEventListener('click', closeLightbox);
+addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+  if (e.target instanceof HTMLInputElement) return;
+  if (e.key === 'ArrowRight') { stopDemo(); select(index + 1); }
+  if (e.key === 'ArrowLeft') { stopDemo(); select(index - 1); }
+});
+canvas.addEventListener('pointerdown', stopDemo);
+
+/* ── Truss attitude readout ── */
+const _wq = new THREE.Quaternion(), _long = new THREE.Vector3(), _fwd = new THREE.Vector3();
+let attShown = '';
+function updateAttitude() {
+  if (!current) return;
+  current.last.updateWorldMatrix(true, false);
+  current.last.getWorldQuaternion(_wq);
+  _long.set(0, 0, 1).applyQuaternion(_wq);
+  _fwd.set(-1, 0, 0).applyQuaternion(_wq);
+  const pitch = Math.asin(THREE.MathUtils.clamp(_fwd.y, -1, 1)) / DEG;
+  const roll = Math.asin(THREE.MathUtils.clamp(_long.y, -1, 1)) / DEG;
+  const heading = Math.atan2(_fwd.z, -_fwd.x) / DEG;
+  const key = `${pitch.toFixed(0)}|${roll.toFixed(0)}|${heading.toFixed(0)}`;
+  if (key === attShown) return;
+  attShown = key;
+  $('attPitch').textContent = `${Math.round(pitch)}°`;
+  $('attRoll').textContent = `${Math.round(roll)}°`;
+  $('attHead').textContent = `${Math.round(heading)}°`;
+}
+
+/* ── Loop ── */
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  // narrow screens need a wider lens to hold the 3 m truss
+  camera.fov = camera.aspect < 1.1 ? 42 : 32;
+  camera.updateProjectionMatrix();
+  invalidate();
+}
+new ResizeObserver(resize).observe(stage);
+
+function ease(j, k) {
+  const d = j.target - j.cur;
+  if (Math.abs(d) < 0.01) { if (j.cur !== j.target) { j.cur = j.target; return true; } return false; }
+  j.cur += d * k;
+  return true;
+}
+let lastFrame = performance.now();
+function frame(now) {
+  requestAnimationFrame(frame);
+  const dt = Math.min(0.05, (now - lastFrame) / 1000);
+  lastFrame = now;
+  if (demo) demoTick(now);
+  const k = reduced ? 1 : 1 - Math.exp(-dt * 9);
+  let moved = false;
+  if (ease(boom, k)) { setJoint(boomGroup, HEAD, BOOM_AXIS, boom.cur); updateRam(); moved = true; }
+  if (current) {
+    for (const key in current.joints) {
+      const j = current.joints[key];
+      if (ease(j, k)) { applyJoint(j); moved = true; }
+    }
+    if (current.driven && moved) updateDriven(current.driven);
+  }
+  if (moved) { updateAttitude(); needsRender = true; }
+  if (swap) runSwap(now);
+  if (controls.update()) needsRender = true;
+  if (arcOn) {
+    const remain = arcUntil - now;
+    const op = THREE.MathUtils.clamp(remain / 400, 0, 0.9);
+    if (arcMat.opacity !== op) { arcMat.opacity = op; needsRender = true; }
+    if (remain <= 0) { arcOn.visible = false; arcOn = null; }
+  }
+  if (needsRender) {
+    needsRender = false;
+    renderer.render(scene, camera);
+  }
+}
+
+/* ── Boot ── */
+async function boot() {
+  try {
+    const [tele, man] = await Promise.all([
+      fetch('assets/telehandler.json').then((r) => r.json()),
+      fetch('assets/attachments.json').then((r) => r.json()),
+    ]);
+    manifest = man;
+    BAKED.fromArray(tele.head);
+    HEAD.set(PIN[0], PIN[1], BOOM_Z);
+    const glb = await gltf.loadAsync('assets/telehandler.glb');
+    ghost(glb.scene);
+    scene.add(glb.scene);
+    buildNose();
+    boomArc = makeArc(HEAD, BOOM_AXIS, 1.6, BOOM);
+    scene.add(boomArc);
+    setJoint(boomGroup, HEAD, BOOM_AXIS, 0);
+    frameHead();
+    key.target.position.copy(HEAD);
+    key.position.copy(HEAD).add(new THREE.Vector3(-8, 14, 12));
+    updateRims();
+    resize();
+    const start = Math.max(0, ATTACHMENTS.findIndex((a) => a.id === qs.get('a')));
+    await select(start);
+    updateAttitude();
+    invalidate();
+  } catch (e) {
+    console.error(e);
+    $('loaderText').textContent = 'Could not load the 3D model.';
+  }
+}
+requestAnimationFrame(frame);
+boot();
+
+/* for embedding and testing */
+window.aaaViewer = {
+  ATTACHMENTS,
+  select: (i) => select(i),
+  stopDemo,
+  setBoom: (v) => { boom.target = v; boom.cur = v; setJoint(boomGroup, HEAD, BOOM_AXIS, v); updateRam(); boomCtl.paint(v); updateAttitude(); invalidate(); },
+  setFunc: (key, v) => {
+    const j = current.joints[key];
+    j.target = v; j.cur = v; applyJoint(j);
+    if (current.driven) updateDriven(current.driven);
+    funcControls.forEach((c) => { if (c.def.key === key) c.paint(v); });
+    updateAttitude();
+    invalidate();
+  },
+  setMount: (x, y, z) => { current.holder.position.set(x, y, z); current.holder.userData.home.copy(current.holder.position); invalidate(); },
+  camera, controls, scene, boomGroup, nose,
+  current: () => current,
+};

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Telehandler Attachments | All Angles Access</title>
+<meta name="description" content="Cycle through the All Angles Access telehandler attachments in 3D and see how each head's movement combines with boom tilt." />
+<link rel="icon" href="data:," />
+<script>if (self !== top) document.documentElement.classList.add('embedded');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+<main class="app">
+  <section class="stage" id="stage" aria-label="3D view of the attachment on the boom">
+    <canvas id="gl" tabindex="0" aria-label="Drag to orbit, scroll or pinch to zoom"></canvas>
+
+    <div class="loader" id="loader" role="status" aria-live="polite"><span class="bar"><i id="loaderBar"></i></span><span id="loaderText">Loading telehandler</span></div>
+
+    <button type="button" class="round close" id="close" aria-label="Close 3D viewer">&times;</button>
+
+    <div class="title">
+      <p class="count"><span id="idx">01</span><span class="of"> / 04</span></p>
+      <h1 id="name">Romastor 360&deg;</h1>
+      <p class="spec" id="spec">Continuous Pan</p>
+      <div class="arrows">
+        <button type="button" class="round" id="prev" aria-label="Previous attachment">&larr;</button>
+        <button type="button" class="round" id="next" aria-label="Next attachment">&rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel" aria-label="Controls">
+    <nav class="list" id="list" aria-label="Attachments"></nav>
+
+    <p class="desc" id="desc"></p>
+
+    <section class="group" aria-labelledby="fnHead">
+      <h2 id="fnHead">Head movement</h2>
+      <div id="funcs"></div>
+    </section>
+
+    <section class="group boom" aria-labelledby="boomHead">
+      <h2 id="boomHead">Boom tilt</h2>
+      <p class="note">Tilts the whole head, so every movement above now runs on a leaning axis.</p>
+      <div id="boomSlot"></div>
+    </section>
+
+    <section class="attitude" aria-label="Resulting truss attitude">
+      <h2>Truss attitude</h2>
+      <dl>
+        <div><dt>Pitch</dt><dd id="attPitch">0&deg;</dd></div>
+        <div><dt>Roll</dt><dd id="attRoll">0&deg;</dd></div>
+        <div><dt>Heading</dt><dd id="attHead">0&deg;</dd></div>
+      </dl>
+    </section>
+
+    <div class="actions">
+      <button type="button" class="btn btn-ghost" id="demo" aria-pressed="true">Stop demo</button>
+      <button type="button" class="btn btn-ghost" id="reset">Reset</button>
+    </div>
+  </aside>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
