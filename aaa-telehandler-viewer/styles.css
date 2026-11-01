@@ -103,4 +103,9 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
   .desc{min-height:0;font-size:13px}
   .boom{padding-top:16px}
 }
+/* inside an item page, which has its own title, sliders and loader */
+html.inline,html.inline body{overflow:hidden}
+html.inline .app{display:block;height:100%}
+html.inline .stage{height:100%}
+html.inline .panel,html.inline .title,html.inline .loader{display:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}

@@ -11,6 +11,7 @@
 <script>
 if (self !== top) {
   document.documentElement.classList.add('embedded');
+  if (location.search.includes('inline')) document.documentElement.classList.add('inline');
   // Esc works from the first moment, before the viewer has loaded
   addEventListener('keydown', (e) => { if (e.key === 'Escape') parent.postMessage({ type: 'aaa-viewer:close' }, location.origin); });
 }

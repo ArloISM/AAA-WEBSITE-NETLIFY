@@ -43,6 +43,9 @@ const $ = (id) => document.getElementById(id);
 const DEG = Math.PI / 180;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const qs = new URLSearchParams(location.search);
+// ?inline: runs as one head inside an item page, which draws its own sliders and loader
+const INLINE = qs.has('inline');
+const toHost = (type, data) => { if (INLINE) parent.postMessage({ type: `aaa-viewer:${type}`, ...data }, location.origin); };
 
 /* ── Scene ────────────────────────────────────────────────────── */
 const canvas = $('gl');
@@ -90,7 +93,7 @@ scene.environmentIntensity = 1;
 const key = new THREE.DirectionalLight(0xfff4e6, 2.1);
 key.position.set(-14, 20, 12);
 key.castShadow = true;
-key.shadow.mapSize.set(2048, 2048);
+key.shadow.mapSize.setScalar(INLINE ? 1024 : 2048);
 Object.assign(key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 50 });
 key.shadow.bias = -0.0004;
 key.shadow.normalBias = 0.02;
@@ -122,6 +125,11 @@ controls.maxPolarAngle = Math.PI - 0.02;   // no floor now, so the underside can
 controls.minDistance = 3;
 controls.maxDistance = 14;
 controls.enablePan = false;
+if (INLINE) {
+  // it sits in a page: the wheel and vertical swipes have to keep scrolling that page
+  controls.enableZoom = false;
+  canvas.style.touchAction = 'pan-y';
+}
 
 /* ── Materials: the .blend's procedural shaders don't survive glTF, so rebuild by class ── */
 const std = (color, metalness, roughness) => new THREE.MeshStandardMaterial({ color, metalness, roughness });
@@ -247,6 +255,12 @@ const manager = new THREE.LoadingManager();
 const draco = new DRACOLoader(manager).setDecoderPath('vendor/draco/');
 const gltf = new GLTFLoader(manager).setDRACOLoader(draco);
 manager.onProgress = (_u, done, total) => { $('loaderBar').style.width = `${Math.round((done / total) * 100)}%`; };
+// two files carry nearly all the weight; `total` is missing when the server compresses them
+const fetched = { machine: 0, head: 0 };
+const track = (name, size) => (e) => {
+  fetched[name] = e.total ? e.loaded / e.total : Math.min(0.95, e.loaded / size);
+  toHost('progress', { p: 0.15 + 0.75 * (fetched.machine + fetched.head) / 2 });
+};
 
 let manifest;
 const built = new Map();
@@ -458,7 +472,7 @@ function showArc(key) {
 async function loadAttachment(i) {
   const cfg = ATTACHMENTS[i];
   if (built.has(cfg.id)) return built.get(cfg.id);
-  const p = gltf.loadAsync(`assets/${cfg.id}.glb`).then((glb) => buildAttachment(cfg, glb));
+  const p = gltf.loadAsync(`assets/${cfg.id}.glb`, track('head', 8e5)).then((glb) => buildAttachment(cfg, glb));
   built.set(cfg.id, p);
   p.catch(() => built.delete(cfg.id));
   return p;
@@ -505,6 +519,7 @@ async function select(i) {
 function applyJoint(j) { setJoint(j.group, j.pivot, j.axis, j.cur); }
 
 function scheduleWarm() {
+  if (INLINE) return;   // one head on this page, so nothing else to fetch
   const n = (index + 1) % ATTACHMENTS.length;
   (window.requestIdleCallback || setTimeout)(() => loadAttachment(n).catch(() => {}));
 }
@@ -639,11 +654,13 @@ controls.addEventListener('change', () => { updateRims(); updateGizmo(); invalid
 
 /* ── Demo ── */
 const demoBtn = $('demo');
-let demo = !reduced && !qs.has('nodemo');
+let host = null;   // inline: the page's sliders, told what the joints are doing
+let demo = !reduced && !qs.has('nodemo') && !INLINE;   // inline waits for the host's play()
 function paintDemo() {
   demoBtn.setAttribute('aria-pressed', String(demo));
   demoBtn.textContent = demo ? 'Stop demo' : 'Run demo';
   demoBtn.className = `btn ${demo ? 'btn-ghost' : 'btn-primary'}`;
+  host?.demo(demo);
 }
 function stopDemo() { if (demo) { demo = false; paintDemo(); } }
 demoBtn.addEventListener('click', () => {
@@ -654,7 +671,7 @@ demoBtn.addEventListener('click', () => {
 let demoT = 0, demoLast = performance.now();
 const STEP = 3.6;      // seconds per movement
 function demoTick(now) {
-  const dt = Math.min(0.1, (now - demoLast) / 1000);
+  const dt = Math.max(0, Math.min(0.1, (now - demoLast) / 1000));   // a frame can be stamped just before a play()
   demoLast = now;
   if (!current || swap) return;
   demoT += dt;
@@ -664,7 +681,7 @@ function demoTick(now) {
   if (active >= defs.length + 1) {
     demoT = 0;
     defs.forEach(({ j }) => { j.target = 0; });
-    select(index + 1);
+    if (!INLINE) select(index + 1);
     return;
   }
   if (active < defs.length) {
@@ -686,7 +703,7 @@ function demoTick(now) {
     demoArc = -1;
   }
   arcUntil = Math.max(arcUntil, active < defs.length ? now + 300 : 0);
-  if (funcControls.length) {
+  if (funcControls.length && !INLINE) {
     funcControls.forEach((c) => c.paint(current.joints[c.def.key].target));
     boomCtl.paint(boom.target);
   }
@@ -698,7 +715,7 @@ paintDemo();
 /* ── Controls ── */
 $('prev').addEventListener('click', () => { stopDemo(); select(index - 1); });
 $('next').addEventListener('click', () => { stopDemo(); select(index + 1); });
-$('reset').addEventListener('click', () => {
+function resetAll() {
   stopDemo();
   snapTo(VIEW);
   boom.target = 0;
@@ -708,9 +725,10 @@ $('reset').addEventListener('click', () => {
     funcControls.forEach((c) => c.paint(0));
   }
   invalidate();
-});
+}
+$('reset').addEventListener('click', resetAll);
 addEventListener('keydown', (e) => {
-  if (e.target instanceof HTMLInputElement) return;
+  if (INLINE || e.target instanceof HTMLInputElement) return;
   if (e.key === 'ArrowRight') { stopDemo(); select(index + 1); }
   if (e.key === 'ArrowLeft') { stopDemo(); select(index - 1); }
 });
@@ -754,10 +772,23 @@ function ease(j, k) {
   j.cur += d * k;
   return true;
 }
-let lastFrame = performance.now();
+let lastFrame = performance.now(), paused = false;
+// a machine that can't hold the frame rate gives up resolution rather than smoothness
+let pixelRatio = renderer.getPixelRatio(), slowFrames = 0, drewLast = false;
+function holdFrameRate(ms) {
+  slowFrames = ms > 26 ? slowFrames + 1 : Math.max(0, slowFrames - 1);
+  if (slowFrames > 20 && pixelRatio > 1) {
+    pixelRatio = Math.max(1, pixelRatio - 0.25);
+    renderer.setPixelRatio(pixelRatio);
+    resize();
+    slowFrames = 0;
+  }
+}
 function frame(now) {
   requestAnimationFrame(frame);
-  const dt = Math.min(0.05, (now - lastFrame) / 1000);
+  if (paused) { lastFrame = demoLast = now; drewLast = false; return; }
+  const ms = now - lastFrame;
+  const dt = Math.min(0.05, ms / 1000);
   lastFrame = now;
   if (demo) demoTick(now);
   const k = reduced ? 1 : 1 - Math.exp(-dt * 9);
@@ -770,7 +801,14 @@ function frame(now) {
     }
     if (current.driven && moved) updateDriven(current.driven);
   }
-  if (moved) { updateAttitude(); needsRender = true; }
+  if (moved) {
+    updateAttitude();
+    needsRender = true;
+    if (host && current) {
+      host.paint('boom', boom.cur);
+      for (const key in current.joints) host.paint(key, current.joints[key].cur);
+    }
+  }
   if (swap) runSwap(now);
   if (focusAnim) {
     const t = Math.min(1, (now - focusAnim.t0) / focusAnim.dur);
@@ -792,8 +830,23 @@ function frame(now) {
   }
   if (needsRender) {
     needsRender = false;
+    if (drewLast) holdFrameRate(ms);
+    drewLast = true;
     renderer.render(scene, camera);
-  }
+  } else drewLast = false;
+}
+
+/* Everything reaches the GPU behind the loader, so the first movement can't stutter */
+async function primeGpu() {
+  const arcs = [boomArc, ...Object.values(current.joints).map((j) => j.arc)].filter(Boolean);
+  const opacity = arcMat.opacity;
+  arcMat.opacity = 0;
+  arcs.forEach((a) => { a.visible = true; });
+  await renderer.compileAsync(scene, camera);
+  renderer.render(scene, camera);
+  arcs.forEach((a) => { a.visible = false; });
+  arcMat.opacity = opacity;
+  invalidate();
 }
 
 /* ── Boot ── */
@@ -806,7 +859,8 @@ async function boot() {
     manifest = man;
     BAKED.fromArray(tele.head);
     HEAD.set(PIN[0], PIN[1], BOOM_Z);
-    const glb = await gltf.loadAsync('assets/telehandler.glb');
+    toHost('progress', { p: 0.15 });
+    const glb = await gltf.loadAsync('assets/telehandler.glb', track('machine', 95e4));
     ghost(glb.scene);
     scene.add(glb.scene);
     buildNose();
@@ -823,9 +877,11 @@ async function boot() {
     await select(start);
     updateAttitude();
     invalidate();
+    if (INLINE) { await primeGpu(); toHost('ready'); }
   } catch (e) {
     console.error(e);
     $('loaderText').textContent = 'Could not load the 3D model.';
+    toHost('error');
   }
 }
 requestAnimationFrame(frame);
@@ -848,4 +904,18 @@ window.aaaViewer = {
   setMount: (x, y, z) => { current.holder.position.set(x, y, z); current.holder.userData.home.copy(current.holder.position); invalidate(); },
   camera, controls, scene, boomGroup, nose,
   current: () => current,
+  // the host page's controls, when running inline
+  observe: (h) => { host = h; },
+  setTarget: (key, v) => {
+    stopDemo();
+    const j = key === 'boom' ? boom : current.joints[key];
+    j.target = v;
+    showArc(key);
+    invalidate();
+  },
+  play: () => { if (!reduced) { demo = true; demoT = 0; demoLast = performance.now(); paintDemo(); } },
+  toggleDemo: () => { if (demo) stopDemo(); else window.aaaViewer.play(); },
+  reset: resetAll,
+  pause: (p) => { paused = p; if (!p) invalidate(); },
+  pixelRatio: () => pixelRatio,
 };
