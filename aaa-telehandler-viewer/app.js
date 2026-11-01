@@ -113,7 +113,8 @@ const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 200);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.08;
-controls.maxPolarAngle = Math.PI * 0.495;
+controls.minPolarAngle = 0.02;
+controls.maxPolarAngle = Math.PI - 0.02;   // no floor now, so the underside can be seen too
 controls.minDistance = 3;
 controls.maxDistance = 14;
 controls.enablePan = false;
@@ -298,7 +299,13 @@ function buildAttachment(cfg, glb) {
     j.group.parent.add(j.arc);
   }
   const last = joints[m.funcs[m.funcs.length - 1].key].group;
-  return { cfg, holder, joints, driven, last };
+  // the view orbits the middle of the whole attachment, head and truss together
+  const box = new THREE.Box3();
+  holder.traverse((o) => {
+    if (o.isMesh && o.material !== arcMat) { o.geometry.computeBoundingBox(); box.union(o.geometry.boundingBox); }
+  });
+  const centre = box.getCenter(new THREE.Vector3()).add(holder.position);
+  return { cfg, holder, joints, driven, last, centre };
 }
 
 const _p = new THREE.Vector3(), _q = new THREE.Quaternion(), _s = new THREE.Vector3();
@@ -426,6 +433,7 @@ async function select(i) {
   if (next.driven) updateDriven(next.driven);
   boomGroup.add(next.holder);
   updateRam();
+  focusOn(next, !prev);
   renderFuncs();
   updateAttitude();
   if (reduced || !prev) {
@@ -466,18 +474,112 @@ function runSwap(now) {
   needsRender = true;
 }
 
-/* ── Camera ── */
+/* ── Camera: centred on the attachment, keeping its angle as heads change ── */
+const VIEW = new THREE.Vector3(-4.3, 3.6, 5.2);    // default offset from the attachment's centre
+const focus = new THREE.Vector3(-6.2, 4.5, -0.6);
+const _focusStep = new THREE.Vector3(), _focusNext = new THREE.Vector3();
+let focusAnim = null, camAnim = null;
 function frameHead() {
-  const target = HEAD.clone().add(new THREE.Vector3(-0.15, 0.25, 0));
-  const pos = HEAD.clone().add(new THREE.Vector3(-1.1, 0.9, 6.5));
-  // pull back on narrow stages so the 3 m truss and the drop arm stay in frame
+  // pull back on narrow stages so the 3 m truss stays in frame
   const pull = Math.max(1, 1 / (stage.clientWidth / stage.clientHeight));
-  camera.position.copy(pos.sub(target).multiplyScalar(pull).add(target));
-  controls.target.copy(target);
+  controls.target.copy(focus);
+  camera.position.copy(focus).addScaledVector(VIEW, pull);
   controls.update();
   invalidate();
 }
-controls.addEventListener('change', () => { updateRims(); invalidate(); });
+function moveFocus(to) {
+  _focusStep.subVectors(to, focus);
+  camera.position.add(_focusStep);
+  controls.target.add(_focusStep);
+  focus.copy(to);
+  invalidate();
+}
+function focusOn(next, instant) {
+  if (instant || reduced) { focusAnim = null; moveFocus(next.centre); return; }
+  focusAnim = { from: focus.clone(), to: next.centre, t0: performance.now(), dur: 560 };
+}
+
+/* ── World View: rotates with the scene. Drag it to orbit, tap a side to view from there ── */
+const POLE = 0.02;
+const SIDES = [
+  { key: 'F', label: 'Front', dir: [-1, 0, 0], main: true },
+  { key: 'B', label: 'Back', dir: [1, 0, 0] },
+  { key: 'T', label: 'Top', dir: [0, 1, 0] },
+  { key: 'U', label: 'Underneath', dir: [0, -1, 0] },
+  { key: 'L', label: 'Left', dir: [0, 0, 1] },
+  { key: 'R', label: 'Right', dir: [0, 0, -1] },
+];
+const gizmo = $('gizmo');
+const _off = new THREE.Vector3(), _sph = new THREE.Spherical(), _axis = new THREE.Vector3(), _invQ = new THREE.Quaternion();
+const lines = gizmo.querySelector('svg');
+for (const side of SIDES) {
+  side.vec = new THREE.Vector3(...side.dir);
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = `gz${side.main ? ' main' : ''}`;
+  b.textContent = side.key;
+  b.setAttribute('aria-label', `${side.label} view`);
+  b.title = side.label;
+  b.addEventListener('click', () => { if (!gizmoDrag.moved) { stopDemo(); snapTo(side.vec); } });
+  gizmo.appendChild(b);
+  side.el = b;
+  side.line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  side.line.setAttribute('x1', 48);
+  side.line.setAttribute('y1', 48);
+  lines.appendChild(side.line);
+}
+function updateGizmo() {
+  _invQ.copy(camera.quaternion).invert();
+  for (const side of SIDES) {
+    _axis.copy(side.vec).applyQuaternion(_invQ);
+    const x = 48 + _axis.x * 34, y = 48 - _axis.y * 34;
+    side.el.style.transform = `translate(${x - 13}px,${y - 13}px) scale(${0.78 + (_axis.z + 1) * 0.11})`;
+    side.el.style.zIndex = Math.round((_axis.z + 1) * 10);
+    side.el.style.opacity = 0.45 + (_axis.z + 1) * 0.275;
+    side.line.setAttribute('x2', x);
+    side.line.setAttribute('y2', y);
+    side.line.style.opacity = _axis.z >= 0 ? 0.5 : 0.18;
+  }
+}
+function setOrbit(theta, phi) {
+  _off.subVectors(camera.position, controls.target);
+  _sph.setFromVector3(_off);
+  _sph.theta = theta;
+  _sph.phi = THREE.MathUtils.clamp(phi, POLE, Math.PI - POLE);
+  camera.position.copy(controls.target).add(_off.setFromSpherical(_sph));
+  controls.update();
+  invalidate();
+}
+function snapTo(vec) {
+  _sph.setFromVector3(_off.subVectors(camera.position, controls.target));
+  const from = { theta: _sph.theta, phi: _sph.phi };
+  _sph.setFromVector3(_off.copy(vec));
+  // straight up or down has no heading of its own, so keep the current one
+  const theta = Math.abs(vec.y) / vec.length() > 0.9 ? from.theta : _sph.theta;
+  const shortest = ((theta - from.theta + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+  camAnim = { from, dTheta: shortest, dPhi: THREE.MathUtils.clamp(_sph.phi, POLE, Math.PI - POLE) - from.phi, t0: performance.now(), dur: reduced ? 0 : 700 };
+  invalidate();
+}
+const gizmoDrag = { on: false, moved: false, x: 0, y: 0 };
+gizmo.addEventListener('pointerdown', (e) => {
+  Object.assign(gizmoDrag, { on: true, moved: false, x: e.clientX, y: e.clientY });
+  camAnim = null;
+});
+addEventListener('pointermove', (e) => {
+  if (!gizmoDrag.on) return;
+  const dx = e.clientX - gizmoDrag.x, dy = e.clientY - gizmoDrag.y;
+  if (!gizmoDrag.moved && Math.hypot(dx, dy) < 4) return;
+  gizmoDrag.moved = true;
+  gizmoDrag.x = e.clientX;
+  gizmoDrag.y = e.clientY;
+  stopDemo();
+  _sph.setFromVector3(_off.subVectors(camera.position, controls.target));
+  setOrbit(_sph.theta - dx * 0.012, _sph.phi - dy * 0.012);
+});
+addEventListener('pointerup', () => { gizmoDrag.on = false; });
+addEventListener('pointercancel', () => { gizmoDrag.on = false; });
+controls.addEventListener('start', () => { camAnim = null; });
+controls.addEventListener('change', () => { updateRims(); updateGizmo(); invalidate(); });
 
 /* ── Demo ── */
 const demoBtn = $('demo');
@@ -542,6 +644,7 @@ $('prev').addEventListener('click', () => { stopDemo(); select(index - 1); });
 $('next').addEventListener('click', () => { stopDemo(); select(index + 1); });
 $('reset').addEventListener('click', () => {
   stopDemo();
+  snapTo(VIEW);
   boom.target = 0;
   boomCtl.paint(0);
   if (current) {
@@ -616,6 +719,17 @@ function frame(now) {
   }
   if (moved) { updateAttitude(); needsRender = true; }
   if (swap) runSwap(now);
+  if (focusAnim) {
+    const t = Math.min(1, (now - focusAnim.t0) / focusAnim.dur);
+    moveFocus(_focusNext.lerpVectors(focusAnim.from, focusAnim.to, t * t * (3 - 2 * t)));
+    if (t >= 1) focusAnim = null;
+  }
+  if (camAnim) {
+    const t = camAnim.dur ? Math.min(1, (now - camAnim.t0) / camAnim.dur) : 1;
+    const e = t * t * (3 - 2 * t);
+    setOrbit(camAnim.from.theta + camAnim.dTheta * e, camAnim.from.phi + camAnim.dPhi * e);
+    if (t >= 1) camAnim = null;
+  }
   if (controls.update()) needsRender = true;
   if (arcOn) {
     const remain = arcUntil - now;
@@ -647,6 +761,7 @@ async function boot() {
     scene.add(boomArc);
     setJoint(boomGroup, HEAD, BOOM_AXIS, 0);
     frameHead();
+    updateGizmo();
     key.target.position.copy(HEAD);
     key.position.copy(HEAD).add(new THREE.Vector3(-8, 14, 12));
     updateRims();

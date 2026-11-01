@@ -1,11 +1,12 @@
-/* "Function View" buttons for the AAA site. Load after lightbox.js:
+/* "Interactive Demo" buttons for the AAA site. Load after lightbox.js:
      <script src="/aaa-telehandler-viewer/lightbox.js" defer></script>
      <script src="/aaa-telehandler-viewer/site-buttons.js" defer></script>
    Item pages for a modelled head get a button beside their actions. The home page
-   gets a floating button that stays in view as the page scrolls. */
+   gets a line under the hero's buttons, and a floating button that stays in view as
+   the page scrolls. */
 (() => {
   const MODELLED = ['romastor-360', 'romastor-pan-tilt', 'romastor-3d', 'rotator'];
-  const LABEL = 'Function View';
+  const LABEL = 'Interactive Demo';
   const ARROW = ' &rarr;';
 
   function itemButton(id) {
@@ -32,6 +33,8 @@
     style.textContent = `
 .aaa-float{position:fixed;right:max(24px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));z-index:900;box-shadow:0 12px 34px rgba(0,0,0,.45)}
 .aaa-float.away,body.nav-open .aaa-float{opacity:0;visibility:hidden;transform:translateY(16px)}
+.aaa-try{display:block;margin:20px auto 0;padding:8px 12px;background:none;border:0;color:var(--pd);font:500 .92rem var(--font);letter-spacing:-.01em;cursor:pointer;text-decoration:underline;text-decoration-color:var(--s);text-underline-offset:5px;transition:color .3s;opacity:0;animation:fadeUp 1.1s cubic-bezier(.16,1,.3,1) .75s forwards}
+.aaa-try:hover{color:var(--p)}
 @media (max-width:680px){.aaa-float{right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom))}}`;
     document.head.appendChild(style);
     const b = document.createElement('button');
@@ -40,6 +43,15 @@
     b.setAttribute('data-aaa-viewer', '');
     b.innerHTML = LABEL + ARROW;
     document.body.appendChild(b);
+    const cta = document.querySelector('.hero-ctas');
+    if (cta) {
+      const line = document.createElement('button');
+      line.type = 'button';
+      line.className = 'aaa-try';
+      line.setAttribute('data-aaa-viewer', '');
+      line.textContent = 'Try our Interactive Demo';
+      cta.after(line);
+    }
     // step aside at the contact section, whose own buttons take over there
     const contact = document.getElementById('contact');
     if (contact) new IntersectionObserver(([e]) => b.classList.toggle('away', e.isIntersecting)).observe(contact);

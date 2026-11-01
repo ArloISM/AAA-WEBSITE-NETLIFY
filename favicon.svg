@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 -36 312 312"><title>All Angles Access</title><rect x="-20" y="-36" width="312" height="312" rx="56" fill="#0a0908"/>
+<polygon fill="#221F1F" points="200,21 0,0 26,183 226,173"/><polygon fill="#EA1F27" points="272,39 89,68 56,199 247,217"/><polygon fill="#221F1F" points="150,78 70,217 231,217"/>
+<g stroke="#fff" stroke-miterlimit="10" fill="none"><line stroke-width=".75" x1="150" y1="78" x2="167" y2="217"/><line stroke-width=".75" x1="150" y1="78" x2="199" y2="217"/><line stroke-width=".75" x1="150" y1="78" x2="231" y2="217"/><line stroke-width=".7" x1="150" y1="78" x2="134" y2="217"/><line stroke-width=".6" x1="150" y1="78" x2="102" y2="217"/><line stroke-width=".5" x1="150" y1="78" x2="70" y2="217"/></g>
+<path fill="#fff" d="m181,127l-31-53l-31,53l-58,93h179l-58-93Zm-105,88l33-62l41-71l41,71l33,62h-148Z"/></svg>
