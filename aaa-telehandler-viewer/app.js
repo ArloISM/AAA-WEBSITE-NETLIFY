@@ -709,10 +709,7 @@ $('reset').addEventListener('click', () => {
   }
   invalidate();
 });
-const closeLightbox = () => parent.postMessage({ type: 'aaa-viewer:close' }, location.origin);
-$('close').addEventListener('click', closeLightbox);
 addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeLightbox();
   if (e.target instanceof HTMLInputElement) return;
   if (e.key === 'ArrowRight') { stopDemo(); select(index + 1); }
   if (e.key === 'ArrowLeft') { stopDemo(); select(index - 1); }

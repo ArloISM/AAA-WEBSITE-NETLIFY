@@ -5,6 +5,8 @@
    gets a line under the hero's buttons, and a floating button that stays in view as
    the page scrolls. */
 (() => {
+  if (window.AAAViewerButtons) return;
+  window.AAAViewerButtons = true;
   const MODELLED = ['romastor-360', 'romastor-pan-tilt', 'romastor-3d', 'rotator'];
   const LABEL = 'Interactive Demo';
   const ARROW = ' &rarr;';

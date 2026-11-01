@@ -80,15 +80,12 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
 .attitude dd{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .actions{display:flex;gap:8px;margin-top:auto}
 .actions .btn{flex:1;padding-left:16px;padding-right:16px}
-.close{display:none;position:fixed;top:32px;right:32px;z-index:2;width:44px;height:44px;font-size:22px;line-height:1}
-.embedded .close{display:block}
 .embedded .panel{padding-top:72px}
 .err{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:32px;text-align:center;color:var(--pd)}
 
 @media (max-width:680px){
   .app{grid-template-columns:minmax(0,1fr);grid-template-rows:48svh minmax(0,1fr)}
   .panel,.embedded .panel{margin:0 8px 8px;padding:16px;gap:16px}
-  .close{top:12px;right:12px}
   .world{top:12px;transform:translateX(-50%) scale(.82);transform-origin:top center}
   .world-cap{display:none}
   .title{left:16px;bottom:16px;max-width:calc(100% - 32px)}
