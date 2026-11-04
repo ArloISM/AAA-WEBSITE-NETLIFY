@@ -108,4 +108,7 @@ html.inline,html.inline body{overflow:hidden}
 html.inline .app{display:block;height:100%}
 html.inline .stage{height:100%}
 html.inline .panel,html.inline .title,html.inline .loader{display:none}
+/* a home-page card: the head alone, nothing to press */
+html.card .world{display:none}
+html.card canvas{pointer-events:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}

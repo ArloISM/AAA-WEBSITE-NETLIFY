@@ -3,6 +3,48 @@
     {
       "media": [],
       "brand": "Romastor",
+      "name": "Romastor 4D-Film",
+      "slug": "romastor-4d-film",
+      "order": 0,
+      "specs": [
+        {
+          "label": "Capacity",
+          "value": "2,000 kg"
+        },
+        {
+          "label": "Axes",
+          "value": "Rotate · tilt · roll"
+        },
+        {
+          "label": "Hitch",
+          "value": "Manitou 5T"
+        },
+        {
+          "label": "Carries",
+          "value": "Alpha Truss"
+        },
+        {
+          "label": "Application",
+          "value": "Film sets & events"
+        }
+      ],
+      "tags": [
+        "romastor",
+        "manitou",
+        "4d",
+        "tilt",
+        "roll",
+        "film"
+      ],
+      "long_description": "The Romastor 4D-Film rotates, tilts and moves 2,000 kg in any direction, developed specifically for film sets and events. It is the ultimate solution for positioning film equipment in literally any orientation — shadow screens, green and blue screens, soft boxes, lighting rigs, wind, rain and snow machines, cameras and more.",
+      "image": "images/attachments/romastor-4d-film.webp",
+      "spec": "Rotate · Tilt · 2,000 kg",
+      "description": "Rotates, tilts and moves 2,000 kg in any direction — built for film sets and events, positioning screens, lighting and cameras in any orientation.",
+      "category": "Attachments"
+    },
+    {
+      "media": [],
+      "brand": "Romastor",
       "name": "Romastor 360°",
       "slug": "romastor-360",
       "order": 1,

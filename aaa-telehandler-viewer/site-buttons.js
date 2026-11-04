@@ -7,7 +7,7 @@
 (() => {
   if (window.AAAViewerButtons) return;
   window.AAAViewerButtons = true;
-  const MODELLED = ['romastor-360', 'romastor-pan-tilt', 'romastor-3d', 'rotator'];
+  const MODELLED = ['romastor-4d-film', 'romastor-360', 'romastor-pan-tilt', 'romastor-3d', 'rotator', 'magni-panning-head'];
   const LABEL = 'Interactive Demo';
   const ARROW = ' &rarr;';
 
@@ -19,6 +19,8 @@
     'romastor-pan-tilt': [PAN, { key: 'tilt', label: 'Tilt', min: -70, max: 0, pitch: true, flip: true }],
     'romastor-3d': [{ key: 'axis1', label: 'Axis 1 · Pan', min: -180, max: 180 }, { key: 'axis2', label: 'Axis 2 · Roll', min: -180, max: 180 }],
     rotator: [{ key: 'rotate', label: 'Rotate', min: -180, max: 180 }],
+    'magni-panning-head': [{ key: 'pan', label: 'Pan', min: -90, max: 90 }],
+    'romastor-4d-film': [{ key: 'pan', label: 'Pan', min: -90, max: 90 }, { key: 'tilt', label: 'Tilt', min: 0, max: 60, pitch: true }, { key: 'roll', label: 'Roll', min: -180, max: 180 }],
   };
   const BASE = new URL('./', document.currentScript.src).href;
   const hasWebGL = () => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } };
@@ -59,7 +61,11 @@
 .aaa-ctl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-10px;border-radius:50%;background:var(--p);border:0;box-shadow:0 1px 8px rgba(0,0,0,.6)}
 .aaa-ctl input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--p);border:0}
 .aaa-ctl input[type=range]:focus-visible{outline:2px solid var(--p);outline-offset:2px}
-@media (max-width:900px){.aaa-ctl{margin:0}.aaa-has-demo .thumbs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.aaa-has-demo .thumbs::-webkit-scrollbar{display:none}}
+.aaa-pin.on .stage{position:sticky;top:var(--aaa-top,0px);z-index:4;padding:6px 0 10px}
+.aaa-pin.capped .stage-main,.aaa-pin.capped .aaa-demo{aspect-ratio:auto;height:var(--aaa-h)}
+.aaa-pin.on .aaa-demo{top:6px}
+.aaa-pin + .thumbs{margin-top:18px}
+@media (max-width:900px){.aaa-ctl{margin:0}.aaa-pin .aaa-ctl{padding-top:14px}.aaa-pin .aaa-ctl input[type=range]{height:28px}.aaa-has-demo .thumbs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.aaa-has-demo .thumbs::-webkit-scrollbar{display:none}}
 @media (max-width:680px){.aaa-has-demo .stage-main,.aaa-demo{aspect-ratio:1/1}}`;
     document.head.appendChild(style);
     document.body.classList.add('aaa-has-demo');
@@ -120,11 +126,44 @@
 
       const ctl = panel();
       const actions = info.querySelector('.actions');
-      // on a phone the description would push the sliders away from the head they move
+      // on a phone the description would push the sliders away from the head they move, so they sit
+      // right under it, and the 3D pins below the site header while the sliders scroll past, so the
+      // head never leaves the screen while it is being driven
       const narrow = matchMedia('(max-width:900px)');
-      const place = () => { if (narrow.matches) stage.after(ctl); else info.insertBefore(ctl, actions); };
+      const pin = document.createElement('div');
+      pin.className = 'aaa-pin';
+      const header = document.querySelector('header, .nav, nav');
+      const square = matchMedia('(max-width:680px)');
+      const fitPin = () => {
+        if (!narrow.matches) { pin.classList.remove('on', 'capped'); return; }
+        const top = header ? Math.max(0, Math.round(header.getBoundingClientRect().bottom)) : 0;
+        stage.style.setProperty('--aaa-top', `${top}px`);
+        stage.style.background = getComputedStyle(document.body).backgroundColor;
+        // the pinned head may take ~58% of the screen, so the sliders always have room under it
+        const natural = stage.clientWidth * (square.matches ? 1 : 0.75);
+        const h = Math.min(natural, Math.round(innerHeight * 0.58 - top));
+        const fits = h >= 170;   // a landscape phone has no room for both: then it simply scrolls
+        pin.classList.toggle('on', fits);
+        pin.classList.toggle('capped', fits && h < natural);
+        stage.style.setProperty('--aaa-h', `${h}px`);
+      };
+      const place = () => {
+        const thumbsEl = document.getElementById('thumbs');
+        if (narrow.matches) {
+          if (pin.parentNode !== stage.parentNode) { stage.before(pin); pin.append(stage); }
+          pin.append(ctl);
+          if (thumbsEl) pin.after(thumbsEl);   // photos below the sliders, so the pinned part stays small
+        } else {
+          if (pin.parentNode) { pin.before(stage); pin.remove(); }
+          if (thumbsEl && thumbsEl.parentNode !== stage) stage.append(thumbsEl);
+          info.insertBefore(ctl, actions);
+        }
+        fitPin();
+      };
       place();
       narrow.addEventListener('change', place);
+      square.addEventListener('change', fitPin);
+      addEventListener('resize', fitPin);
 
       let shownP = 0;
       const bar = layer.querySelector('i'), pct = layer.querySelector('em');
@@ -226,8 +265,121 @@
     if (contact) new IntersectionObserver(([e]) => b.classList.toggle('away', e.isIntersecting)).observe(contact);
   }
 
+  /* Home page: each modelled head's card runs the head live in 3D in place of its GIF.
+     One viewer per card in card mode (no telehandler, no controls), created when the card nears
+     the screen, paused when it leaves, and unloaded when it is far away, so only a couple run at once. */
+  const CARD_IDS = MODELLED;
+  const NEW_CARD = {   // added here too, first in the row, if the page doesn't have its card yet
+    id: 'romastor-4d-film', name: 'Romastor 4D-Film', spec: 'Rotate &middot; Tilt &middot; 2,000 kg',
+    desc: 'Rotates, tilts and moves 2,000 kg in any direction — built for film sets and events, positioning screens, lighting and cameras in any orientation.',
+  };
+  function homeCards() {
+    const grid = document.querySelector('.attach-grid');
+    if (!grid || !hasWebGL() || matchMedia('(prefers-reduced-motion: reduce)').matches) return;   // the GIFs stay
+    const tpl = grid.querySelector('.attach-card');
+    if (tpl && !grid.querySelector(`a[href*="id=${NEW_CARD.id}"]`)) {
+      const c = tpl.cloneNode(true);
+      c.setAttribute('href', `item.html?id=${NEW_CARD.id}`);
+      c.querySelector('img').setAttribute('alt', NEW_CARD.name);
+      c.querySelector('h3').innerHTML = NEW_CARD.name;
+      c.querySelector('.spec').innerHTML = NEW_CARD.spec;
+      c.querySelector('p').textContent = NEW_CARD.desc;
+      grid.prepend(c);
+      // the page fades its cards in as they scroll into view; this one arrived after it looked
+      c.classList.remove('in');
+      new IntersectionObserver(([e], o) => { if (e.isIntersecting) { c.classList.add('in'); o.disconnect(); } }, { threshold: 0.12 }).observe(c);
+    }
+    [...grid.querySelectorAll('.attach-idx')].forEach((el, n) => { el.textContent = String(n + 1).padStart(2, '0'); });
+    // whichever card ends up alone on the last row (3 columns, or 2 on tablets) is drawn wide
+    const all = [...grid.querySelectorAll('.attach-card')];
+    const markWide = () => {
+      const cols = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean).length;
+      all.forEach((c, n) => c.classList.toggle('aaa-wide', cols > 1 && n === all.length - 1 && all.length % cols === 1));
+    };
+    markWide();
+    addEventListener('resize', markWide);
+
+    const style = document.createElement('style');
+    style.textContent = `
+.aaa-card3d{position:absolute;inset:0;z-index:0;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.aaa-card3d iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
+.aaa-card3d.ready iframe{opacity:1}
+.aaa-card3d i{position:absolute;left:50%;top:50%;width:90px;height:2px;margin:-1px 0 0 -45px;background:var(--rs);overflow:hidden;transition:opacity .4s}
+.aaa-card3d i::after{content:"";position:absolute;inset:0;width:40%;background:var(--s);animation:aaaCardLoad 1.1s ease-in-out infinite}
+.aaa-card3d.ready i{opacity:0}
+@keyframes aaaCardLoad{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+.attach-card:hover .aaa-card3d{transform:scale(1.06)}
+.attach-media .attach-idx{z-index:1}
+.attach-media img.aaa-off{visibility:hidden}
+/* seven cards leave the last one alone on its row: it spans the row as a wide card instead */
+@media (min-width:681px){
+  .attach-grid>.attach-card.aaa-wide{grid-column:1/-1;display:grid!important;grid-template-columns:var(--aaa-wide-cols,1fr 2fr);align-items:center}
+  .attach-grid>.attach-card.aaa-wide .attach-media{height:100%;min-height:260px;aspect-ratio:auto}
+  .attach-grid>.attach-card.aaa-wide .attach-body{padding:34px 44px}
+}
+@media (min-width:681px) and (max-width:1024px){.attach-grid>.attach-card.aaa-wide{--aaa-wide-cols:1fr 1fr}}`;
+    document.head.appendChild(style);
+
+    const cards = [];
+    for (const a of grid.querySelectorAll('.attach-card')) {
+      const cid = new URL(a.getAttribute('href'), location.href).searchParams.get('id');
+      if (!CARD_IDS.includes(cid)) continue;
+      const media = a.querySelector('.attach-media'), img = media.querySelector('img');
+      const gif = img.getAttribute('src') || 'images/attachments/romastor-4d-film.webp';
+      img.removeAttribute('src');   // stops the 20 MB GIF download; it comes back only if the 3D fails
+      img.classList.add('aaa-off');
+      const box = document.createElement('div');
+      box.className = 'aaa-card3d';
+      box.innerHTML = '<i></i>';
+      media.prepend(box);
+      cards.push({ id: cid, box, img, gif, frame: null, api: null, near: false, seen: false });
+    }
+    const card = (el) => cards.find((c) => c.box === el);
+    const sync = (c) => { if (c.api) c.api.pause(!c.seen); };
+    const load = (c) => {
+      if (c.frame) return;
+      c.frame = document.createElement('iframe');
+      c.frame.title = '';
+      c.frame.setAttribute('aria-hidden', 'true');
+      c.frame.tabIndex = -1;
+      c.frame.loading = 'eager';
+      c.frame.src = `${BASE}index.html?a=${encodeURIComponent(c.id)}&card`;
+      c.box.appendChild(c.frame);
+    };
+    const unload = (c) => {
+      if (!c.frame) return;
+      c.frame.remove();
+      c.frame = c.api = null;
+      c.box.classList.remove('ready');
+    };
+    addEventListener('message', (e) => {
+      const c = cards.find((x) => x.frame && e.source === x.frame.contentWindow);
+      if (!c || !e.data) return;
+      if (e.data.type === 'aaa-viewer:ready') {
+        c.api = c.frame.contentWindow.aaaViewer;
+        c.box.classList.add('ready');
+        c.api.play();
+        sync(c);
+      }
+      if (e.data.type === 'aaa-viewer:error') {   // the GIF is still better than an empty card
+        unload(c);
+        c.box.remove();
+        c.img.src = c.gif;
+        c.img.classList.remove('aaa-off');
+      }
+    });
+    // load a little before a card scrolls in; drop it once it is well off screen
+    const nearObs = new IntersectionObserver((es) => es.forEach((e) => {
+      const c = card(e.target); c.near = e.isIntersecting;
+      if (c.near) load(c); else unload(c);
+    }), { rootMargin: '600px 0px' });
+    const seenObs = new IntersectionObserver((es) => es.forEach((e) => { const c = card(e.target); c.seen = e.isIntersecting; sync(c); }));
+    cards.forEach((c) => { nearObs.observe(c.box); seenObs.observe(c.box); });
+    document.addEventListener('visibilitychange', () => cards.forEach((c) => { if (c.api) c.api.pause(document.hidden || !c.seen); }));
+  }
+
   const path = location.pathname.replace(/\/$/, '');
   const id = new URLSearchParams(location.search).get('id');
   if (/\/item(\.html)?$/.test(path)) { if (MODELLED.includes(id)) itemDemo(id); }
-  else if (path === '' || path === '/index.html') floatingButton();
+  else if (path === '' || path === '/index.html') { floatingButton(); homeCards(); }
 })();

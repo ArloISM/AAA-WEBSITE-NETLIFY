@@ -36,6 +36,24 @@ const ATTACHMENTS = [
     desc: 'Continuous 360° vertical rotation in either direction — versatile, safe positioning of rigging loads, frames and scrims.',
     mount: [0, 0],
     funcs: [{ key: 'rotate', label: 'Rotate', min: -180, max: 180, wrap: true }] },
+  // Arlo's Panning Head scene (2026-11-04), scaled so its hitch matches the 4D's Manitou hitch, carrying the
+  // 3 m Alpha Truss as on the site's GIF. Wording and 180° range are the site's own; id is the site's item slug.
+  { id: 'magni-panning-head', name: 'Manitou Panning', spec: '180° Single Axis',
+    desc: '180° single-axis movement, matched to our Manitou MRT fleet — versatile, safe rigging for frames, scrims and loads.',
+    mount: [0, 0],
+    ram: { barrel: 'barrel', rod: 'rod' },
+    funcs: [{ key: 'pan', label: 'Pan', min: -90, max: 90 }] },
+  // From the maker's SolidWorks STEP on a Manitou hitch, at true scale, carrying the 3 m Alpha Truss.
+  // Ranges are estimates Arlo accepted 2026-11-04: pan ±90 from the part "Blokkering 180", tilt 60° one
+  // way only (the CAD rest is full ram extension), roll continuous. Copy is from Arlo's product text; load is 2,000 kg per Arlo (matches the CAD's 2000kg parts), not the 2,500 in that text.
+  { id: 'romastor-4d-film', name: 'Romastor 4D-Film', spec: 'Rotate · Tilt · 2,000 kg',
+    desc: 'Rotates, tilts and moves 2,000 kg in any direction — developed for film sets and events, positioning screens, soft boxes, lighting rigs, weather machines and cameras in any orientation.',
+    mount: [0, 0],
+    // pins come from attachments.json; the CAD barrel sits on the pan pin (a), its rod on the tilting plate (b)
+    ram: { barrel: 'rod', rod: 'barrel' },
+    funcs: [{ key: 'pan', label: 'Pan', min: -90, max: 90 },
+            { key: 'tilt', label: 'Tilt', min: 0, max: 60, pitch: true },
+            { key: 'roll', label: 'Roll', min: -180, max: 180, wrap: true }] },
 ];
 const BOOM = { key: 'boom', label: 'Tilt', min: -31, max: 41, pitch: true };
 
@@ -44,7 +62,9 @@ const DEG = Math.PI / 180;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const qs = new URLSearchParams(location.search);
 // ?inline: runs as one head inside an item page, which draws its own sliders and loader
-const INLINE = qs.has('inline');
+// ?card: a home-page card: the head alone, no telehandler, no World View, no input, its own demo loop
+const CARD = qs.has('card');
+const INLINE = qs.has('inline') || CARD;
 const toHost = (type, data) => { if (INLINE) parent.postMessage({ type: `aaa-viewer:${type}`, ...data }, location.origin); };
 
 /* ── Scene ────────────────────────────────────────────────────── */
@@ -57,7 +77,7 @@ try {
   stage.insertAdjacentHTML('beforeend', '<p class="err">This 3D view needs WebGL, which is not available in this browser.</p>');
   throw new Error('WebGL unavailable');
 }
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio, CARD ? 1.5 : 2));   // cards are small and there are several
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 renderer.shadowMap.enabled = true;
@@ -93,7 +113,7 @@ scene.environmentIntensity = 1;
 const key = new THREE.DirectionalLight(0xfff4e6, 2.1);
 key.position.set(-14, 20, 12);
 key.castShadow = true;
-key.shadow.mapSize.setScalar(INLINE ? 1024 : 2048);
+key.shadow.mapSize.setScalar(CARD ? 512 : INLINE ? 1024 : 2048);
 Object.assign(key.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5, near: 1, far: 50 });
 key.shadow.bias = -0.0004;
 key.shadow.normalBias = 0.02;
@@ -125,6 +145,7 @@ controls.maxPolarAngle = Math.PI - 0.02;   // no floor now, so the underside can
 controls.minDistance = 3;
 controls.maxDistance = 14;
 controls.enablePan = false;
+if (CARD) controls.enabled = false;   // the card is a link: clicks go through to it
 if (INLINE) {
   // it sits in a page: the wheel and vertical swipes have to keep scrolling that page
   controls.enableZoom = false;
@@ -301,19 +322,34 @@ function buildAttachment(cfg, glb) {
       parts[key] = g;
     }
     // how far barrel and rod each reach along the ram, so they can be kept overlapping
-    const { a: pa, b: pb } = cfg.ram;
+    const ramDef = { ...m.pins, ...cfg.ram };
+    // the solver works in the plane square to the joint's axis. A tilt ram already lies in x-y; any other
+    // (the Panning Head's ram swings in the pan plane) is turned into x-y and the result turned back.
+    let flat = null;
+    if (Math.abs(joint.axis.z) < 0.99) {
+      const q = new THREE.Quaternion().setFromUnitVectors(joint.axis, new THREE.Vector3(0, 0, 1));
+      const f2 = (v) => { const p = new THREE.Vector3().fromArray(v).applyQuaternion(q); return [p.x, p.y]; };
+      flat = { q, a: f2(ramDef.a), b: f2(ramDef.b), pivot: f2(joint.pivot.toArray()),
+               Q: new THREE.Matrix4().makeRotationFromQuaternion(q), Qi: new THREE.Matrix4().makeRotationFromQuaternion(q.clone().invert()) };
+    }
+    const pa = flat ? flat.a : ramDef.a, pb = flat ? flat.b : ramDef.b;
     const len = Math.hypot(pa[0] - pb[0], pa[1] - pb[1]);
     const dx = (pa[0] - pb[0]) / len, dy = (pa[1] - pb[1]) / len;
+    const _p = new THREE.Vector3();
     const reach = (key, ox, oy, sign) => {
       let most = 0;
       parts[key].traverse((o) => {
         if (!o.isMesh) return;
         const p = o.geometry.attributes.position;
-        for (let i = 0; i < p.count; i++) most = Math.max(most, sign * ((p.getX(i) - ox) * dx + (p.getY(i) - oy) * dy));
+        for (let i = 0; i < p.count; i++) {
+          _p.fromBufferAttribute(p, i);
+          if (flat) _p.applyQuaternion(flat.q);
+          most = Math.max(most, sign * ((_p.x - ox) * dx + (_p.y - oy) * dy));
+        }
       });
       return most;
     };
-    driven = { joint, ram: cfg.ram, parts, barrelLen: reach(cfg.ram.barrel, pb[0], pb[1], 1), rodLen: reach(cfg.ram.rod, pa[0], pa[1], -1) };
+    driven = { joint, ram: ramDef, flat, parts, barrelLen: reach(ramDef.barrel, pb[0], pb[1], 1), rodLen: reach(ramDef.rod, pa[0], pa[1], -1) };
   }
   if (cfg.hinge) {
     joints.tilt.pivot.setX(cfg.hinge[0]).setY(cfg.hinge[1]);
@@ -365,28 +401,31 @@ function aroundPin(m, x, y, deg, tx = x, ty = y) {
   m.copy(_toA).multiply(_rot).multiply(_toB);
 }
 function updateDriven(d) {
-  const { ram, parts, joint } = d;
-  const a = joint.cur * joint.axis.z;
+  const { ram, parts, joint, flat } = d;
+  // in the flat frame the joint's axis is +z, so its angle applies as is
+  const a = flat ? joint.cur : joint.cur * joint.axis.z;
+  const A = flat ? flat.a : ram.a, B = flat ? flat.b : ram.b;
   const c = Math.cos(a * DEG), n = Math.sin(a * DEG);
-  const px = joint.pivot.x, py = joint.pivot.y;
-  const bx = ram.b[0] - px, by = ram.b[1] - py;
-  const nx = px + bx * c - by * n, ny = py + bx * n + by * c;   // pin B after the tilt
-  const aim0 = Math.atan2(ram.a[1] - ram.b[1], ram.a[0] - ram.b[0]);
-  const aim = Math.atan2(ram.a[1] - ny, ram.a[0] - nx);
+  const px = flat ? flat.pivot[0] : joint.pivot.x, py = flat ? flat.pivot[1] : joint.pivot.y;
+  const bx = B[0] - px, by = B[1] - py;
+  const nx = px + bx * c - by * n, ny = py + bx * n + by * c;   // pin B after the joint turns
+  const aim0 = Math.atan2(A[1] - B[1], A[0] - B[0]);
+  const aim = Math.atan2(A[1] - ny, A[0] - nx);
   const turn = (aim - aim0) / DEG;
-  aroundPin(parts[ram.barrel].matrix, ram.b[0], ram.b[1], turn, nx, ny);
+  aroundPin(parts[ram.barrel].matrix, B[0], B[1], turn, nx, ny);
   // this hinge needs more stroke than the modelled ram has, so the barrel telescopes to keep hold of the rod
-  const length = Math.hypot(ram.a[0] - nx, ram.a[1] - ny);
+  const length = Math.hypot(A[0] - nx, A[1] - ny);
   const f = Math.max(1, (length - d.rodLen + 0.05) / d.barrelLen);
   if (f > 1) {
     _aim.makeRotationZ(aim0);
     _aimBack.makeRotationZ(-aim0);
     _sx.makeScale(f, 1, 1);
-    _stretch.makeTranslation(ram.b[0], ram.b[1], 0).multiply(_aim).multiply(_sx).multiply(_aimBack).multiply(_toA.makeTranslation(-ram.b[0], -ram.b[1], 0));
+    _stretch.makeTranslation(B[0], B[1], 0).multiply(_aim).multiply(_sx).multiply(_aimBack).multiply(_toA.makeTranslation(-B[0], -B[1], 0));
     parts[ram.barrel].matrix.multiply(_stretch);
   }
-  aroundPin(parts[ram.rod].matrix, ram.a[0], ram.a[1], turn);
-  aroundPin(parts[ram.rigid].matrix, px, py, a);
+  aroundPin(parts[ram.rod].matrix, A[0], A[1], turn);
+  if (ram.rigid) aroundPin(parts[ram.rigid].matrix, px, py, a);
+  if (flat) for (const k in parts) parts[k].matrix.premultiply(flat.Qi).multiply(flat.Q);   // back out of the flat frame
   for (const k in parts) parts[k].matrixWorldNeedsUpdate = true;
 }
 
@@ -553,8 +592,10 @@ let focusAnim = null, camAnim = null;
 function frameHead() {
   // pull back on narrow stages so the 3 m truss stays in frame
   const pull = Math.max(1, 1 / (stage.clientWidth / stage.clientHeight));
+  // a card is all head, no boom or panel around it, so it can come in closer
+  const near = CARD ? 0.86 : 1;   // still holds the 3 m truss rolled upright
   controls.target.copy(focus);
-  camera.position.copy(focus).addScaledVector(VIEW, pull);
+  camera.position.copy(focus).addScaledVector(VIEW, pull * near);
   controls.update();
   invalidate();
 }
@@ -675,7 +716,7 @@ function demoTick(now) {
   demoLast = now;
   if (!current || swap) return;
   demoT += dt;
-  const defs = [...current.cfg.funcs.filter((d) => !d.hidden).map((d) => ({ d, j: current.joints[d.key] })), { d: BOOM, j: boom }];
+  const defs = [...current.cfg.funcs.filter((d) => !d.hidden).map((d) => ({ d, j: current.joints[d.key] })), ...(CARD ? [] : [{ d: BOOM, j: boom }])];
   const sweep = demoT / STEP;
   const active = Math.floor(sweep);
   if (active >= defs.length + 1) {
@@ -860,12 +901,14 @@ async function boot() {
     BAKED.fromArray(tele.head);
     HEAD.set(PIN[0], PIN[1], BOOM_Z);
     toHost('progress', { p: 0.15 });
-    const glb = await gltf.loadAsync('assets/telehandler.glb', track('machine', 95e4));
-    ghost(glb.scene);
-    scene.add(glb.scene);
-    buildNose();
-    boomArc = makeArc(HEAD, BOOM_AXIS, 1.6, BOOM);
-    scene.add(boomArc);
+    if (!CARD) {   // a card shows the head alone
+      const glb = await gltf.loadAsync('assets/telehandler.glb', track('machine', 95e4));
+      ghost(glb.scene);
+      scene.add(glb.scene);
+      buildNose();
+      boomArc = makeArc(HEAD, BOOM_AXIS, 1.6, BOOM);
+      scene.add(boomArc);
+    } else fetched.machine = 1;
     setJoint(boomGroup, HEAD, BOOM_AXIS, 0);
     frameHead();
     updateGizmo();

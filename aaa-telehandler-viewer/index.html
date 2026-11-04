@@ -12,6 +12,7 @@
 if (self !== top) {
   document.documentElement.classList.add('embedded');
   if (location.search.includes('inline')) document.documentElement.classList.add('inline');
+  if (/[?&]card\b/.test(location.search)) document.documentElement.classList.add('inline', 'card');
   // Esc works from the first moment, before the viewer has loaded
   addEventListener('keydown', (e) => { if (e.key === 'Escape') parent.postMessage({ type: 'aaa-viewer:close' }, location.origin); });
 }
@@ -35,7 +36,7 @@ if (self !== top) {
     </div>
 
     <div class="title">
-      <p class="count"><span id="idx">01</span><span class="of"> / 04</span></p>
+      <p class="count"><span id="idx">01</span><span class="of"> / 06</span></p>
       <h1 id="name">Romastor 360&deg;</h1>
       <p class="spec" id="spec">Continuous Pan</p>
       <div class="arrows">
