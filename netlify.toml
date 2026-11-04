@@ -6,3 +6,15 @@
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
+
+# The 3D viewer's engine and models: one download, reused by the home page, All Equipment and the
+# item pages. The engine rarely changes; models are rechecked in the background after a day.
+[[headers]]
+  for = "/aaa-telehandler-viewer/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/aaa-telehandler-viewer/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"

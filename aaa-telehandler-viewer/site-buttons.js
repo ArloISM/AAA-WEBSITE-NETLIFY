@@ -301,16 +301,7 @@
 
     const style = document.createElement('style');
     style.textContent = `
-.aaa-card3d{position:absolute;inset:0;z-index:0;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-.aaa-card3d iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
-.aaa-card3d.ready iframe{opacity:1}
-.aaa-card3d i{position:absolute;left:50%;top:50%;width:90px;height:2px;margin:-1px 0 0 -45px;background:var(--rs);overflow:hidden;transition:opacity .4s}
-.aaa-card3d i::after{content:"";position:absolute;inset:0;width:40%;background:var(--s);animation:aaaCardLoad 1.1s ease-in-out infinite}
-.aaa-card3d.ready i{opacity:0}
-@keyframes aaaCardLoad{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
-.attach-card:hover .aaa-card3d{transform:scale(1.06)}
 .attach-media .attach-idx{z-index:1}
-.attach-media img.aaa-off{visibility:hidden}
 /* seven cards leave the last one alone on its row: it spans the row as a wide card instead */
 @media (min-width:681px){
   .attach-grid>.attach-card.aaa-wide{grid-column:1/-1;display:grid!important;grid-template-columns:var(--aaa-wide-cols,1fr 2fr);align-items:center}
@@ -320,29 +311,65 @@
 @media (min-width:681px) and (max-width:1024px){.attach-grid>.attach-card.aaa-wide{--aaa-wide-cols:1fr 1fr}}`;
     document.head.appendChild(style);
 
-    const cards = [];
+    const live = liveCards();
     for (const a of grid.querySelectorAll('.attach-card')) {
       const cid = new URL(a.getAttribute('href'), location.href).searchParams.get('id');
-      if (!CARD_IDS.includes(cid)) continue;
-      const media = a.querySelector('.attach-media'), img = media.querySelector('img');
-      const gif = img.getAttribute('src') || 'images/attachments/romastor-4d-film.webp';
-      img.removeAttribute('src');   // stops the 20 MB GIF download; it comes back only if the 3D fails
-      img.classList.add('aaa-off');
-      const box = document.createElement('div');
-      box.className = 'aaa-card3d';
-      box.innerHTML = '<i></i>';
-      media.prepend(box);
-      cards.push({ id: cid, box, img, gif, frame: null, api: null, near: false, seen: false });
+      if (CARD_IDS.includes(cid)) live.add(a.querySelector('.attach-media'), cid);
     }
+  }
+
+  /* All Equipment: the same live cards. The page draws its cards from equipment.json and redraws
+     them on every filter or search, so cards are matched by name and picked up again after each redraw. */
+  async function equipmentCards() {
+    if (!hasWebGL() || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let items = [];
+    try { items = (await (await fetch('/content/equipment.json')).json()).items || []; } catch { return; }
+    const slugOf = new Map(items.map((i) => [String(i.name).trim(), i.slug]));
+    const style = document.createElement('style');
+    style.textContent = '.card-media .brand-chip{z-index:2}';
+    document.head.appendChild(style);
+    const live = liveCards();
+    const scan = () => {
+      for (const c of document.querySelectorAll('.card')) {
+        const media = c.querySelector('.card-media');
+        const cid = slugOf.get(c.querySelector('h3')?.textContent.trim());
+        if (media && CARD_IDS.includes(cid) && !media.querySelector('.aaa-card3d')) live.add(media, cid);
+      }
+    };
+    scan();
+    let queued = false;
+    new MutationObserver(() => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; scan(); live.prune(); }); } })
+      .observe(document.body, { childList: true, subtree: true });
+  }
+
+  /* One viewer per card in card mode (no telehandler, no controls): created when the card nears the
+     screen, paused when it leaves, unloaded when it is far away, so only a couple run at once. The
+     viewer's files are cached, so moving between the home page and All Equipment doesn't fetch them again. */
+  function liveCards() {
+    if (!document.getElementById('aaa-card3d-css')) {
+      const style = document.createElement('style');
+      style.id = 'aaa-card3d-css';
+      style.textContent = `
+.aaa-card3d{position:absolute;inset:0;z-index:0;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.aaa-card3d iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.16,1,.3,1)}
+.aaa-card3d.ready iframe{opacity:1}
+.aaa-card3d i{position:absolute;left:50%;top:50%;width:90px;height:2px;margin:-1px 0 0 -45px;background:var(--rs);overflow:hidden;transition:opacity .4s}
+.aaa-card3d i::after{content:"";position:absolute;inset:0;width:40%;background:var(--s);animation:aaaCardLoad 1.1s ease-in-out infinite}
+.aaa-card3d.ready i{opacity:0}
+@keyframes aaaCardLoad{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+.attach-card:hover .aaa-card3d,.card:hover .aaa-card3d{transform:scale(1.06)}
+img.aaa-off{visibility:hidden}`;
+      document.head.appendChild(style);
+    }
+    let cards = [];
     const card = (el) => cards.find((c) => c.box === el);
-    const sync = (c) => { if (c.api) c.api.pause(!c.seen); };
+    const sync = (c) => { if (c.api) c.api.pause(document.hidden || !c.seen); };
     const load = (c) => {
       if (c.frame) return;
       c.frame = document.createElement('iframe');
       c.frame.title = '';
       c.frame.setAttribute('aria-hidden', 'true');
       c.frame.tabIndex = -1;
-      c.frame.loading = 'eager';
       c.frame.src = `${BASE}index.html?a=${encodeURIComponent(c.id)}&card`;
       c.box.appendChild(c.frame);
     };
@@ -351,6 +378,11 @@
       c.frame.remove();
       c.frame = c.api = null;
       c.box.classList.remove('ready');
+    };
+    const restore = (c) => {   // the picture is still better than an empty card
+      unload(c);
+      c.box.remove();
+      if (c.img) { c.img.src = c.gif; c.img.classList.remove('aaa-off'); }
     };
     addEventListener('message', (e) => {
       const c = cards.find((x) => x.frame && e.source === x.frame.contentWindow);
@@ -361,25 +393,42 @@
         c.api.play();
         sync(c);
       }
-      if (e.data.type === 'aaa-viewer:error') {   // the GIF is still better than an empty card
-        unload(c);
-        c.box.remove();
-        c.img.src = c.gif;
-        c.img.classList.remove('aaa-off');
-      }
+      if (e.data.type === 'aaa-viewer:error') restore(c);
     });
     // load a little before a card scrolls in; drop it once it is well off screen
     const nearObs = new IntersectionObserver((es) => es.forEach((e) => {
-      const c = card(e.target); c.near = e.isIntersecting;
-      if (c.near) load(c); else unload(c);
+      const c = card(e.target); if (!c) return;
+      if (e.isIntersecting) load(c); else unload(c);
     }), { rootMargin: '600px 0px' });
-    const seenObs = new IntersectionObserver((es) => es.forEach((e) => { const c = card(e.target); c.seen = e.isIntersecting; sync(c); }));
-    cards.forEach((c) => { nearObs.observe(c.box); seenObs.observe(c.box); });
-    document.addEventListener('visibilitychange', () => cards.forEach((c) => { if (c.api) c.api.pause(document.hidden || !c.seen); }));
+    const seenObs = new IntersectionObserver((es) => es.forEach((e) => { const c = card(e.target); if (c) { c.seen = e.isIntersecting; sync(c); } }));
+    document.addEventListener('visibilitychange', () => cards.forEach(sync));
+    return {
+      add(media, id) {
+        const img = media.querySelector('img');
+        const gif = img?.getAttribute('src') || 'images/attachments/romastor-4d-film.webp';
+        if (img) { img.removeAttribute('src'); img.classList.add('aaa-off'); }   // stops the 20 MB GIF download
+        const box = document.createElement('div');
+        box.className = 'aaa-card3d';
+        box.innerHTML = '<i></i>';
+        media.prepend(box);
+        cards.push({ id, box, img, gif, frame: null, api: null, seen: false });
+        nearObs.observe(box);
+        seenObs.observe(box);
+      },
+      // cards the page has redrawn away: stop watching them and free their viewers
+      prune() {
+        cards = cards.filter((c) => {
+          if (c.box.isConnected) return true;
+          unload(c); nearObs.unobserve(c.box); seenObs.unobserve(c.box);
+          return false;
+        });
+      },
+    };
   }
 
   const path = location.pathname.replace(/\/$/, '');
   const id = new URLSearchParams(location.search).get('id');
   if (/\/item(\.html)?$/.test(path)) { if (MODELLED.includes(id)) itemDemo(id); }
   else if (path === '' || path === '/index.html') { floatingButton(); homeCards(); }
+  else if (/\/equipment(\.html)?$/.test(path)) equipmentCards();
 })();
